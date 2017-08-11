@@ -1,0 +1,63 @@
+.toggle {
+  transform: scale(1.2);
+  margin-top: 5px;
+}
+
+.rTable {
+  display: block;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  margin: 0 auto;
+  width: 95%;
+}
+
+.rTableHeading, .rTableBody, .rTableFoot, .rTableRow{
+  clear: both;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fff;
+  display: table;
+}
+
+.rTableHead, .rTableFoot{
+  font-color: #eee;
+  font-size: 13px;
+}
+
+.rTableHead {
+  border-top: none;
+  color: rgba(0, 0, 0, 0.54);
+  float: left;
+  overflow: hidden;
+  padding: 15px 1.8%;
+  font-size: 13px;
+  width: 16%;
+  background: #fff;
+}
+
+.rTableCell {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  float: left;
+  overflow: hidden;
+  padding: 15px 1.8%;
+  font-size: 13px;
+  width: 16%;
+  background: #fff;
+}
+
+.rTableCellFullWidth {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  float: left;
+  overflow: hidden;
+  padding: 10px 1.8%;
+  width: 90%;
+}
+
+.rTable:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}

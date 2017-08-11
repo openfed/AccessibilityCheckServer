@@ -1,0 +1,36 @@
+<div
+  [@fadeInOut]="'in'"
+  *ngIf="keysGetter(results).length > 0"
+  class="rTableRow"
+  [class.expanded]="expanded"
+>
+  <div class="rTableCell"  style="width: 282px;">
+    <span [innerHtml]="codeMessages[0][1]"></span>
+  </div>
+  <div class="rTableCell"  style="width: 240px;">
+    <span *ngIf="codeMessages[1]" [innerHtml]="codeMessages[1][1]"></span>
+  </div>
+  <div class="rTableCell"  style="width: 70px;">
+    {{ getNumPages() }}
+  </div>
+  <div class="rTableCell"  style="width: 70px;">
+    {{ getStats() }}
+  </div>
+  <div class="rTableCell"  style="width: 70px;">
+    <a name="expand" (click)="expanded = !expanded">
+      <span class="collapse" *ngIf="expanded">Collapse (-)</span>
+      <span class="expand" *ngIf="!expanded">Expand (+)</span>
+    </a>
+  </div>
+</div>
+<div
+  [@fadeInOut]="'in'"
+  *ngIf="keysGetter(results).length > 0 && expanded"
+  class="rTableRow"
+>
+  <div class="rTableCellFullWidth">
+     <md-list *ngFor="let url of keysGetter(results)">
+        <app-sniff-url [url]="url" [urlResults]="results[url]"></app-sniff-url>
+     </md-list>
+   </div>
+</div>

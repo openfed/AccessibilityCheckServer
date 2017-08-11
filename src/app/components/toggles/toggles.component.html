@@ -1,0 +1,31 @@
+<div *ngIf="show" class="toggles">
+  <md-card class="toggle-card">
+    <div class="num">{{numErrors}}</div>
+    <div style="padding: 10px;">{{ numErrors == 1 ? 'Error' : 'Errors' }}</div>
+    <label for="md-slide-toggle-1-input" style="display: none;">Toggle errors</label>
+
+    <md-slide-toggle
+    title="Toggle errors"
+    class="toggle"
+    checked="checked" (change)="toggleErrors($event)"></md-slide-toggle>
+  </md-card>
+
+  <md-card class="toggle-card">
+    <div class="num">{{numWarnings}}</div>
+    <div style="padding: 10px;">{{ numWarnings == 1 ? 'Warning' : 'Warnings' }}</div>
+    <label for="md-slide-toggle-2-input" style="display: none;">Toggle warnings</label>
+    <md-slide-toggle
+    name="toggle-warnings"
+    class="toggle"
+    checked="checked" (change)="toggleWarnings($event)"></md-slide-toggle>
+  </md-card>
+
+  <md-card class="toggle-card">
+    <div class="num">{{numNotices}}</div>
+    <div style="padding: 10px;">{{ numNotices == 1 ? 'Notice' : 'Notices' }}</div>
+    <label for="md-slide-toggle-3-input" style="display: none;">Toggle notices</label>
+    <md-slide-toggle
+    class="toggle"
+    checked="checked" (change)="toggleNotices($event)"></md-slide-toggle>
+  </md-card>
+</div>

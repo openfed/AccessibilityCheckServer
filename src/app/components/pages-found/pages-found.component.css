@@ -1,0 +1,42 @@
+.mat-column-status {
+  text-align: right;
+}
+
+.mat-column-url {
+  text-align: left;
+}
+
+.table-container {
+  margin-top: 45px; width: 95%; display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.table-container[hidden] {
+  display: none;
+}
+
+i.material-icons {
+  transform: scale(0.9);
+  top: 6px;
+  left: -3px;
+  position: relative;
+}
+
+.mat-cell {
+  word-wrap: break-word;
+}
+
+.mat-column-url {
+  width: 85%;
+}
+
+.spinner {
+  display: inline-block;
+  width: 20px;
+  padding-right: 5px;
+  height: 20px;
+  position: relative;
+  top: 5px;
+}

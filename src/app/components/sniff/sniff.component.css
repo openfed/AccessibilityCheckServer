@@ -1,0 +1,32 @@
+.rTableCell, .rTableHead {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  float: left;
+  overflow: hidden;
+  padding: 15px 1.8%;
+  font-size: 13px;
+  width: 16%;
+}
+
+.rTableCellFullWidth {
+  border: none;
+  float: left;
+  overflow: hidden;
+  padding: 4px 1.8%;
+  font-size: 13px;
+  width: 96.4%;
+  background: #f0f0f0;
+}
+
+.expand, .collapse {
+  cursor: pointer;
+}
+
+.expanded, .rTableRow.expanded {
+  background: #f0f0f0;
+}
+
+.rTableRow {
+  display: table;
+  width: 100%;
+  background: #fff;
+}

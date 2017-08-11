@@ -1,0 +1,44 @@
+.sniff.notice {
+  background-color: #39ae9b;
+}
+
+.sniff.warning {
+  background-color: #f7a723;
+}
+
+.sniff.error {
+  background-color: #f15a29;
+}
+
+.result-message {
+  font-size: 14px;
+}
+
+.sniff {
+  padding: 15px;
+}
+
+i.material-icons {
+  transform: scale(0.9);
+  top: 6px;
+  left: -3px;
+  position: relative;
+}
+
+.result {
+  margin-bottom: 10px;
+}
+
+pre {
+  word-wrap: break-word;
+  width: 900px;
+}
+
+.mat-dialog-content {
+  font-family: Roboto, 'sans serif';
+}
+
+.view-details {
+  margin-left: 5px;
+  transform: scale(0.85);
+}

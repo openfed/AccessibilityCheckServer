@@ -1,0 +1,16 @@
+<md-dialog-content class="result-message">
+<h3>{{ data.title }}</h3>
+<div class="result" *ngFor="let result of data">
+    <div class="sniff {{result.type}}">
+      <i *ngIf="result.type == 'error'" class="material-icons">error</i>
+      <i *ngIf="result.type == 'warning'" class="material-icons">warning</i>
+      <i *ngIf="result.type == 'notice'" class="material-icons">info</i>
+    {{ result.message }}
+    </div>
+
+    <div style="padding: 15px; background-color: #f0f0f0;">Code snippet: <pre>{{ result.context }}</pre></div>
+    <div style="padding: 15px; background-color: #f0f0f0;">Selector: <pre>{{ result.selector }}</pre></div>
+</div>
+</md-dialog-content>
+
+

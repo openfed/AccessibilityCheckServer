@@ -1,0 +1,65 @@
+<div>
+  <div>
+    <label for="url">Enter your URL</label>
+  </div>
+
+  <md-input-container class="example-full-width">
+    <input
+      size="50"
+      mdInput
+      title="Enter your URL"
+      placeholder="E.g.: http://www.example.com"
+      type="text"
+      id="url"
+      required
+      pattern="https?://.+"
+      [(ngModel)]="model.url"
+      name="url"
+      #url="ngModel"
+    >
+    <md-error *ngIf="url.errors && url.errors.required">
+      URL is required!
+    </md-error>
+    <md-error *ngIf="url.invalid">
+      Must be a valid URL!
+    </md-error>
+  </md-input-container>
+
+  <md-select
+    [disabled]="isSniffing"
+    placeholder="Standard"
+    class="select"
+    *ngIf="standards$ | async"
+    [(ngModel)]="model.standard"
+  >
+    <md-option
+      *ngFor="let standard of standards$ | async;"
+      [value]="standard"
+    >{{standard}}</md-option>
+  </md-select>
+
+  <md-select [disabled]="isSniffing" placeholder="Crawl depth" class="select" [(ngModel)]="model.crawlDepth">
+    <md-option value="1">0 (page on the URL only)</md-option>
+    <md-option value="2">1 (page on the URL & links)</md-option>
+    <md-option value="3">2</md-option>
+    <md-option value="4">3</md-option>
+    <md-option value="-1">Unlimited</md-option>
+  </md-select>
+
+  <div style="margin-top: 25px">
+    <button
+      md-raised-button
+      [disabled]="url.errrors || url.invalid"
+      (click)="sendUrl()"
+    >Check</button>
+    <span style="margin-top: 15px;" *ngIf="isSniffing">
+      <md-spinner class="spinner"></md-spinner>
+      <span style="font-size: 14px; padding-left: 5px; padding-right: 5px;"> Sniffing</span>
+      <button
+        md-raised-button
+        (click)="abortAll()"
+      >Abort</button>
+    </span>
+  </div>
+
+</div>
