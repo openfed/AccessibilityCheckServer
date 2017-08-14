@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { MigrateService } from '../../services/migrate.service';
 import { Observable } from 'rxjs/Observable';
 
 /** Component for the form with search widgets */
@@ -11,6 +12,10 @@ import { Observable } from 'rxjs/Observable';
 export class SearchFormComponent {
   /** Whether we are currently sniffing or not. */
   isSniffing: boolean = false;
+  /** Whether the current state is exportable. */
+  exportable: boolean = false;
+  /** Whether to show advanced options. */
+  advanced: boolean = false;
 
   /** The list of standards, retrieved from the remote server. */
   standards$ : Observable<string[]>;
@@ -26,7 +31,7 @@ export class SearchFormComponent {
   // Event emitter for the reinitialize event.
   @Output() onReinitialize: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private migrateService: MigrateService) { }
 
   ngOnInit() {
     // Find out what the standards are.
@@ -36,9 +41,11 @@ export class SearchFormComponent {
     this.apiService.crawlStatus().subscribe(data => {
       if (data.status == 'started') {
         this.isSniffing = true;
+        this.exportable = false;
       }
       else if (data.status == 'complete' || data.status == 'aborted') {
         this.isSniffing = false;
+        this.exportable = true;
       }
     });
   }
@@ -58,4 +65,23 @@ export class SearchFormComponent {
     // Emit reinitialize event (with value true).
     this.onReinitialize.emit(true);
   }
+
+  exportData() : void {
+    console.log('hi');
+    this.migrateService.exportData();
+  }
+
+  importData(event) : void {
+    let input = event.target;
+    for (var index = 0; index < input.files.length; index++) {
+        let reader = new FileReader();
+        reader.onload = () => {
+            // this 'data' is the content of the file
+            var data = reader.result;
+            this.migrateService.importData(data);
+        }
+        reader.readAsText(input.files[index]);
+    };
+  }
+
 }

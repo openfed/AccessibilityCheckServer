@@ -37,20 +37,42 @@
       [value]="standard"
     >{{standard}}</md-option>
   </md-select>
-
-  <md-select [disabled]="isSniffing" placeholder="Crawl depth" class="select" [(ngModel)]="model.crawlDepth">
-    <md-option value="1">0 (page on the URL only)</md-option>
-    <md-option value="2">1 (page on the URL & links)</md-option>
-    <md-option value="3">2</md-option>
-    <md-option value="4">3</md-option>
-    <md-option value="-1">Unlimited</md-option>
-  </md-select>
-
-  <div style="margin-top: 25px">
+      <button md-button style="margin-left: 20px; cursor: pointer;" (click)="advanced = !advanced">&or; Tools</button>
+    <div *ngIf="advanced" style="
+      position: relative;
+      top: 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+      width: 70%;
+      margin: 0 auto;
+      padding: 30px;
+      background: #f9f9f9;
+    ">
+      <md-select [disabled]="isSniffing" placeholder="Crawl depth" class="select" [(ngModel)]="model.crawlDepth">
+        <md-option value="1">0 (page on the URL only)</md-option>
+        <md-option value="2">1 (page on the URL & links)</md-option>
+        <md-option value="3">2</md-option>
+        <md-option value="4">3</md-option>
+        <md-option value="-1">Unlimited</md-option>
+      </md-select>
+      <span style="margin-left: 20px;">
+        Import results: <input type="file" accept="text/plain" (change)="importData($event)">
+      </span>
+      <button
+        [disabled]="!exportable"
+        md-raised-button
+        (click)="exportData()"
+      >Export results</button>
+  </div>
+  <div style="
+    position: relative;
+    top: 50px;
+  ">
     <button
       md-raised-button
       [disabled]="url.errrors || url.invalid"
       (click)="sendUrl()"
+      style="transform:scale(1.2)"
     >Check</button>
     <span style="margin-top: 15px;" *ngIf="isSniffing">
       <md-spinner class="spinner"></md-spinner>
@@ -60,6 +82,7 @@
         (click)="abortAll()"
       >Abort</button>
     </span>
+
   </div>
 
 </div>

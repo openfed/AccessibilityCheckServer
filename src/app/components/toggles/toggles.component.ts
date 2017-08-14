@@ -33,7 +33,7 @@ export class TogglesComponent implements OnInit {
       });
     });
     this.reinitService.reinitializer$.subscribe(item => {
-         this.init();
+      this.init();
     });
   }
 

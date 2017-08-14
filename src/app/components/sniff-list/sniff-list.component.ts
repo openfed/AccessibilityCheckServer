@@ -11,9 +11,11 @@ import { Component,
        } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ReinitService } from '../../services/reinit.service';
+import { MigrateService } from '../../services/migrate.service';
 import { SniffList } from '../../interfaces/sniff-list';
 import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-list';
 import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result'
+import 'rxjs/Rx' ;
 
 /** Component for the list of sniffs */
 @Component({
@@ -48,7 +50,8 @@ export class SniffListComponent implements OnInit, OnChanges {
 
   constructor(
     private apiService : ApiService,
-    private reinitService : ReinitService
+    private reinitService : ReinitService,
+    private migrateService : MigrateService
   ) {}
 
   ngOnInit() {
@@ -78,9 +81,26 @@ export class SniffListComponent implements OnInit, OnChanges {
 
     // Whenever we reinitialize, empty the list of sniffs.
     this.reinitService.reinitializer$.subscribe(item => {
-      if (item == true){
+      if (item === true) {
         this.sniffList = {};
       }
+    });
+
+    //
+    this.migrateService.doExport$.subscribe(item => {
+      if (item === true) {
+        const data = {
+          sniffList: this.sniffList,
+          version: '1.0'
+        }
+        const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+      }
+    });
+
+    this.migrateService.doImport$.subscribe(data => {
+      this.sniffList = data.sniffList;
     });
   }
 

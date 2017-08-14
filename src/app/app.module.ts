@@ -21,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ApiService } from './services/api.service';
 import { ReinitService } from './services/reinit.service';
+import { MigrateService } from './services/migrate.service';
 
 import { AppComponent } from './app.component';
 import { SearchFormComponent } from './components/search-form/search-form.component';
@@ -64,7 +65,8 @@ import { FederalheaderComponent } from './components/federalheader/federalheader
   ],
   providers: [
     ApiService,
-    ReinitService
+    ReinitService,
+    MigrateService
   ],
   entryComponents: [
     SniffUrlDialogComponent
