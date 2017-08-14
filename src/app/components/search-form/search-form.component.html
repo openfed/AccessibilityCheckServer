@@ -38,7 +38,7 @@
     >{{standard}}</md-option>
   </md-select>
       <button md-button style="margin-left: 20px; cursor: pointer;" (click)="advanced = !advanced">&or; Tools</button>
-    <div *ngIf="advanced" style="
+    <div [@fadeInOut]="'in'" *ngIf="advanced" style="
       position: relative;
       top: 30px;
       margin-bottom: 25px;
@@ -72,7 +72,7 @@
       md-raised-button
       [disabled]="url.errrors || url.invalid"
       (click)="sendUrl()"
-      style="transform:scale(1.2)"
+      style="margin-top: 20px; transform:scale(1.2)"
     >Check</button>
     <span style="margin-top: 15px;" *ngIf="isSniffing">
       <md-spinner class="spinner"></md-spinner>

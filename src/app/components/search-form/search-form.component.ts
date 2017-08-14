@@ -1,4 +1,15 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component,
+         Input,
+         Output,
+         EventEmitter,
+         OnInit,
+         OnDestroy,
+         style,
+         transition,
+         animate,
+         trigger,
+         state
+      } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { MigrateService } from '../../services/migrate.service';
 import { Observable } from 'rxjs/Observable';
@@ -7,7 +18,23 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
-  styleUrls: ['./search-form.component.css']
+  styleUrls: ['./search-form.component.css'],
+  animations: [
+   trigger('fadeInOut', [
+      state('in', style({opacity: 1})),
+      transition('void => *', [
+        style({
+          opacity: 0,
+        }),
+        animate('.1s ease-in')
+      ]),
+      transition('* => void', [
+        animate('.1s ease-out', style({
+          opacity: 0,
+        }))
+      ])
+    ])
+  ]
 })
 export class SearchFormComponent {
   /** Whether we are currently sniffing or not. */

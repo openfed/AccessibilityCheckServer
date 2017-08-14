@@ -1,6 +1,7 @@
 import { Component, Output, OnInit, EventEmitter } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ReinitService } from '../../services/reinit.service';
+import { MigrateService } from '../../services/migrate.service';
 import { Toggle } from '../../interfaces/toggle';
 
 /** Component for the view error/warning/notice toggles */
@@ -19,7 +20,12 @@ export class TogglesComponent implements OnInit {
   @Output('update')
   change: EventEmitter<Toggle> = new EventEmitter<Toggle>();
 
-  constructor(private apiService : ApiService, private reinitService: ReinitService) {}
+  constructor(
+    private apiService : ApiService,
+    private reinitService: ReinitService,
+    private migrateService: MigrateService
+
+  ) {}
 
   ngOnInit() {
     this.apiService.getAllSniffResults().subscribe(data => {
@@ -34,6 +40,17 @@ export class TogglesComponent implements OnInit {
     });
     this.reinitService.reinitializer$.subscribe(item => {
       this.init();
+    });
+    this.migrateService.doImport$.subscribe(data => {
+      this.show = true;
+      const sniffList = data.sniffList;
+      Object.keys(sniffList).forEach(code => {
+        Object.keys(sniffList[code].items).forEach(url => {
+          sniffList[code].items[url].forEach(item => {
+            this.updateCounts(item);
+          });
+        });
+      })
     });
   }
 

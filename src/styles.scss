@@ -51,9 +51,11 @@ background-size: 100% 100%;
     margin: 0px;
     min-height: 100vh;
 }
+
 html, .app.container {
   min-height: 100vh;
 }
+
 /* hide the required asterisk as it confusingly looks like a wildcard right after the URL */
 app-search-form .mat-placeholder-required {
   display: none;
