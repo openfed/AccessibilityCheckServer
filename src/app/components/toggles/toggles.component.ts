@@ -3,7 +3,8 @@ import { ApiService } from '../../services/api.service';
 import { ReinitService } from '../../services/reinit.service';
 import { ImportExportService } from '../../services/import-export.service';
 import { Toggle } from '../../interfaces/toggle';
-//import { ImportedData } from '../../interfaces/imported-data';
+import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result';
+import { ImportedData } from '../../interfaces/imported-data';
 
 /** Component for the view error/warning/notice toggles */
 @Component({
@@ -16,6 +17,7 @@ export class TogglesComponent implements OnInit {
   numErrors: number = 0;
   numWarnings: number = 0;
   numNotices: number = 0;
+  /** Whether to show the current component. */
   show: boolean = false;
 
   @Output('update')
@@ -45,7 +47,7 @@ export class TogglesComponent implements OnInit {
     });
 
     this.importExportService.doImport$.subscribe(data => {
-      let importedData : any;
+      let importedData : ImportedData;
       try {
         importedData = JSON.parse(data);
       } catch (e) {
@@ -77,7 +79,7 @@ export class TogglesComponent implements OnInit {
   }
 
   /** Updates number of errors/warnings/notices. */
-  private updateCounts(item) {
+  private updateCounts(item : ItemCodeUrlResult) {
     if (item.type == 'error') {
       this.numErrors++;
     } else if (item.type == 'warning') {

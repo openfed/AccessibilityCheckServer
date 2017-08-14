@@ -90,7 +90,7 @@ export class SniffListComponent implements OnInit, OnChanges {
       }
     });
 
-    //
+    // Perform the export whenever "true" is emitted.
     this.importExportService.doExport$.subscribe(item => {
       if (item === true) {
         const data = {
@@ -106,8 +106,10 @@ export class SniffListComponent implements OnInit, OnChanges {
       }
     });
 
+    // Perform the import whenever data is emitted.
     this.importExportService.doImport$.subscribe(data => {
-      let importedData : any;
+      let importedData : ImportedData;
+      // Attempt to parse the data.
       try {
         importedData = JSON.parse(data);
       } catch(e) {
@@ -118,6 +120,7 @@ export class SniffListComponent implements OnInit, OnChanges {
         this.sniffList = importedData.sniffList;
         this.snackBar.open('Imported!', '', { duration : 500 });
       } else {
+        // Not a valid json file.
         this.snackBar.open('Invalid data!', '', { duration : 500 });
       }
     });

@@ -69,8 +69,10 @@ export class PagesFoundComponent implements OnInit, OnDestroy {
     // Intialize.
     this.init();
     this.reinitService.reinitializer$.subscribe(item => {
-       // Reinitialize.
-       this.init();
+       if (item === true) {
+         // Reinitialize.
+         this.init();
+       }
     });
     // Subscribe so we can know when we've aborted.
     this.apiService.crawlStatus().subscribe(data => {
