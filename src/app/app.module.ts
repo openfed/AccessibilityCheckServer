@@ -14,14 +14,16 @@ import {
   MdPaginatorModule,
   MdSlideToggleModule,
   MdProgressSpinnerModule,
-  MdDialogModule
+  MdDialogModule,
+  MdSnackBarModule,
+  MdTooltipModule
 } from '@angular/material';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ApiService } from './services/api.service';
 import { ReinitService } from './services/reinit.service';
-import { MigrateService } from './services/migrate.service';
+import { ImportExportService } from './services/import-export.service';
 
 import { AppComponent } from './app.component';
 import { SearchFormComponent } from './components/search-form/search-form.component';
@@ -61,12 +63,14 @@ import { FederalheaderComponent } from './components/federalheader/federalheader
     MdInputModule,
     MdSlideToggleModule,
     MdProgressSpinnerModule,
-    MdDialogModule
+    MdDialogModule,
+    MdSnackBarModule,
+    MdTooltipModule
   ],
   providers: [
     ApiService,
     ReinitService,
-    MigrateService
+    ImportExportService
   ],
   entryComponents: [
     SniffUrlDialogComponent

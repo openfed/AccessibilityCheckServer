@@ -11,10 +11,13 @@ import { Component,
        } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ReinitService } from '../../services/reinit.service';
-import { MigrateService } from '../../services/migrate.service';
+import { ImportExportService } from '../../services/import-export.service';
 import { SniffList } from '../../interfaces/sniff-list';
+import { ImportedData } from '../../interfaces/imported-data';
 import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-list';
 import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result'
+import { MdSnackBar } from '@angular/material';
+
 import 'rxjs/Rx' ;
 
 /** Component for the list of sniffs */
@@ -51,7 +54,8 @@ export class SniffListComponent implements OnInit, OnChanges {
   constructor(
     private apiService : ApiService,
     private reinitService : ReinitService,
-    private migrateService : MigrateService
+    private importExportService : ImportExportService,
+    public snackBar: MdSnackBar
   ) {}
 
   ngOnInit() {
@@ -87,7 +91,7 @@ export class SniffListComponent implements OnInit, OnChanges {
     });
 
     //
-    this.migrateService.doExport$.subscribe(item => {
+    this.importExportService.doExport$.subscribe(item => {
       if (item === true) {
         const data = {
           sniffList: this.sniffList,
@@ -95,12 +99,27 @@ export class SniffListComponent implements OnInit, OnChanges {
         }
         const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
         const url = window.URL.createObjectURL(blob);
-        window.open(url);
+        const n = window.open(url, '_blank');
+        if (n === null) {
+          this.snackBar.open('Please whitelist this page in your ad blocker to download the export.', '', { duration : 500 });
+        }
       }
     });
 
-    this.migrateService.doImport$.subscribe(data => {
-      this.sniffList = data.sniffList;
+    this.importExportService.doImport$.subscribe(data => {
+      let importedData : any;
+      try {
+        importedData = JSON.parse(data);
+      } catch(e) {
+        this.snackBar.open('Invalid data!', '', { duration : 500 });
+        return;
+      }
+      if (importedData.version !== undefined && importedData.sniffList !== undefined) {
+        this.sniffList = importedData.sniffList;
+        this.snackBar.open('Imported!', '', { duration : 500 });
+      } else {
+        this.snackBar.open('Invalid data!', '', { duration : 500 });
+      }
     });
   }
 
@@ -139,3 +158,6 @@ export class SniffListComponent implements OnInit, OnChanges {
   }
 
 }
+
+
+

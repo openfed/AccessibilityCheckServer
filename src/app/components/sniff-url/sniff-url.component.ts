@@ -23,8 +23,6 @@ export class SniffUrlComponent implements OnInit {
   constructor(public dialog: MdDialog) {}
 
   ngOnInit() {
-    console.log('hihi');
-    console.log(this.urlResults);
     // Initialize the number of notices/warnings/errors.
     this.numNotices = this.urlResults.filter(item => item.type == 'notice').length;
     this.numWarnings = this.urlResults.filter(item => item.type == 'warning').length;

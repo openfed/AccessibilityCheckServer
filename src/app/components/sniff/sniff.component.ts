@@ -7,6 +7,7 @@ import { Component,
          trigger,
          state
        } from '@angular/core';
+import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-list';
 
 /** Component for the individual sniffs. */
 @Component({
@@ -32,9 +33,9 @@ import { Component,
 })
 export class SniffComponent implements OnInit {
 
-  @Input() code : any;
-  @Input() codeMessages : any;
-  @Input() results : any;
+  @Input() code : string;
+  @Input() codeMessages : string[][];
+  @Input() results : ItemCodeUrlResultList;
   /** Whether the current sniff is expanded or not. */
   expanded : boolean = false;
   /** Used in the template. */

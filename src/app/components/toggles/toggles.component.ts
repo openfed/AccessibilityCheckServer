@@ -1,8 +1,9 @@
 import { Component, Output, OnInit, EventEmitter } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ReinitService } from '../../services/reinit.service';
-import { MigrateService } from '../../services/migrate.service';
+import { ImportExportService } from '../../services/import-export.service';
 import { Toggle } from '../../interfaces/toggle';
+//import { ImportedData } from '../../interfaces/imported-data';
 
 /** Component for the view error/warning/notice toggles */
 @Component({
@@ -23,7 +24,7 @@ export class TogglesComponent implements OnInit {
   constructor(
     private apiService : ApiService,
     private reinitService: ReinitService,
-    private migrateService: MigrateService
+    private importExportService: ImportExportService
 
   ) {}
 
@@ -38,12 +39,24 @@ export class TogglesComponent implements OnInit {
         this.updateCounts(item);
       });
     });
+
     this.reinitService.reinitializer$.subscribe(item => {
       this.init();
     });
-    this.migrateService.doImport$.subscribe(data => {
+
+    this.importExportService.doImport$.subscribe(data => {
+      let importedData : any;
+      try {
+        importedData = JSON.parse(data);
+      } catch (e) {
+        return;
+      }
+      if (importedData.version === undefined || importedData.sniffList === undefined) {
+        return;
+      }
+      this.init();
       this.show = true;
-      const sniffList = data.sniffList;
+      const sniffList = importedData.sniffList;
       Object.keys(sniffList).forEach(code => {
         Object.keys(sniffList[code].items).forEach(url => {
           sniffList[code].items[url].forEach(item => {

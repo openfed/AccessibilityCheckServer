@@ -5,6 +5,7 @@
 
   <md-input-container class="example-full-width">
     <input
+      mdTooltip="Enter your URL here."
       size="50"
       mdInput
       title="Enter your URL"
@@ -31,13 +32,14 @@
     class="select"
     *ngIf="standards$ | async"
     [(ngModel)]="model.standard"
+    mdTooltip="Choose the accessibility standard to use for this check."
   >
     <md-option
       *ngFor="let standard of standards$ | async;"
       [value]="standard"
     >{{standard}}</md-option>
   </md-select>
-      <button md-button style="margin-left: 20px; cursor: pointer;" (click)="advanced = !advanced">&or; Tools</button>
+      <button md-button style="margin-left: 20px; cursor: pointer;" (click)="advanced = !advanced" mdTooltip="Click to view advanced options.">&or; Tools</button>
     <div [@fadeInOut]="'in'" *ngIf="advanced" style="
       position: relative;
       top: 30px;
@@ -48,7 +50,7 @@
       padding: 30px;
       background: #f9f9f9;
     ">
-      <md-select [disabled]="isSniffing" placeholder="Crawl depth" class="select" [(ngModel)]="model.crawlDepth">
+      <md-select [disabled]="isSniffing" placeholder="Crawl depth" mdTooltip="Choose how deep the crawler should go." class="select" [(ngModel)]="model.crawlDepth">
         <md-option value="1">0 (page on the URL only)</md-option>
         <md-option value="2">1 (page on the URL & links)</md-option>
         <md-option value="3">2</md-option>
@@ -56,12 +58,15 @@
         <md-option value="-1">Unlimited</md-option>
       </md-select>
       <span style="margin-left: 20px;">
-        Import results: <input type="file" accept="text/plain" (change)="importData($event)">
+        <input style="display: none;" id="input-file-id" type="file" accept="text/plain" (change)="importData($event)">
+        <label for="input-file-id" mdTooltip="Click to import previously exported results." class="mat-raised-button">Import results</label>
       </span>
       <button
+         style="margin-left: 20px;"
         [disabled]="!exportable"
         md-raised-button
         (click)="exportData()"
+        mdTooltip="Click to export the current results. Clicking this button will open a new window with an export. You can save this file by clicking 'File > save as'."
       >Export results</button>
   </div>
   <div style="
@@ -73,6 +78,7 @@
       [disabled]="url.errrors || url.invalid"
       (click)="sendUrl()"
       style="margin-top: 20px; transform:scale(1.2)"
+      mdTooltip="Click to start checking the URL."
     >Check</button>
     <span style="margin-top: 15px;" *ngIf="isSniffing">
       <md-spinner class="spinner"></md-spinner>
@@ -80,6 +86,7 @@
       <button
         md-raised-button
         (click)="abortAll()"
+        mdTooltip="Click to abort the current check."
       >Abort</button>
     </span>
 

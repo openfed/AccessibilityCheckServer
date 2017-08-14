@@ -4,10 +4,10 @@ import { Subject } from 'rxjs/Subject';
 
 /** This service help import/export data into the app or out of the app. */
 @Injectable()
-export class MigrateService {
+export class ImportExportService {
 
   private doExportSource = new Subject<boolean>();
-  private doImportSource = new Subject<ImportedData>();
+  private doImportSource = new Subject<string>();
 
   /** The observable that will emit a true boolean whenever we need to reinitialize. */
   doExport$ = this.doExportSource.asObservable();
@@ -15,19 +15,12 @@ export class MigrateService {
 
   /** Send out a "do export" message. */
   exportData() {
-    console.log('exporting');
     this.doExportSource.next(true);
   }
 
   /** Send out a "do import" message with data. */
   importData(data) {
-    const importedData : ImportedData = JSON.parse(data);
-    this.doImportSource.next(importedData);
+    this.doImportSource.next(data);
   }
 
-}
-
-interface ImportedData {
-  version: string,
-  sniffList: any
 }

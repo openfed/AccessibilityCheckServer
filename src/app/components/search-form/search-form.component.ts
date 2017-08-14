@@ -11,7 +11,7 @@ import { Component,
          state
       } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { MigrateService } from '../../services/migrate.service';
+import { ImportExportService } from '../../services/import-export.service';
 import { Observable } from 'rxjs/Observable';
 
 /** Component for the form with search widgets */
@@ -58,7 +58,10 @@ export class SearchFormComponent {
   // Event emitter for the reinitialize event.
   @Output() onReinitialize: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private apiService: ApiService, private migrateService: MigrateService) { }
+  constructor(
+    private apiService: ApiService,
+    private importExportService: ImportExportService
+  ) { }
 
   ngOnInit() {
     // Find out what the standards are.
@@ -94,8 +97,7 @@ export class SearchFormComponent {
   }
 
   exportData() : void {
-    console.log('hi');
-    this.migrateService.exportData();
+    this.importExportService.exportData();
   }
 
   importData(event) : void {
@@ -105,7 +107,7 @@ export class SearchFormComponent {
         reader.onload = () => {
             // this 'data' is the content of the file
             var data = reader.result;
-            this.migrateService.importData(data);
+            this.importExportService.importData(data);
         }
         reader.readAsText(input.files[index]);
     };
