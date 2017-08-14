@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 
-/** This service help import/export data into the app or out of the app. */
+/** This service help import/export data into the app or out of the app, so that users can save results for later viewing. */
 @Injectable()
 export class ImportExportService {
 

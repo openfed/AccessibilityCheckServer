@@ -77,12 +77,11 @@ export class ApiService {
 
   /** Observable that emits all sniff results. */
   getAllSniffResults() : Observable<SniffResult>  {
-    let observable = new Observable(observer => {
+    return new Observable(observer => {
       this.socket.on('sniff-result', (data) => {
         observer.next(data);
       });
-    })
-    return observable;
+    });
   }
 
   /**
@@ -90,12 +89,11 @@ export class ApiService {
    * @param {string} url - The URL to filter results on.
    */
   getSniffLoading(url) : Observable<SniffLoading> {
-    let observable = new Observable(observer => {
+    return new Observable(observer => {
       this.socket.on('sniff-loading', (data) => {
         observer.next(data);
       });
-    })
-    return observable.filter((result: any) => url == result.url);
+    }).filter((result: SniffLoading) => url == result.url);
   }
 
   /**
@@ -103,22 +101,20 @@ export class ApiService {
    * @param {string} url - The URL to filter results on.
    */
   getSniffError(url) : Observable<SniffError> {
-     let observable = new Observable(observer => {
+     return new Observable(observer => {
       this.socket.on('sniff-error', (data) => {
         observer.next(data);
       });
-    })
-    return observable.filter((result: any) => url == result.url);
+    }).filter((result: SniffError) => url == result.url);
   }
 
   /** Observable that emits where we are in the crawl (started/aborted/complete) */
   crawlStatus() :  Observable<CrawlUrlStatus> {
-    let observable = new Observable(observer => {
+    return new Observable(observer => {
       this.socket.on('crawl-url-status', (data) => {
         observer.next(data);
       });
-    })
-    return observable;
+    });
   }
 
   /** Retrieves a list of standards. */
