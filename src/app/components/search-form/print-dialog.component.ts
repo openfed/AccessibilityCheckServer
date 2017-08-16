@@ -22,6 +22,9 @@ export class PrintDialogComponent {
 
     let html = '<h1>' + this.escapeHtml(this.data.standard) + ' accessibility check results for ' + this.escapeHtml(this.data.url) + '</h2>';
     Object.keys(this.data.sniffList).forEach(result => {
+      if (Object.keys(this.data.sniffList[result].filteredItems).length == 0) {
+        return;
+      }
       html += '<div style="padding: 10px; border: 1px solid #000">';
       html += '<div style="margin-bottom: 10px;">' + this.data.sniffList[result].codeMessages[0][0] + ": " + this.data.sniffList[result].codeMessages[0][1] + '</div>';
       if (this.data.sniffList[result].codeMessages[1] !== undefined) {
