@@ -84,10 +84,11 @@ export class SniffListComponent implements OnInit, OnChanges {
         }
         const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
         const url = window.URL.createObjectURL(blob);
-        const n = window.open(url, '_blank');
-        if (n === null) {
-          this.openSnackBar('Please whitelist this page in your ad blocker to download the export.');
-        }
+        let a = window.document.createElement("a");
+        a.href = url;
+        a.download = 'export.json';
+        a.click();
+        this.openSnackBar('Data exported.');
       }
     });
 

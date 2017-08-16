@@ -39,7 +39,7 @@
       [value]="standard"
     >{{standard}}</md-option>
   </md-select>
-      <button md-button class="tools" (click)="advanced = !advanced" mdTooltip="Click to toggle advanced options.">&or; Tools</button>
+  <button md-button class="tools" (click)="advanced = !advanced" mdTooltip="Click to toggle advanced options.">&or; Tools</button>
     <div [@fadeInOut]="'in'" *ngIf="advanced" style="
       position: relative;
       top: 30px;
@@ -67,7 +67,7 @@
         [disabled]="!exportable"
         md-raised-button
         (click)="exportData()"
-        mdTooltip="Click to export the current results. Clicking this button will open a new window with an export. You can save this file by clicking 'File > save as'. If the window doesn't open, please whitelist this website in your ad blocker."
+        mdTooltip="Click to export the current results. Clicking this button will make your browser download a file that you can later import."
       ><i style="transform:scale(0.8)" class="material-icons">file_download</i> Export results</button>
       <button
         style="margin-left: 20px;"
