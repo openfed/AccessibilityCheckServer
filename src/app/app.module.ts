@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiService } from './services/api.service';
 import { ReinitService } from './services/reinit.service';
 import { ImportExportService } from './services/import-export.service';
+import { SniffListService } from './services/sniff-list.service';
 
 import { AppComponent } from './app.component';
 import { SearchFormComponent } from './components/search-form/search-form.component';
@@ -32,6 +33,7 @@ import { SniffComponent } from './components/sniff/sniff.component';
 import { SniffListComponent } from './components/sniff-list/sniff-list.component';
 import { SniffUrlComponent } from './components/sniff-url/sniff-url.component';
 import { SniffUrlDialogComponent } from './components/sniff-url/sniff-url-dialog.component';
+import { PrintDialogComponent } from './components/search-form/print-dialog.component';
 import { TogglesComponent } from './components/toggles/toggles.component';
 import { FederalheaderComponent } from './components/federalheader/federalheader.component';
 
@@ -44,6 +46,7 @@ import { FederalheaderComponent } from './components/federalheader/federalheader
     SniffListComponent,
     SniffUrlComponent,
     SniffUrlDialogComponent,
+    PrintDialogComponent,
     TogglesComponent,
     FederalheaderComponent,
   ],
@@ -70,10 +73,12 @@ import { FederalheaderComponent } from './components/federalheader/federalheader
   providers: [
     ApiService,
     ReinitService,
-    ImportExportService
+    ImportExportService,
+    SniffListService
   ],
   entryComponents: [
-    SniffUrlDialogComponent
+    SniffUrlDialogComponent,
+    PrintDialogComponent
   ],
   bootstrap: [AppComponent]
 })

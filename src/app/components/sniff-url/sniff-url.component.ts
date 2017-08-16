@@ -1,5 +1,5 @@
 import { Input, Component, OnInit, Inject } from '@angular/core';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MdDialog } from '@angular/material';
 import { SniffUrlDialogComponent } from './sniff-url-dialog.component';
 import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-list';
 

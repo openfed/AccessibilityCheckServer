@@ -10,7 +10,10 @@ import { Component,
          trigger,
          state
       } from '@angular/core';
+import { PrintDialogComponent } from './print-dialog.component';
+import { MdDialog } from '@angular/material';
 import { ApiService } from '../../services/api.service';
+import { SniffListService } from '../../services/sniff-list.service';
 import { ImportExportService } from '../../services/import-export.service';
 import { Observable } from 'rxjs/Observable';
 
@@ -60,7 +63,9 @@ export class SearchFormComponent {
 
   constructor(
     private apiService: ApiService,
-    private importExportService: ImportExportService
+    private importExportService: ImportExportService,
+    private sniffListService: SniffListService,
+    public dialog: MdDialog
   ) { }
 
   ngOnInit() {
@@ -111,6 +116,16 @@ export class SearchFormComponent {
         }
         reader.readAsText(input.files[index]);
     };
+  }
+
+  printVersion() {
+    this.dialog.open(PrintDialogComponent, {
+      data : {
+        url: this.model.url,
+        standard: this.model.standard,
+        sniffList : this.sniffListService.getSniffList()
+      }
+    });
   }
 
 }

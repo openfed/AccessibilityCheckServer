@@ -11,12 +11,13 @@ import { Component,
        } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ReinitService } from '../../services/reinit.service';
+import { SniffListService } from '../../services/sniff-list.service';
 import { ImportExportService } from '../../services/import-export.service';
 import { SniffList } from '../../interfaces/sniff-list';
-import { ImportedData } from '../../interfaces/imported-data';
 import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-list';
 import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result'
 import { MdSnackBar } from '@angular/material';
+import { ImportedData } from '../../interfaces/imported-data';
 
 import 'rxjs/Rx' ;
 
@@ -44,56 +45,40 @@ import 'rxjs/Rx' ;
 })
 export class SniffListComponent implements OnInit, OnChanges {
 
-  sniffList : SniffList = {};
   keysGetter = Object.keys;
 
+  get sniffList(): SniffList {
+    return this.sniffListService.getSniffList();
+  }
+
+  set sniffList(sniffList : SniffList) {
+    this.sniffListService.setSniffList(sniffList);
+  }
+
   @Input() showNotices : boolean;
-  @Input() showErrors: boolean;
   @Input() showWarnings: boolean;
+  @Input() showErrors: boolean;
 
   constructor(
     private apiService : ApiService,
-    private reinitService : ReinitService,
     private importExportService : ImportExportService,
+    private sniffListService : SniffListService,
     public snackBar: MdSnackBar
   ) {}
 
   ngOnInit() {
     this.apiService.getAllSniffResults().subscribe(data => {
       data.result.forEach(item => {
-        if (this.sniffList[item.code] === undefined) {
-          // Initialize the array that will hold the results.
-          this.sniffList[item.code] = {
-            items: {},
-            // Items, with errors/warnings/notices filtered out if needd.
-            filteredItems: {},
-            // The messages to show for this specific item code.
-            codeMessages: this.apiService.getMessageInfo(item.code)
-          };
-        }
-
-        // Initialize the array that will hold the sniff results.
-        if (this.sniffList[item.code].items[data.url] === undefined) {
-            this.sniffList[item.code].items[data.url] = <ItemCodeUrlResult[]>[];
-        }
-
-        // Add the is item to the sniff list, keyed by code and URL.
-        this.sniffList[item.code].items[data.url].push(item);
-        this.filterResults(item.code);
+        this.sniffListService.addItem(item, data.url);
+        this.sniffListService.filterResults(item.code, this.showNotices, this.showWarnings, this.showErrors);
       });
     });
 
-    // Whenever we reinitialize, empty the list of sniffs.
-    this.reinitService.reinitializer$.subscribe(item => {
-      if (item === true) {
-        this.sniffList = {};
-      }
-    });
 
     // Perform the export whenever "true" is emitted.
     this.importExportService.doExport$.subscribe(item => {
       if (item === true) {
-        const data = {
+        const data : ImportedData = {
           sniffList: this.sniffList,
           version: '1.0'
         }
@@ -126,28 +111,6 @@ export class SniffListComponent implements OnInit, OnChanges {
     });
   }
 
-  /**
-   * Filter the results for a specific code, removing notices/warnings/errors if the toggle is set to disabled.
-   * @param code {string} code to filter the results for.
-   */
-  filterResults(code : string) : void {
-    let urls = Object.keys(this.sniffList[code].items);
-
-    urls.forEach(url => {
-      if (this.sniffList[code].filteredItems[url] == undefined) {
-        this.sniffList[code].filteredItems[url] = <ItemCodeUrlResult[]>[];
-      }
-      this.sniffList[code].filteredItems[url] = this.sniffList[code].items[url].filter(item => {
-        return item.type == 'notice' && this.showNotices ||
-               item.type == 'warning' && this.showWarnings ||
-               item.type == 'error' && this.showErrors;
-      });
-      // Clean up the URL if there are no results for it.
-      if (this.sniffList[code].filteredItems[url].length == 0) {
-        delete this.sniffList[code].filteredItems[url];
-      }
-    });
-  }
 
   /** Ensure that results are filtered again whenever "show errors/warnings/notices" is toggled. */
   ngOnChanges(changes: SimpleChanges) {
@@ -156,7 +119,7 @@ export class SniffListComponent implements OnInit, OnChanges {
         changes.showNotices !== undefined && changes.showNotices.currentValue != changes.showNotices.previousValue) {
       // Get the list of message codes.
       let codes = Object.keys(this.sniffList);
-      codes.forEach(code => this.filterResults(code));
+      codes.forEach(code => this.sniffListService.filterResults(code, this.showNotices, this.showWarnings, this.showErrors));
     }
   }
 
