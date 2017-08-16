@@ -48,7 +48,7 @@ import { FederalheaderComponent } from './components/federalheader/federalheader
     SniffUrlDialogComponent,
     PrintDialogComponent,
     TogglesComponent,
-    FederalheaderComponent,
+    FederalheaderComponent
   ],
   imports: [
     BrowserModule,

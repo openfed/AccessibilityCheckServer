@@ -9,7 +9,7 @@ To install dependencies, run `npm install` in the root directory, then run `npm 
 - See `server/` for the Node.js-based server files.
 - See `src/` for the Angular-based front-end.
 
-## Relevant technologies used
+## Technologies
 
 - Express.js for the back-end server.
 - Socket.io for real-time communication.

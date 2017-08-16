@@ -66,6 +66,7 @@ function crawlUrl(data, socket, io) {
         url : url,
         result : result
       });
+      console.log(result, 'julien');
       done();
     });
   }, concurrency);

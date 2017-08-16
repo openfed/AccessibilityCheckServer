@@ -16,9 +16,9 @@ export class SniffUrlComponent implements OnInit {
   /** The URL we are dealing with. */
   @Input() url : string;
 
-  numErrors : number = 0;
-  numWarnings : number = 0;
   numNotices : number = 0;
+  numWarnings : number = 0;
+  numErrors : number = 0;
 
   constructor(public dialog: MdDialog) {}
 
@@ -28,7 +28,6 @@ export class SniffUrlComponent implements OnInit {
     this.numWarnings = this.urlResults.filter(item => item.type == 'warning').length;
     this.numErrors = this.urlResults.filter(item => item.type == 'error').length;
   }
-
 
   /** Get a human-readable string for the number of notices/warnings/errors of this URL. */
   getStats() : string {

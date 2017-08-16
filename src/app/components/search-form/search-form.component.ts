@@ -1,5 +1,4 @@
 import { Component,
-         Input,
          Output,
          EventEmitter,
          OnInit,
@@ -39,7 +38,7 @@ import { Observable } from 'rxjs/Observable';
     ])
   ]
 })
-export class SearchFormComponent {
+export class SearchFormComponent implements OnInit {
   /** Whether we are currently sniffing or not. */
   isSniffing: boolean = false;
   /** Whether the current state is exportable. */

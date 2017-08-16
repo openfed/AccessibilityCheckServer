@@ -13,7 +13,6 @@ import { ReinitService } from './services/reinit.service';
 })
 export class AppComponent {
 
-  title: string = 'app';
   showNotices: boolean = true;
   showErrors: boolean = true;
   showWarnings: boolean = true;
@@ -22,9 +21,11 @@ export class AppComponent {
     // Whenever we reinitialize, show all notices/warnings/errors again.
     reinitService.reinitializer$.subscribe(
       item => {
-        this.showNotices = true;
-        this.showWarnings = true;
-        this.showErrors = true;
+        if (item === true) {
+          this.showNotices = true;
+          this.showWarnings = true;
+          this.showErrors = true;
+        }
       }
     );
   }

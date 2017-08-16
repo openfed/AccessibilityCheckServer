@@ -13,7 +13,10 @@ import { Component,
 import { ApiService } from '../../services/api.service';
 import { ReinitService } from '../../services/reinit.service';
 import { MdPaginator } from '@angular/material';
-import { DataSource } from '@angular/cdk';
+
+import { UrlData } from './url-data';
+import { UrlDatabase } from './url-database';
+import { UrlDataSource } from './url-data-source';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -89,75 +92,3 @@ export class PagesFoundComponent implements OnInit, OnDestroy {
 
 }
 
-/** Data source class for the table */
-export class UrlDataSource extends DataSource<any> {
-  constructor(private _urlDatabase: UrlDatabase, private _paginator: MdPaginator) {
-    super();
-  }
-
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<UrlData[]> {
-    const displayDataChanges = [
-      this._urlDatabase.dataChange,
-      this._paginator.page,
-    ];
-
-    return Observable.merge(...displayDataChanges).map(() => {
-      const data = this._urlDatabase.data.slice();
-
-      // Grab the page's slice of data.
-      const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-      return data.splice(startIndex, this._paginator.pageSize);
-    });
-  }
-
-  disconnect() {}
-}
-
-
-export interface UrlData {
-  url: string;
-  status: string;
-}
-
-/** Database class that retrieves the URLs and their statuses (Queued/Loading/etc.) */
-export class UrlDatabase {
-  /** Stream that emits whenever the data has been modified. */
-  dataChange: BehaviorSubject<UrlData[]> = new BehaviorSubject<UrlData[]>([]);
-  get data(): UrlData[] { return this.dataChange.value; }
-  apiService;
-  connection;
-
-  constructor(apiService) {
-    this.apiService = apiService;
-    this.getUrls();
-  }
-
-  getUrls() {
-    this.connection = this.apiService.getCrawledUrls().subscribe(crawledUrl => {
-
-      const copiedData = this.data.slice();
-      copiedData.push({ url : crawledUrl, status : 'Queued' });
-      this.dataChange.next(copiedData);
-
-      this.apiService.getSniffResults(crawledUrl).subscribe(data => {
-        this.updateStatus(crawledUrl, 'Loaded');
-      });
-
-      this.apiService.getSniffLoading(crawledUrl).subscribe(data => {
-        this.updateStatus(crawledUrl, 'Loading');
-      });
-
-      this.apiService.getSniffError(crawledUrl).subscribe(data => {
-        this.updateStatus(crawledUrl, 'Error');
-      });
-    });
-  }
-
-  updateStatus(url, status) {
-    const copiedData = this.data.slice();
-    let idx = copiedData.map(function(e) { return e.url; }).indexOf(url);
-    copiedData[idx].status = status;
-    this.dataChange.next(copiedData);
-  }
-}
