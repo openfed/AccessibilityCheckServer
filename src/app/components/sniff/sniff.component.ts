@@ -13,7 +13,7 @@ import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-lis
 @Component({
   selector: 'app-sniff',
   templateUrl: './sniff.component.html',
-  styleUrls: ['./sniff.component.css'],
+  styleUrls: ['./sniff.component.scss'],
   animations: [
     trigger('fadeInOut', [
       state('in', style({opacity: 1})),

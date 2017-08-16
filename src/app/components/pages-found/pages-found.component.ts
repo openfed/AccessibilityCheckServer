@@ -24,7 +24,7 @@ import 'rxjs/add/operator/map';
 @Component({
   selector: 'app-pages-found',
   templateUrl: './pages-found.component.html',
-  styleUrls: ['./pages-found.component.css'],
+  styleUrls: ['./pages-found.component.scss'],
   animations: [
    trigger('fadeInOut', [
       state('in', style({opacity: 1})),

@@ -21,7 +21,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
-  styleUrls: ['./search-form.component.css'],
+  styleUrls: ['./search-form.component.scss'],
   animations: [
    trigger('fadeInOut', [
       state('in', style({opacity: 1})),
@@ -96,15 +96,17 @@ export class SearchFormComponent {
     this.apiService.abortAll();
   }
 
+  /** Emit reinitialize event (with value true). */
   reinitialize() : void {
-    // Emit reinitialize event (with value true).
     this.onReinitialize.emit(true);
   }
 
+  /** Emit export data event. */
   exportData() : void {
     this.importExportService.exportData();
   }
 
+  /** Import data. */
   importData(event) : void {
     let input = event.target;
     for (var index = 0; index < input.files.length; index++) {
@@ -118,6 +120,7 @@ export class SearchFormComponent {
     };
   }
 
+  /** Open up a dialog with a print version. */
   printVersion() {
     this.dialog.open(PrintDialogComponent, {
       data : {

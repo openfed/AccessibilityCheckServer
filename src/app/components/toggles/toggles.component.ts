@@ -14,9 +14,11 @@ import { ImportedData } from '../../interfaces/imported-data';
 })
 export class TogglesComponent implements OnInit {
 
-  numErrors: number = 0;
-  numWarnings: number = 0;
+  /** The number of notices / errors / warnings. */
   numNotices: number = 0;
+  numWarnings: number = 0;
+  numErrors: number = 0;
+
   /** Whether to show the current component. */
   show: boolean = false;
 

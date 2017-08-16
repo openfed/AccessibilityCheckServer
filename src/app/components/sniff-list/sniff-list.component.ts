@@ -25,7 +25,7 @@ import 'rxjs/Rx' ;
 @Component({
   selector: 'app-sniff-list',
   templateUrl: './sniff-list.component.html',
-  styleUrls: ['./sniff-list.component.css'],
+  styleUrls: ['./sniff-list.component.scss'],
   animations: [
     trigger('fadeInOut', [
       state('in', style({opacity: 1})),
@@ -63,6 +63,7 @@ export class SniffListComponent implements OnInit, OnChanges {
     private apiService : ApiService,
     private importExportService : ImportExportService,
     private sniffListService : SniffListService,
+    private reinitService : ReinitService,
     public snackBar: MdSnackBar
   ) {}
 
@@ -73,7 +74,6 @@ export class SniffListComponent implements OnInit, OnChanges {
         this.sniffListService.filterResults(item.code, this.showNotices, this.showWarnings, this.showErrors);
       });
     });
-
 
     // Perform the export whenever "true" is emitted.
     this.importExportService.doExport$.subscribe(item => {
@@ -86,7 +86,7 @@ export class SniffListComponent implements OnInit, OnChanges {
         const url = window.URL.createObjectURL(blob);
         const n = window.open(url, '_blank');
         if (n === null) {
-          this.snackBar.open('Please whitelist this page in your ad blocker to download the export.', '', { duration : 500 });
+          this.openSnackBar('Please whitelist this page in your ad blocker to download the export.');
         }
       }
     });
@@ -98,19 +98,29 @@ export class SniffListComponent implements OnInit, OnChanges {
       try {
         importedData = JSON.parse(data);
       } catch(e) {
-        this.snackBar.open('Invalid data!', '', { duration : 500 });
+        this.openSnackBar('Invalid data!');
         return;
       }
       if (importedData.version !== undefined && importedData.sniffList !== undefined) {
         this.sniffList = importedData.sniffList;
-        this.snackBar.open('Imported!', '', { duration : 500 });
+        this.openSnackBar('Imported!');
       } else {
         // Not a valid json file.
-        this.snackBar.open('Invalid data!', '', { duration : 500 });
+        this.openSnackBar('Invalid data!');
+      }
+    });
+
+    // Whenever we reinitialize, empty the list of sniffs.
+    this.reinitService.reinitializer$.subscribe(item => {
+      if (item === true) {
+        this.sniffList = {};
       }
     });
   }
 
+  private openSnackBar(message : string) : void {
+    this.snackBar.open(message, '', { duration : 500 });
+  }
 
   /** Ensure that results are filtered again whenever "show errors/warnings/notices" is toggled. */
   ngOnChanges(changes: SimpleChanges) {

@@ -1,6 +1,7 @@
 <h2 md-dialog-title>Print version</h2>
-<iframe id="print-dialog" style="width: 900px; height: 500px;" [srcdoc]="iframeHtml">
-  </iframe>
+<iframe id="print-dialog" style="width: 900px; height: 500px;" [srcdoc]="iframeHtml"></iframe>
 <div style="margin-top: 20px;">
-<button mdTooltip="Click to print the contents of the iframe." class="mat-primary" md-raised-button (click)="print()"><i style="transform:scale(0.8)" class="material-icons">print</i> Print</button>
+  <button class="mat-primary" md-raised-button (click)="print()">
+    <i style="transform:scale(0.8)" class="material-icons">print</i> Print
+  </button>
 </div>

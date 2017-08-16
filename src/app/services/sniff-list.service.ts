@@ -3,7 +3,6 @@ import { Subject } from 'rxjs/Subject';
 import { SniffList } from '../interfaces/sniff-list';
 import { ItemCodeUrlResult } from '../interfaces/item-code-url-result';
 import { ApiService } from './api.service';
-import { ReinitService } from './reinit.service';
 /** Provides an observable to subscribe to which sends out a message whenever we want to reinitialize. */
 @Injectable()
 export class SniffListService {
@@ -13,21 +12,13 @@ export class SniffListService {
 
 
   constructor (
-    private apiService : ApiService,
-    private reinitService : ReinitService
+    private apiService : ApiService
   ) {
     this.init();
   }
 
   init() {
     this.sniffList = {};
-
-    // Whenever we reinitialize, empty the list of sniffs.
-    this.reinitService.reinitializer$.subscribe(item => {
-      if (item === true) {
-        this.sniffList = {};
-      }
-    });
 
   }
 
