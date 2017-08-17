@@ -15,7 +15,7 @@ import { SniffListService } from '../../services/sniff-list.service';
 import { ImportExportService } from '../../services/import-export.service';
 import { SniffList } from '../../interfaces/sniff-list';
 import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-list';
-import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result'
+import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result';
 import { MdSnackBar } from '@angular/material';
 import { ImportedData } from '../../interfaces/imported-data';
 
@@ -51,19 +51,19 @@ export class SniffListComponent implements OnInit, OnChanges {
     return this.sniffListService.getSniffList();
   }
 
-  set sniffList(sniffList : SniffList) {
+  set sniffList(sniffList: SniffList) {
     this.sniffListService.setSniffList(sniffList);
   }
 
-  @Input() showNotices : boolean;
+  @Input() showNotices: boolean;
   @Input() showWarnings: boolean;
   @Input() showErrors: boolean;
 
   constructor(
-    private apiService : ApiService,
-    private importExportService : ImportExportService,
-    private sniffListService : SniffListService,
-    private reinitService : ReinitService,
+    private apiService: ApiService,
+    private importExportService: ImportExportService,
+    private sniffListService: SniffListService,
+    private reinitService: ReinitService,
     public snackBar: MdSnackBar
   ) {}
 
@@ -78,13 +78,13 @@ export class SniffListComponent implements OnInit, OnChanges {
     // Perform the export whenever "true" is emitted.
     this.importExportService.doExport$.subscribe(item => {
       if (item === true) {
-        const data : ImportedData = {
+        const data: ImportedData = {
           sniffList: this.sniffList,
           version: '1.0'
-        }
+        };
         const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
         const url = window.URL.createObjectURL(blob);
-        let a = window.document.createElement("a");
+        let a = window.document.createElement('a');
         a.href = url;
         a.download = 'export.json';
         a.click();
@@ -94,14 +94,15 @@ export class SniffListComponent implements OnInit, OnChanges {
 
     // Perform the import whenever data is emitted.
     this.importExportService.doImport$.subscribe(data => {
-      let importedData : ImportedData;
+      let importedData: ImportedData;
       // Attempt to parse the data.
       try {
         importedData = JSON.parse(data);
-      } catch(e) {
+      } catch (e) {
         this.openSnackBar('Invalid data!');
         return;
       }
+
       if (importedData.version !== undefined && importedData.sniffList !== undefined) {
         this.sniffList = importedData.sniffList;
         this.openSnackBar('Imported!');
@@ -119,19 +120,19 @@ export class SniffListComponent implements OnInit, OnChanges {
     });
   }
 
-  private openSnackBar(message : string) : void {
-    this.snackBar.open(message, '', { duration : 500 });
-  }
-
   /** Ensure that results are filtered again whenever "show errors/warnings/notices" is toggled. */
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.showErrors !== undefined && changes.showErrors.currentValue != changes.showErrors.previousValue ||
-        changes.showWarnings !== undefined && changes.showWarnings.currentValue != changes.showWarnings.previousValue ||
-        changes.showNotices !== undefined && changes.showNotices.currentValue != changes.showNotices.previousValue) {
+    if (changes.showErrors !== undefined && changes.showErrors.currentValue !== changes.showErrors.previousValue ||
+        changes.showWarnings !== undefined && changes.showWarnings.currentValue !== changes.showWarnings.previousValue ||
+        changes.showNotices !== undefined && changes.showNotices.currentValue !== changes.showNotices.previousValue) {
       // Get the list of message codes.
       let codes = Object.keys(this.sniffList);
       codes.forEach(code => this.sniffListService.filterResults(code, this.showNotices, this.showWarnings, this.showErrors));
     }
+  }
+
+  private openSnackBar(message: string): void {
+    this.snackBar.open(message, '', { duration : 500 });
   }
 
 }

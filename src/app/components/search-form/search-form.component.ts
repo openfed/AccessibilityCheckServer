@@ -73,11 +73,10 @@ export class SearchFormComponent implements OnInit {
 
     // Toggle whether we are sniffing.
     this.apiService.crawlStatus().subscribe(data => {
-      if (data.status == 'started') {
+      if (data.status === 'started') {
         this.isSniffing = true;
         this.exportable = false;
-      }
-      else if (data.status == 'complete' || data.status == 'aborted') {
+      } else if (data.status === 'complete' || data.status === 'aborted') {
         this.isSniffing = false;
         this.exportable = true;
       }
@@ -85,42 +84,42 @@ export class SearchFormComponent implements OnInit {
   }
 
   /** Start the crawl with the provided URL */
-  sendUrl() : void {
+  sendUrl(): void {
     this.reinitialize();
     this.apiService.sendUrl(this.model.url, this.model.standard, this.model.crawlDepth);
   }
 
   /** Tell the backend to abort the current crawl. */
-  abortAll() : void {
+  abortAll(): void {
     this.apiService.abortAll();
   }
 
   /** Emit reinitialize event (with value true). */
-  reinitialize() : void {
+  reinitialize(): void {
     this.onReinitialize.emit(true);
   }
 
   /** Emit export data event. */
-  exportData() : void {
+  exportData(): void {
     this.importExportService.exportData();
   }
 
   /** Import data. */
-  importData(event) : void {
+  importData(event): void {
     let input = event.target;
-    for (var index = 0; index < input.files.length; index++) {
+    for (let index = 0; index < input.files.length; index++) {
         let reader = new FileReader();
         reader.onload = () => {
             // this 'data' is the content of the file
-            var data = reader.result;
+            let data = reader.result;
             this.importExportService.importData(data);
-        }
+        };
         reader.readAsText(input.files[index]);
-    };
+    }
   }
 
   /** Open up a dialog with a print version. */
-  printVersion() {
+  printVersion(): void {
     this.dialog.open(PrintDialogComponent, {
       data : {
         url: this.model.url,

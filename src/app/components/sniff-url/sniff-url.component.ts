@@ -12,39 +12,41 @@ import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-lis
 export class SniffUrlComponent implements OnInit {
 
   /** Results for this URL, which will be passed on to the dialog */
-  @Input() urlResults : any;
-  /** The URL we are dealing with. */
-  @Input() url : string;
+  @Input() urlResults: any;
 
-  numNotices : number = 0;
+  /** The URL we are dealing with. */
+  @Input() url: string;
+
+  numNotices: number = 0;
   numWarnings : number = 0;
   numErrors : number = 0;
 
   constructor(public dialog: MdDialog) {}
 
   ngOnInit() {
+
     // Initialize the number of notices/warnings/errors.
-    this.numNotices = this.urlResults.filter(item => item.type == 'notice').length;
-    this.numWarnings = this.urlResults.filter(item => item.type == 'warning').length;
-    this.numErrors = this.urlResults.filter(item => item.type == 'error').length;
+    this.numNotices = this.urlResults.filter(item => item.type === 'notice').length;
+    this.numWarnings = this.urlResults.filter(item => item.type === 'warning').length;
+    this.numErrors = this.urlResults.filter(item => item.type === 'error').length;
   }
 
   /** Get a human-readable string for the number of notices/warnings/errors of this URL. */
-  getStats() : string {
+  getStats(): string {
     let stats = [];
-    if (this.numNotices == 1) {
+    if (this.numNotices === 1) {
       stats.push('1 notice');
     } else if (this.numNotices > 1) {
       stats.push(this.numNotices + ' notices');
     }
 
-    if (this.numWarnings == 1) {
+    if (this.numWarnings === 1) {
       stats.push('1 warning');
     } else if (this.numWarnings > 1) {
       stats.push(this.numWarnings + ' warnings');
     }
 
-    if (this.numErrors == 1) {
+    if (this.numErrors === 1) {
       stats.push('1 error');
     } else if (this.numErrors > 1) {
       stats.push(this.numErrors + ' errors');
@@ -53,11 +55,11 @@ export class SniffUrlComponent implements OnInit {
   }
 
   /** Open a dialog with the relevant data for this URL. */
-  openDialog() : void {
+  openDialog(): void {
     let info = {
       data: this.urlResults
     };
-    info.data.title = this.url + " (" + this.getStats() + ")";
+    info.data.title = this.url + ' (' + this.getStats() + ')';
     this.dialog.open(SniffUrlDialogComponent, info);
   }
 

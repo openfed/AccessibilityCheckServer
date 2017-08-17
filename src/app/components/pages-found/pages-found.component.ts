@@ -48,27 +48,28 @@ import 'rxjs/add/operator/map';
 export class PagesFoundComponent implements OnInit, OnDestroy {
 
   // Flag that gives visual confirmation that we have aborted.
-  isAborted : boolean = false;
+  isAborted: boolean = false;
   // List of crawled URLs.
-  crawledUrls : string[];
+  crawledUrls: string[];
   // Table info.
-  dataSource : UrlDataSource | null;
-  urlDatabase;
-  displayedColumns : string[] = ['url', 'status'];
+  dataSource: UrlDataSource | null;
+  urlDatabase: UrlDatabase;
+  displayedColumns: string[] = ['url', 'status'];
   @ViewChild(MdPaginator) paginator: MdPaginator;
 
   constructor(
-     private apiService : ApiService,
+     private apiService: ApiService,
      private reinitService: ReinitService
-   ) {};
+   ) {}
 
-  init() {
-    this.urlDatabase = new UrlDatabase(this.apiService)
+  init(): void {
+    this.urlDatabase = new UrlDatabase(this.apiService);
     this.dataSource = new UrlDataSource(this.urlDatabase, this.paginator);
     this.isAborted = false;
   }
 
   ngOnInit() {
+
     // Intialize.
     this.init();
     this.reinitService.reinitializer$.subscribe(item => {
@@ -77,15 +78,17 @@ export class PagesFoundComponent implements OnInit, OnDestroy {
          this.init();
        }
     });
+
     // Subscribe so we can know when we've aborted.
     this.apiService.crawlStatus().subscribe(data => {
-      if (data.status == 'aborted') {
+      if (data.status === 'aborted') {
         this.isAborted = true;
       }
     });
   }
 
   ngOnDestroy() {
+
     // Empty the list of crawled URLs.
     this.crawledUrls = <string[]>[];
   }

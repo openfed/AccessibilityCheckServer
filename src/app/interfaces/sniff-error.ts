@@ -2,4 +2,4 @@
 export interface SniffError {
   url: string;
   error: string;
-};
+}

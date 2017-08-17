@@ -8,25 +8,25 @@ import { ApiService } from './api.service';
 export class SniffListService {
 
   /** This object may also be mutated in other components using it (such as the SniffListComponent). */
-  private sniffList : SniffList;
+  private sniffList: SniffList;
 
 
   constructor (
-    private apiService : ApiService
+    private apiService: ApiService
   ) {
     this.init();
   }
 
-  init() {
+  init(): void {
     this.sniffList = {};
 
   }
 
-  setSniffList(sniffList : SniffList) {
+  setSniffList(sniffList: SniffList): void {
     this.sniffList = sniffList;
   }
 
-  getSniffList() : SniffList {
+  getSniffList(): SniffList {
     return this.sniffList;
   }
 
@@ -34,7 +34,7 @@ export class SniffListService {
    * Adds an item to the sniff list.
    * @param item {ItemCodeUrlResult} item to add.
    */
-  addItem(item : ItemCodeUrlResult, url: string) : void {
+  addItem(item: ItemCodeUrlResult, url: string): void {
     if (this.sniffList[item.code] === undefined) {
       // Initialize the array that will hold the results.
       this.sniffList[item.code] = {
@@ -63,20 +63,20 @@ export class SniffListService {
    * @param showWarnings {boolean}
    * @param showErrors {boolean}
    */
-  filterResults(code : string, showNotices : boolean, showWarnings : boolean, showErrors : boolean) : void {
+  filterResults(code: string, showNotices: boolean, showWarnings: boolean, showErrors: boolean): void {
     let urls = Object.keys(this.sniffList[code].items);
 
     urls.forEach(url => {
-      if (this.sniffList[code].filteredItems[url] == undefined) {
+      if (this.sniffList[code].filteredItems[url] === undefined) {
         this.sniffList[code].filteredItems[url] = <ItemCodeUrlResult[]>[];
       }
       this.sniffList[code].filteredItems[url] = this.sniffList[code].items[url].filter(item => {
-        return item.type == 'notice' && showNotices ||
-               item.type == 'warning' && showWarnings ||
-               item.type == 'error' && showErrors;
+        return item.type === 'notice' && showNotices ||
+               item.type === 'warning' && showWarnings ||
+               item.type === 'error' && showErrors;
       });
       // Clean up the URL if there are no results for it.
-      if (this.sniffList[code].filteredItems[url].length == 0) {
+      if (this.sniffList[code].filteredItems[url].length === 0) {
         delete this.sniffList[code].filteredItems[url];
       }
     });

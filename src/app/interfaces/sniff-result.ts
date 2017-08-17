@@ -5,4 +5,4 @@ export interface SniffResult {
   url: string;
   // The results for a specific Item Code and URL.
   result: ItemCodeUrlResult[];
-};
+}

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from './services/api.service';
 import { ReinitService } from './services/reinit.service';
+import { Toggle } from './interfaces/toggle';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ export class AppComponent {
   showWarnings: boolean = true;
 
   constructor(private reinitService: ReinitService) {
+
     // Whenever we reinitialize, show all notices/warnings/errors again.
     reinitService.reinitializer$.subscribe(
       item => {
@@ -31,20 +33,20 @@ export class AppComponent {
   }
 
   /** If any of the show error/warning/notice toggles change, toggle them everywhere. */
-  togglesChange(event) {
-    if (event.errors != undefined) {
+  togglesChange(event: Toggle): void {
+    if (event.errors !== undefined) {
       this.showErrors = event.errors;
     }
-    if (event.warnings != undefined) {
+    if (event.warnings !== undefined) {
       this.showWarnings = event.warnings;
     }
-    if (event.notices != undefined) {
+    if (event.notices !== undefined) {
       this.showNotices = event.notices;
     }
   }
 
   /** Send out a reinitialization message using the Reinit service. */
-  reinitialize(event) {
+  reinitialize(event: any): void {
     this.reinitService.reinitialize();
   }
 }

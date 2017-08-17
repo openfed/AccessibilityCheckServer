@@ -33,44 +33,47 @@ import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-lis
 })
 export class SniffComponent implements OnInit {
 
-  @Input() code : string;
-  @Input() codeMessages : string[][];
-  @Input() results : ItemCodeUrlResultList;
+  @Input() code: string;
+  @Input() codeMessages: string[][];
+  @Input() results: ItemCodeUrlResultList;
+
   /** Whether the current sniff is expanded or not. */
-  expanded : boolean = false;
+  expanded: boolean = false;
+
   /** Used in the template. */
   keysGetter = Object.keys;
-  numNotices : number = 0;
-  numWarnings : number = 0;
-  numErrors : number = 0;
+  numNotices: number = 0;
+  numWarnings: number = 0;
+  numErrors: number = 0;
 
   constructor() {}
 
   ngOnInit() {
+
     // Find out the number of notices/warnings/errors.
     Object.keys(this.results).forEach(key => {
-      this.numNotices = this.results[key].filter(item => item.type == 'notice').length;
-      this.numWarnings = this.results[key].filter(item => item.type == 'warning').length;
-      this.numErrors = this.results[key].filter(item => item.type == 'error').length;
+      this.numNotices = this.results[key].filter(item => item.type === 'notice').length;
+      this.numWarnings = this.results[key].filter(item => item.type === 'warning').length;
+      this.numErrors = this.results[key].filter(item => item.type === 'error').length;
     });
   }
 
   /** Returns a human-readable string with the number of notices/warnings/errors. */
-  getStats() : string {
+  getStats(): string {
     let stats = [];
-    if (this.numNotices == 1) {
+    if (this.numNotices === 1) {
       stats.push('1 notice');
     } else if (this.numNotices > 1) {
       stats.push(this.numNotices + ' notices');
     }
 
-    if (this.numWarnings == 1) {
+    if (this.numWarnings === 1) {
       stats.push('1 warning');
     } else if (this.numWarnings > 1) {
       stats.push(this.numWarnings + ' warnings');
     }
 
-    if (this.numErrors == 1) {
+    if (this.numErrors === 1) {
       stats.push('1 error');
     } else if (this.numErrors > 1) {
       stats.push(this.numErrors + ' errors');
@@ -80,9 +83,9 @@ export class SniffComponent implements OnInit {
   }
 
   /** Returns a human-readable string with the number of pages. */
-  getNumPages() : string {
+  getNumPages(): string {
     const len =  this.keysGetter(this.results).length;
-    return len + ' ' + (len == 1 ? 'page' : 'pages');
+    return len + ' ' + (len === 1 ? 'page' : 'pages');
   }
 
 }

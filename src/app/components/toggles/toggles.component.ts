@@ -26,7 +26,7 @@ export class TogglesComponent implements OnInit {
   change: EventEmitter<Toggle> = new EventEmitter<Toggle>();
 
   constructor(
-    private apiService : ApiService,
+    private apiService: ApiService,
     private reinitService: ReinitService,
     private importExportService: ImportExportService
 
@@ -35,6 +35,7 @@ export class TogglesComponent implements OnInit {
   ngOnInit() {
     this.apiService.getAllSniffResults().subscribe(data => {
       data.result.forEach(item => {
+
         // Show the component as soon as the first result comes in.
         if (!this.show) {
           this.show = true;
@@ -55,9 +56,11 @@ export class TogglesComponent implements OnInit {
       } catch (e) {
         return;
       }
+
       if (importedData.version === undefined || importedData.sniffList === undefined) {
         return;
       }
+
       this.init();
       this.show = true;
       const sniffList = importedData.sniffList;
@@ -67,28 +70,8 @@ export class TogglesComponent implements OnInit {
             this.updateCounts(item);
           });
         });
-      })
+      });
     });
-  }
-
-  /** Called whenever we reinitialize. */
-  private init() {
-    // Reset state.
-    this.numErrors = 0;
-    this.numWarnings = 0;
-    this.numNotices = 0;
-    this.show = false;
-  }
-
-  /** Updates number of errors/warnings/notices. */
-  private updateCounts(item : ItemCodeUrlResult) {
-    if (item.type == 'error') {
-      this.numErrors++;
-    } else if (item.type == 'warning') {
-      this.numWarnings++;
-    } else if (item.type == 'notice') {
-      this.numNotices++;
-    }
   }
 
   /** Emit "toggle errors" event. */
@@ -105,4 +88,25 @@ export class TogglesComponent implements OnInit {
   toggleNotices(event) {
     this.change.emit({notices: event.checked});
   }
+
+  /** Called whenever we reinitialize. */
+  private init(): void {
+    // Reset state.
+    this.numErrors = 0;
+    this.numWarnings = 0;
+    this.numNotices = 0;
+    this.show = false;
+  }
+
+  /** Updates number of errors/warnings/notices. */
+  private updateCounts(item: ItemCodeUrlResult): void {
+    if (item.type === 'error') {
+      this.numErrors++;
+    } else if (item.type === 'warning') {
+      this.numWarnings++;
+    } else if (item.type === 'notice') {
+      this.numNotices++;
+    }
+  }
+
 }

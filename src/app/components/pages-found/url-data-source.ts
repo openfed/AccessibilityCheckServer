@@ -27,5 +27,5 @@ export class UrlDataSource extends DataSource<any> {
     });
   }
 
-  disconnect() {}
+  disconnect(): void {}
 }

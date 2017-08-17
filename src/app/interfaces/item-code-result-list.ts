@@ -6,5 +6,5 @@ export interface ItemCodeResultList {
   items: ItemCodeUrlResultList;
   filteredItems: ItemCodeUrlResultList;
   // The messages to show for this item code (suggested technique / success criterion)
-  codeMessages : string[][];
+  codeMessages: string[][];
 }

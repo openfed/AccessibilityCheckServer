@@ -3,4 +3,4 @@ export interface Toggle {
   errors?: boolean;
   warnings?: boolean;
   notices?: boolean;
-};
+}
