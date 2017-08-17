@@ -43,7 +43,7 @@ function crawlUrl(data, socket, io) {
     io.to(socket.id).emit('sniff-loading', {
       url: url
     });
-    console.log('running tests for: ' + url);
+    console.log('Running tests for: ' + url);
     // Call Pa11y.
     test.run(url, function(error, result) {
       // If the aborted flag is set, exit early.
@@ -71,7 +71,7 @@ function crawlUrl(data, socket, io) {
   }, concurrency);
 
   if (!validUrl.isHttpUri(url) && !validUrl.isHttpsUri(url)) {
-    console.log('invalid url:' + url);
+    console.log('Invalid url:' + url);
     return;
   }
 
@@ -137,7 +137,7 @@ function crawlUrl(data, socket, io) {
   });
 
   crawler.on("fetchcomplete", function (queueItem, responseBuffer, response) {
-    console.log('Fetch complete for ' + queueItem.url);
+    console.log('Fetch complete for: ' + queueItem.url);
     // Exit early if the aborted flag is set.
     if (aborted) {
       return;
