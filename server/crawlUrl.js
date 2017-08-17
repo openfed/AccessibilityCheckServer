@@ -66,7 +66,6 @@ function crawlUrl(data, socket, io) {
         url : url,
         result : result
       });
-      console.log(result, 'julien');
       done();
     });
   }, concurrency);
@@ -138,6 +137,7 @@ function crawlUrl(data, socket, io) {
   });
 
   crawler.on("fetchcomplete", function (queueItem, responseBuffer, response) {
+    console.log('Fetch complete for ' + queueItem.url);
     // Exit early if the aborted flag is set.
     if (aborted) {
       return;

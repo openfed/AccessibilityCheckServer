@@ -34,6 +34,7 @@ function crawl(url, depth) {
   });
 
   // Start crawling.
+  console.log('Crawling URL: ' + url)
   crawler.start();
   return crawler;
 }
