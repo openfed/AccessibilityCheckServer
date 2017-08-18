@@ -86,18 +86,18 @@
   ">
     <button
       md-raised-button
-      class="mat-primary"
+      class="mat-primary check-url"
       [disabled]="url.errrors || url.invalid"
       (click)="sendUrl()"
       style="margin-top: 20px; transform:scale(1.2)"
       mdTooltip="Click to start checking the URL."
     >Check</button>
-    <span style="margin-top: 15px;" [@fadeInOut]="'in'" *ngIf="isSniffing">
+    <span class="is-sniffing" style="margin-top: 15px;" [@fadeInOut]="'in'" *ngIf="isSniffing">
       <md-spinner class="spinner"></md-spinner>
       <span style="font-size: 14px; padding-left: 5px; padding-right: 5px;"> Sniffing</span>
       <button
         md-raised-button
-        class="mat-warn"
+        class="mat-warn abort"
         (click)="abortAll()"
         mdTooltip="Click to abort the current check."
       >Abort</button>

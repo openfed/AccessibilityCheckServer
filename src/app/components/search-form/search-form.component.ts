@@ -12,6 +12,7 @@ import { Component,
       } from '@angular/core';
 import { PrintDialogComponent } from './print-dialog.component';
 import { MdDialog } from '@angular/material';
+import { ImportedData } from '../../interfaces/imported-data';
 import { ApiService } from '../../services/api.service';
 import { SniffListService } from '../../services/sniff-list.service';
 import { ImportExportService } from '../../services/import-export.service';
@@ -87,6 +88,20 @@ export class SearchFormComponent implements OnInit {
         });
       });
    });
+
+   this.importExportService.doImport$.subscribe(data => {
+      let importedData : ImportedData;
+      try {
+        importedData = JSON.parse(data);
+      } catch (e) {
+        return;
+      }
+
+      if (importedData.version === undefined || importedData.sniffList === undefined) {
+        return;
+      }
+      this.exportable = true;
+    });
   }
 
   /** Start the crawl with the provided URL */
@@ -128,8 +143,9 @@ export class SearchFormComponent implements OnInit {
   printVersion(): void {
     this.dialog.open(PrintDialogComponent, {
       data : {
-        url: this.model.url,
-        standard: this.model.standard,
+        // Currently not passing on the url and standard as these are not in the exports, and
+        // we cannot use the values in the model either as the user may have manually changed
+        // these values since the results were rendered.
         sniffList : this.sniffListService.getSniffList()
       }
     });

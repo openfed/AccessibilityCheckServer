@@ -20,9 +20,7 @@ export class PrintDialogComponent {
     private sanitizer: DomSanitizer
   ) {
 
-    let html: string = '<h1>' + this.escapeHtml(this.data.standard)
-                      + ' accessibility check results for '
-                      + this.escapeHtml(this.data.url) + '</h2>';
+    let html: string = '<h1>Accessibility check results</h1>';
     Object.keys(this.data.sniffList).forEach(result => {
       if (Object.keys(this.data.sniffList[result].filteredItems).length === 0) {
         return;

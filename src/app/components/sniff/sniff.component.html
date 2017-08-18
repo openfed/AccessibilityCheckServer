@@ -17,7 +17,7 @@
     {{ getStats() }}
   </div>
   <div class="rTableCell"  style="width: 70px;">
-    <a name="expand" (click)="expanded = !expanded">
+    <a class="toggle-expand-collapse" (click)="expanded = !expanded">
       <span class="collapse" *ngIf="expanded">Collapse (-)</span>
       <span class="expand" *ngIf="!expanded">Expand (+)</span>
     </a>
