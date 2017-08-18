@@ -3,6 +3,7 @@ import { Component,
          OnInit,
          OnDestroy,
          EventEmitter,
+         NgZone,
          ViewChild,
          style,
          transition,
@@ -59,11 +60,12 @@ export class PagesFoundComponent implements OnInit, OnDestroy {
 
   constructor(
      private apiService: ApiService,
-     private reinitService: ReinitService
+     private reinitService: ReinitService,
+     private ngZone: NgZone
    ) {}
 
   init(): void {
-    this.urlDatabase = new UrlDatabase(this.apiService);
+    this.urlDatabase = new UrlDatabase(this.apiService, this.ngZone);
     this.dataSource = new UrlDataSource(this.urlDatabase, this.paginator);
     this.isAborted = false;
   }
@@ -80,10 +82,14 @@ export class PagesFoundComponent implements OnInit, OnDestroy {
     });
 
     // Subscribe so we can know when we've aborted.
-    this.apiService.crawlStatus().subscribe(data => {
-      if (data.status === 'aborted') {
-        this.isAborted = true;
-      }
+    this.ngZone.runOutsideAngular(() => {
+      this.apiService.crawlStatus().subscribe(data => {
+        this.ngZone.run(() => {
+          if (data.status === 'aborted') {
+            this.isAborted = true;
+          }
+        });
+      });
     });
   }
 

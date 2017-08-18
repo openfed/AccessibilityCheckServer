@@ -7,8 +7,8 @@ describe('bosa-accessiblity-check-server App', () => {
     page = new BosaAccessiblityCheckServerPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display the page title', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).toEqual('Accessibility Check (Beta)');
   });
 });

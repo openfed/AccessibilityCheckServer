@@ -1,4 +1,4 @@
-import { Component, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Output, OnInit, EventEmitter, NgZone } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ReinitService } from '../../services/reinit.service';
 import { ImportExportService } from '../../services/import-export.service';
@@ -28,20 +28,25 @@ export class TogglesComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private reinitService: ReinitService,
-    private importExportService: ImportExportService
+    private importExportService: ImportExportService,
+    private ngZone: NgZone
 
   ) {}
 
   ngOnInit() {
-    this.apiService.getAllSniffResults().subscribe(data => {
-      data.result.forEach(item => {
+    this.ngZone.runOutsideAngular(() => {
+      this.apiService.getAllSniffResults().subscribe(data => {
+        this.ngZone.run(() => {
+          data.result.forEach(item => {
 
-        // Show the component as soon as the first result comes in.
-        if (!this.show) {
-          this.show = true;
-        }
-        // Update number of errors/warnings/notices.
-        this.updateCounts(item);
+            // Show the component as soon as the first result comes in.
+            if (!this.show) {
+              this.show = true;
+            }
+            // Update number of errors/warnings/notices.
+            this.updateCounts(item);
+          });
+        });
       });
     });
 

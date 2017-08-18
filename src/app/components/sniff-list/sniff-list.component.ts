@@ -3,6 +3,7 @@ import { Component,
          OnChanges,
          Input,
          SimpleChanges,
+         NgZone,
          style,
          transition,
          animate,
@@ -64,17 +65,21 @@ export class SniffListComponent implements OnInit, OnChanges {
     private importExportService: ImportExportService,
     private sniffListService: SniffListService,
     private reinitService: ReinitService,
-    public snackBar: MdSnackBar
+    public snackBar: MdSnackBar,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
-    this.apiService.getAllSniffResults().subscribe(data => {
-      data.result.forEach(item => {
-        this.sniffListService.addItem(item, data.url);
-        this.sniffListService.filterResults(item.code, this.showNotices, this.showWarnings, this.showErrors);
+    this.ngZone.runOutsideAngular(() => {
+      this.apiService.getAllSniffResults().subscribe(data => {
+        this.ngZone.run(() => {
+          data.result.forEach(item => {
+            this.sniffListService.addItem(item, data.url);
+            this.sniffListService.filterResults(item.code, this.showNotices, this.showWarnings, this.showErrors);
+          });
+        });
       });
-    });
-
+   });
     // Perform the export whenever "true" is emitted.
     this.importExportService.doExport$.subscribe(item => {
       if (item === true) {

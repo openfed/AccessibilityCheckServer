@@ -1,5 +1,6 @@
 <div class="app ui text container">
 
+
   <app-federalheader></app-federalheader>
 
   <div class="logo">
@@ -7,13 +8,11 @@
   </div>
 
   <h1>Accessibility Check (Beta)</h1>
-
   <app-search-form (onReinitialize)="reinitialize($event)"></app-search-form>
 
   <app-pages-found></app-pages-found>
 
   <app-toggles (update)="togglesChange($event)"></app-toggles>
-
   <app-sniff-list
     [showNotices]="showNotices"
     [showWarnings]="showWarnings"

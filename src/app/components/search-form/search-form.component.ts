@@ -3,6 +3,7 @@ import { Component,
          EventEmitter,
          OnInit,
          OnDestroy,
+         NgZone,
          style,
          transition,
          animate,
@@ -64,7 +65,8 @@ export class SearchFormComponent implements OnInit {
     private apiService: ApiService,
     private importExportService: ImportExportService,
     private sniffListService: SniffListService,
-    public dialog: MdDialog
+    public dialog: MdDialog,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit() {
@@ -72,15 +74,19 @@ export class SearchFormComponent implements OnInit {
     this.standards$ = this.apiService.getStandards();
 
     // Toggle whether we are sniffing.
-    this.apiService.crawlStatus().subscribe(data => {
-      if (data.status === 'started') {
-        this.isSniffing = true;
-        this.exportable = false;
-      } else if (data.status === 'complete' || data.status === 'aborted') {
-        this.isSniffing = false;
-        this.exportable = true;
-      }
-    });
+    this.ngZone.runOutsideAngular(() => {
+      this.apiService.crawlStatus().subscribe(data => {
+        this.ngZone.run(() => {
+          if (data.status === 'started') {
+            this.isSniffing = true;
+            this.exportable = false;
+          } else if (data.status === 'complete' || data.status === 'aborted') {
+            this.isSniffing = false;
+            this.exportable = true;
+          }
+        });
+      });
+   });
   }
 
   /** Start the crawl with the provided URL */

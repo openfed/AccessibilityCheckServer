@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
@@ -13,6 +13,11 @@ import config from '../config';
 
 import * as io from 'socket.io-client';
 
+/**
+ * Service used for communicating with the backend server.
+ * Note: we run socket.io subscriptions outside Angular because of
+ * https://christianliebel.com/2016/11/angular-2-protractor-timeout-heres-fix/
+ */
 @Injectable()
 export class ApiService {
 
@@ -20,9 +25,11 @@ export class ApiService {
   private url: string = config.apiServerUrl;
   private socket: io.Socket;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private ngZone: NgZone) {
     // Initialize the socket.
-    this.socket = io(this.url);
+    this.ngZone.runOutsideAngular(() => {
+      this.socket = io(this.url);
+    });
   }
 
   /**
