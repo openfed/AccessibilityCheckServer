@@ -50,7 +50,7 @@
       padding: 30px;
       background: #f9f9f9;
     ">
-      <md-select [disabled]="isSniffing" placeholder="Crawl depth" mdTooltip="Choose how deep the crawler should go." class="select" [(ngModel)]="model.crawlDepth">
+      <md-select [disabled]="isSniffing" placeholder="Crawl depth" mdTooltip="Choose how deep the crawler should go." class="select crawl-depth" [(ngModel)]="model.crawlDepth">
         <md-option value="1">0 (page on the URL only)</md-option>
         <md-option value="2">1 (page on the URL & links)</md-option>
         <md-option value="3">2</md-option>
@@ -59,17 +59,19 @@
       </md-select>
       <span style="margin-left: 20px;">
         <input style="display: none;" id="input-file-id" type="file" accept="text/plain" (change)="importData($event)">
-        <label for="input-file-id" mdTooltip="Click to import previously exported results." class="mat-raised-button">
+        <label for="input-file-id" mdTooltip="Click to import previously exported results." class="mat-raised-button import-results">
           <i class="material-icons" style="position: relative; top: 6px; transform:scale(0.8)">file_upload</i> Import results</label>
       </span>
       <button
-         style="margin-left: 20px;"
+        class="export-results"
+        style="margin-left: 20px;"
         [disabled]="!exportable"
         md-raised-button
         (click)="exportData()"
         mdTooltip="Click to export the current results. Clicking this button will make your browser download a file that you can later import."
       ><i style="transform:scale(0.8)" class="material-icons">file_download</i> Export results</button>
       <button
+        class="print-version"
         style="margin-left: 20px;"
         [disabled]="!exportable"
         md-raised-button

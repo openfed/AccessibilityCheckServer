@@ -33,6 +33,7 @@
 npm-debug.log
 testem.log
 /typings
+/server/.jscsrc
 
 # e2e
 /e2e/*.js
@@ -41,3 +42,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Config files
+server/config.js
+src/app/config.ts
