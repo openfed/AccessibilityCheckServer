@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { AppModule } from '../../app.module';
+
+
 import { PagesFoundComponent } from './pages-found.component';
 
 describe('PagesFoundComponent', () => {
@@ -8,7 +11,9 @@ describe('PagesFoundComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PagesFoundComponent ]
+     imports: [
+        AppModule
+      ],
     })
     .compileComponents();
   }));

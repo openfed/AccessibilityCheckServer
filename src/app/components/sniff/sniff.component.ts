@@ -49,7 +49,7 @@ export class SniffComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-
+    console.log({ code: this.code, cm: this.codeMessages, res: this.results});
     // Find out the number of notices/warnings/errors.
     Object.keys(this.results).forEach(key => {
       this.numNotices = this.results[key].filter(item => item.type === 'notice').length;

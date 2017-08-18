@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { AppModule } from '../../app.module';
+
 import { SniffUrlComponent } from './sniff-url.component';
 
 describe('SniffUrlComponent', () => {
@@ -8,7 +10,9 @@ describe('SniffUrlComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SniffUrlComponent ]
+      imports: [
+        AppModule
+      ],
     })
     .compileComponents();
   }));
@@ -16,6 +20,8 @@ describe('SniffUrlComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SniffUrlComponent);
     component = fixture.componentInstance;
+    component.url = 'http://www.example.com';
+    component.urlResults = [];
     fixture.detectChanges();
   });
 

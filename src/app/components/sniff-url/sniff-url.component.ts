@@ -1,7 +1,7 @@
 import { Input, Component, OnInit, Inject } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { SniffUrlDialogComponent } from './sniff-url-dialog.component';
-import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-list';
+import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result';
 
 /** Component for listing a sniff for an individual URL with a button to view the results in a dialog. */
 @Component({
@@ -12,7 +12,7 @@ import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-lis
 export class SniffUrlComponent implements OnInit {
 
   /** Results for this URL, which will be passed on to the dialog */
-  @Input() urlResults: any;
+  @Input() urlResults: ItemCodeUrlResult[];
 
   /** The URL we are dealing with. */
   @Input() url: string;
@@ -24,7 +24,6 @@ export class SniffUrlComponent implements OnInit {
   constructor(public dialog: MdDialog) {}
 
   ngOnInit() {
-
     // Initialize the number of notices/warnings/errors.
     this.numNotices = this.urlResults.filter(item => item.type === 'notice').length;
     this.numWarnings = this.urlResults.filter(item => item.type === 'warning').length;
@@ -57,9 +56,11 @@ export class SniffUrlComponent implements OnInit {
   /** Open a dialog with the relevant data for this URL. */
   openDialog(): void {
     let info = {
-      data: this.urlResults
+      data: {
+        items: this.urlResults,
+        title: this.url + ' (' + this.getStats() + ')'
+      }
     };
-    info.data.title = this.url + ' (' + this.getStats() + ')';
     this.dialog.open(SniffUrlDialogComponent, info);
   }
 

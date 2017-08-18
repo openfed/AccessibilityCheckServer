@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppModule } from '../../app.module';
 
 import { TogglesComponent } from './toggles.component';
 
@@ -8,7 +9,9 @@ describe('TogglesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TogglesComponent ]
+      imports: [
+        AppModule
+      ],
     })
     .compileComponents();
   }));

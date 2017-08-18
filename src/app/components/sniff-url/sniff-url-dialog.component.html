@@ -1,6 +1,6 @@
 <md-dialog-content class="result-message">
 <h3>{{ data.title }}</h3>
-<div class="result" *ngFor="let result of data">
+<div class="result" *ngFor="let result of data.items">
     <div class="sniff {{result.type}}">
       <i *ngIf="result.type == 'error'" class="material-icons">error</i>
       <i *ngIf="result.type == 'warning'" class="material-icons">warning</i>

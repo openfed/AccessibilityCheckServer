@@ -53,7 +53,6 @@ export class SniffListService {
 
     // Add the is item to the sniff list, keyed by code and URL.
     this.sniffList[item.code].items[url].push(item);
-    console.log(this.sniffList);
   }
 
   /**

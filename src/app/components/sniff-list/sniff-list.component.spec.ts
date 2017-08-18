@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { AppModule } from '../../app.module';
+
 import { SniffListComponent } from './sniff-list.component';
 
 describe('SniffListComponent', () => {
@@ -8,7 +10,9 @@ describe('SniffListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SniffListComponent ]
+      imports: [
+        AppModule
+      ],
     })
     .compileComponents();
   }));
