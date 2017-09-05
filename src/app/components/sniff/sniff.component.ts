@@ -1,5 +1,7 @@
 import { Component,
          OnInit,
+         DoCheck,
+         KeyValueDiffers,
          Input,
          style,
          transition,
@@ -31,11 +33,12 @@ import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-lis
     ])
   ]
 })
-export class SniffComponent implements OnInit {
+export class SniffComponent implements OnInit, DoCheck {
 
   @Input() code: string;
   @Input() codeMessages: string[][];
   @Input() results: ItemCodeUrlResultList;
+  differ: any;
 
   /** Whether the current sniff is expanded or not. */
   expanded: boolean = false;
@@ -46,16 +49,37 @@ export class SniffComponent implements OnInit {
   numWarnings: number = 0;
   numErrors: number = 0;
 
-  constructor() {}
+  constructor(private differs: KeyValueDiffers){
+    this.differ = differs.find({}).create(null);
+  }
 
   ngOnInit() {
-    console.log({ code: this.code, cm: this.codeMessages, res: this.results});
-    // Find out the number of notices/warnings/errors.
+    this.updateCount();
+  }
+
+  /** Run on DoCheck lifecycle hook as changes to this.results don't trigger OnChange (it's still the same array). */
+  ngDoCheck() {
+    var changes = this.differ.diff(this.results);
+
+    if (changes) {
+      this.updateCount();
+    }
+  }
+
+  updateCount() {
+    let numNotices = 0;
+    let numWarnings = 0;
+    let numErrors = 0;
+
     Object.keys(this.results).forEach(key => {
-      this.numNotices += this.results[key].filter(item => item.type === 'notice').length;
-      this.numWarnings += this.results[key].filter(item => item.type === 'warning').length;
-      this.numErrors += this.results[key].filter(item => item.type === 'error').length;
+      numNotices += this.results[key].filter(item => item.type === 'notice').length;
+      numWarnings += this.results[key].filter(item => item.type === 'warning').length;
+      numErrors += this.results[key].filter(item => item.type === 'error').length;
     });
+
+    this.numNotices = numNotices;
+    this.numWarnings = numWarnings;
+    this.numErrors = numErrors;
   }
 
   /** Returns a human-readable string with the number of notices/warnings/errors. */
