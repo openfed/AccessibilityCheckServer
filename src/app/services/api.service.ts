@@ -33,6 +33,18 @@ export class ApiService {
   }
 
   /**
+   * Creates an Observable based on a Socket.IO Event.
+   * @param {string} eventName - Name of the Socket.IO event.
+   */
+  private createObservableFromSocketIoEvent(eventName: string): Observable<any> {
+    return new Observable(observer => {
+      this.socket.on(eventName, (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
+  /**
    * Send out an URL to start crawling at.
    * @param {string} url - The URL to crawl.
    * @param {string} standard - The accessibility standard to use.
@@ -48,12 +60,7 @@ export class ApiService {
 
   /**  Observable that emits URLs that have been crawled. */
   getCrawledUrls(): Observable<string> {
-    let observable = new Observable(observer => {
-      this.socket.on('crawled-url', (data) => {
-        observer.next(data);
-      });
-    });
-    return observable;
+    return this.createObservableFromSocketIoEvent('crawled-url')
   }
 
   /**
@@ -61,14 +68,8 @@ export class ApiService {
    * @param {string} url - The URL to filter results on.
    */
   getSniffResults(url: string): Observable<SniffResult> {
-    return new Observable(observer => {
-      this.socket.on('sniff-result', (data) => {
-        // data is a SniffResult object.
-        observer.next(data);
-      });
-    })
     // Only get results for this specific URL.
-    .filter((result: SniffResult) => url === result.url);
+    return this.getAllSniffResults().filter((result: SniffResult) => url === result.url);
   }
 
   /**
@@ -84,11 +85,7 @@ export class ApiService {
 
   /** Observable that emits all sniff results. */
   getAllSniffResults(): Observable<SniffResult>  {
-    return new Observable(observer => {
-      this.socket.on('sniff-result', (data) => {
-        observer.next(data);
-      });
-    });
+    return this.createObservableFromSocketIoEvent('sniff-result')
   }
 
   /**
@@ -96,11 +93,7 @@ export class ApiService {
    * @param {string} url - The URL to filter results on.
    */
   getSniffLoading(url: string): Observable<SniffLoading> {
-    return new Observable(observer => {
-      this.socket.on('sniff-loading', (data) => {
-        observer.next(data);
-      });
-    }).filter((result: SniffLoading) => url === result.url);
+    return this.createObservableFromSocketIoEvent('sniff-loading').filter((result: SniffLoading) => url === result.url);
   }
 
   /**
@@ -108,20 +101,12 @@ export class ApiService {
    * @param {string} url - The URL to filter results on.
    */
   getSniffError(url: string): Observable<SniffError> {
-     return new Observable(observer => {
-      this.socket.on('sniff-error', (data) => {
-        observer.next(data);
-      });
-    }).filter((result: SniffError) => url === result.url);
+     return this.createObservableFromSocketIoEvent('sniff-error').filter((result: SniffError) => url === result.url);
   }
 
   /** Observable that emits where we are in the crawl (started/aborted/complete) */
-  crawlStatus():  Observable<CrawlUrlStatus> {
-    return new Observable(observer => {
-      this.socket.on('crawl-url-status', (data) => {
-        observer.next(data);
-      });
-    });
+  crawlStatus(): Observable<CrawlUrlStatus> {
+    return this.createObservableFromSocketIoEvent('crawl-url-status');
   }
 
   /** Retrieves a list of standards. */
