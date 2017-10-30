@@ -1,13 +1,13 @@
-import { DataSource } from '@angular/cdk';
+import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import { UrlData } from './url-data';
 import { UrlDatabase } from './url-database';
-import { MdPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material';
 import 'rxjs/add/observable/merge';
 
 /** Data source class for the table */
 export class UrlDataSource extends DataSource<any> {
-  constructor(private _urlDatabase: UrlDatabase, private _paginator: MdPaginator) {
+  constructor(private _urlDatabase: UrlDatabase, private _paginator: MatPaginator) {
     super();
   }
 

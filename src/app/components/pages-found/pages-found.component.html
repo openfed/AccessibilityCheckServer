@@ -1,20 +1,20 @@
 <div class="pages-found-table table-container mat-elevation-z8" [hidden]="!urlDatabase.data.length">
 
-  <md-table [@fadeInOut]="'in'" #table layout-align="center center" [dataSource]="dataSource">
+  <mat-table [@fadeInOut]="'in'" #table layout-align="center center" [dataSource]="dataSource">
 
     <ng-container cdkColumnDef="url">
-      <md-header-cell *cdkHeaderCellDef> URL </md-header-cell>
-      <md-cell class="url" *cdkCellDef="let row"> {{row.url}} </md-cell>
+      <mat-header-cell *cdkHeaderCellDef> URL </mat-header-cell>
+      <mat-cell class="url" *cdkCellDef="let row"> {{row.url}} </mat-cell>
     </ng-container>
 
     <ng-container cdkColumnDef="status">
-      <md-header-cell *cdkHeaderCellDef> Status </md-header-cell>
-      <md-cell *cdkCellDef="let row">
-        <md-spinner
+      <mat-header-cell *cdkHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *cdkCellDef="let row">
+        <mat-spinner
           [@fadeInOut]="'in'"
           *ngIf="row.status == 'Loading' && !isAborted"
           class="spinner"
-        ></md-spinner>
+        ></mat-spinner>
 
         <i *ngIf="row.status == 'Loaded'" class="material-icons">done</i>
         <i *ngIf="row.status == 'Queued' && !isAborted" class="material-icons">hourglass_full</i>
@@ -24,18 +24,18 @@
 
         <span *ngIf="isAborted && (row.status == 'Queued' || row.status == 'Loading')">(Aborted)</span>
 
-      </md-cell>
+      </mat-cell>
     </ng-container>
 
-    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-    <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-  </md-table>
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 
-  <md-paginator #paginator
+  <mat-paginator #paginator
                 [length]="urlDatabase.data.length"
                 [pageIndex]="0"
                 [pageSize]="10"
                 [pageSizeOptions]="[5, 10, 50, 100, 500]"
                 >
-  </md-paginator>
+  </mat-paginator>
 </div>

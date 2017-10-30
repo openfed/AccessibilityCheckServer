@@ -29,8 +29,8 @@
   class="rTableRow"
 >
   <div class="rTableCellFullWidth">
-     <md-list *ngFor="let url of keysGetter(results)">
+     <mat-list *ngFor="let url of keysGetter(results)">
         <app-sniff-url [url]="url" [urlResults]="results[url]"></app-sniff-url>
-     </md-list>
+     </mat-list>
    </div>
 </div>

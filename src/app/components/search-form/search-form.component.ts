@@ -11,7 +11,7 @@ import { Component,
          state
       } from '@angular/core';
 import { PrintDialogComponent } from './print-dialog.component';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ImportedData } from '../../interfaces/imported-data';
 import { ApiService } from '../../services/api.service';
 import { SniffListService } from '../../services/sniff-list.service';
@@ -66,7 +66,7 @@ export class SearchFormComponent implements OnInit {
     private apiService: ApiService,
     private importExportService: ImportExportService,
     private sniffListService: SniffListService,
-    public dialog: MdDialog,
+    public dialog: MatDialog,
     private ngZone: NgZone
   ) { }
 

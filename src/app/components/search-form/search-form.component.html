@@ -3,11 +3,11 @@
     <label for="url">Enter your URL</label>
   </div>
 
-  <md-input-container class="example-full-width">
+  <mat-form-field class="example-full-width">
     <input
-      mdTooltip="Enter your URL here."
+      matTooltip="Enter your URL here."
       size="50"
-      mdInput
+      matInput
       title="Enter your URL"
       placeholder="E.g.: http://www.example.com"
       type="text"
@@ -18,28 +18,28 @@
       name="url"
       #url="ngModel"
     >
-    <md-error *ngIf="url.errors && url.errors.required">
+    <mat-error *ngIf="url.errors && url.errors.required">
       URL is required!
-    </md-error>
-    <md-error *ngIf="url.invalid">
+    </mat-error>
+    <mat-error *ngIf="url.invalid">
       Must be a valid URL!
-    </md-error>
-  </md-input-container>
+    </mat-error>
+  </mat-form-field>
 
-  <md-select
+  <mat-select
     [disabled]="isSniffing"
     placeholder="Standard"
     class="select"
     *ngIf="standards$ | async"
     [(ngModel)]="model.standard"
-    mdTooltip="Choose the accessibility standard to use for this check."
+    matTooltip="Choose the accessibility standard to use for this check."
   >
-    <md-option
+    <mat-option
       *ngFor="let standard of standards$ | async;"
       [value]="standard"
-    >{{standard}}</md-option>
-  </md-select>
-  <button md-button class="tools" (click)="advanced = !advanced" mdTooltip="Click to toggle advanced options.">Tools</button>
+    >{{standard}}</mat-option>
+  </mat-select>
+  <button mat-button class="tools" (click)="advanced = !advanced" matTooltip="Click to toggle advanced options.">Tools</button>
     <div [@fadeInOut]="'in'" *ngIf="advanced" style="
       position: relative;
       top: 30px;
@@ -50,33 +50,33 @@
       padding: 30px;
       background: #f9f9f9;
     ">
-      <md-select [disabled]="isSniffing" placeholder="Crawl depth" mdTooltip="Choose how deep the crawler should go." class="select crawl-depth" [(ngModel)]="model.crawlDepth">
-        <md-option value="1">0 (page on the URL only)</md-option>
-        <md-option value="2">1 (page on the URL & links)</md-option>
-        <md-option value="3">2</md-option>
-        <md-option value="4">3</md-option>
-        <md-option value="-1">Unlimited</md-option>
-      </md-select>
+      <mat-select [disabled]="isSniffing" placeholder="Crawl depth" matTooltip="Choose how deep the crawler should go." class="select crawl-depth" [(ngModel)]="model.crawlDepth">
+        <mat-option value="1">0 (page on the URL only)</mat-option>
+        <mat-option value="2">1 (page on the URL & links)</mat-option>
+        <mat-option value="3">2</mat-option>
+        <mat-option value="4">3</mat-option>
+        <mat-option value="-1">Unlimited</mat-option>
+      </mat-select>
       <span style="margin-left: 20px;">
         <input style="display: none;" id="input-file-id" type="file" accept="text/plain" (change)="importData($event)">
-        <label for="input-file-id" mdTooltip="Click to import previously exported results." class="mat-raised-button import-results">
+        <label for="input-file-id" matTooltip="Click to import previously exported results." class="mat-raised-button import-results">
           <i class="material-icons" style="position: relative; top: 6px; transform:scale(0.8)">file_upload</i> Import results</label>
       </span>
       <button
         class="export-results"
         style="margin-left: 20px;"
         [disabled]="!exportable"
-        md-raised-button
+        mat-raised-button
         (click)="exportData()"
-        mdTooltip="Click to export the current results. Clicking this button will make your browser download a file that you can later import."
+        matTooltip="Click to export the current results. Clicking this button will make your browser download a file that you can later import."
       ><i style="transform:scale(0.8)" class="material-icons">file_download</i> Export results</button>
       <button
         class="print-version"
         style="margin-left: 20px;"
         [disabled]="!exportable"
-        md-raised-button
+        mat-raised-button
         (click)="printVersion()"
-        mdTooltip="Click to get a print version of the currently displayed sniff results."
+        matTooltip="Click to get a print version of the currently displayed sniff results."
       ><i style="transform:scale(0.8)" class="material-icons">print</i> Print version
       </button>
   </div>
@@ -85,21 +85,21 @@
     top: 50px;
   ">
     <button
-      md-raised-button
+      mat-raised-button
       class="mat-primary check-url"
       [disabled]="url.errrors || url.invalid"
       (click)="sendUrl()"
       style="margin-top: 20px; transform:scale(1.2)"
-      mdTooltip="Click to start checking the URL."
+      matTooltip="Click to start checking the URL."
     >Check</button>
     <span class="is-sniffing" style="margin-top: 15px;" [@fadeInOut]="'in'" *ngIf="isSniffing">
-      <md-spinner class="spinner"></md-spinner>
+      <mat-spinner class="spinner"></mat-spinner>
       <span style="font-size: 14px; padding-left: 5px; padding-right: 5px;"> Sniffing</span>
       <button
-        md-raised-button
+        mat-raised-button
         class="mat-warn abort"
         (click)="abortAll()"
-        mdTooltip="Click to abort the current check."
+        matTooltip="Click to abort the current check."
       >Abort</button>
     </span>
 

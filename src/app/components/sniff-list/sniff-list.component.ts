@@ -17,7 +17,7 @@ import { ImportExportService } from '../../services/import-export.service';
 import { SniffList } from '../../interfaces/sniff-list';
 import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-list';
 import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { ImportedData } from '../../interfaces/imported-data';
 
 import 'rxjs/Rx' ;
@@ -65,7 +65,7 @@ export class SniffListComponent implements OnInit, OnChanges {
     private importExportService: ImportExportService,
     private sniffListService: SniffListService,
     private reinitService: ReinitService,
-    public snackBar: MdSnackBar,
+    public snackBar: MatSnackBar,
     private ngZone: NgZone
   ) {}
 

@@ -24,19 +24,19 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
 import { CdkTableModule } from '@angular/cdk';
 import {
-  MdButtonModule,
-  MdCheckboxModule,
-  MdSelectModule,
-  MdInputModule,
-  MdTableModule,
-  MdListModule,
-  MdCardModule,
-  MdPaginatorModule,
-  MdSlideToggleModule,
-  MdProgressSpinnerModule,
-  MdDialogModule,
-  MdSnackBarModule,
-  MdTooltipModule
+  MatButtonModule,
+  MatCheckboxModule,
+  MatSelectModule,
+  MatInputModule,
+  MatTableModule,
+  MatListModule,
+  MatCardModule,
+  MatPaginatorModule,
+  MatSlideToggleModule,
+  MatProgressSpinnerModule,
+  MatDialogModule,
+  MatSnackBarModule,
+  MatTooltipModule
 } from '@angular/material';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

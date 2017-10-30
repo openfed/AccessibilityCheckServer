@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MD_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { SafeHtml } from '@angular/platform-browser';
 
 /** Dialog invoked from the SniffUrlComponent. */
@@ -16,7 +16,7 @@ export class PrintDialogComponent {
 
   /** Initialize the html contents of the iframe. */
   constructor(
-    @Inject(MD_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private sanitizer: DomSanitizer
   ) {
 

@@ -1,4 +1,4 @@
-<md-dialog-content class="result-message">
+<mat-dialog-content class="result-message">
 <h3>{{ data.title }}</h3>
 <div class="result" *ngFor="let result of data.items">
     <div class="sniff {{result.type}}">
@@ -11,6 +11,6 @@
     <div style="padding: 15px; background-color: #f0f0f0;">Code snippet: <pre>{{ result.context }}</pre></div>
     <div style="padding: 15px; background-color: #f0f0f0;">Selector: <pre>{{ result.selector }}</pre></div>
 </div>
-</md-dialog-content>
+</mat-dialog-content>
 
 

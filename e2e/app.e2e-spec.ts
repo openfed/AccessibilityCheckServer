@@ -23,7 +23,7 @@ describe('bosa-accessiblity-check-server App', () => {
     expect(standards).toContain('WCAG2AA');
     expect(standards).toContain('WCAG2AAA');
     // Attempt clicking an option.
-    element(by.css('.cdk-overlay-container md-option:first-of-type')).click();
+    element(by.css('.cdk-overlay-container mat-option:first-of-type')).click();
   });
 
   it('should perform validation on the URL field', () => {
@@ -31,19 +31,19 @@ describe('bosa-accessiblity-check-server App', () => {
     element(by.css('app-search-form #url')).click();
     element(by.css('app-root h1')).click();
     browser.driver.sleep(500);
-    expect(element.all(by.css('md-error')).getText()).toContain('URL is required!');
-    expect(element.all(by.css('md-error')).getText()).toContain('Must be a valid URL!');
+    expect(element.all(by.css('mat-error')).getText()).toContain('URL is required!');
+    expect(element.all(by.css('mat-error')).getText()).toContain('Must be a valid URL!');
     expect(element(by.css('.check-url[disabled]')).isPresent()).toBeTruthy();
 
     element(by.css('app-search-form #url')).sendKeys('http:/');
     browser.driver.sleep(500);
-    expect(element.all(by.css('md-error')).getText()).not.toContain('URL is required!');
-    expect(element.all(by.css('md-error')).getText()).toContain('Must be a valid URL!');
+    expect(element.all(by.css('mat-error')).getText()).not.toContain('URL is required!');
+    expect(element.all(by.css('mat-error')).getText()).toContain('Must be a valid URL!');
 
     element(by.css('app-search-form #url')).sendKeys('/localhost:4200');
     browser.driver.sleep(500);
-    expect(element.all(by.css('md-error')).getText()).not.toContain('URL is required!');
-    expect(element.all(by.css('md-error')).getText()).not.toContain('Must be a valid URL!');
+    expect(element.all(by.css('mat-error')).getText()).not.toContain('URL is required!');
+    expect(element.all(by.css('mat-error')).getText()).not.toContain('Must be a valid URL!');
 
   });
 
@@ -74,7 +74,7 @@ describe('bosa-accessiblity-check-server App', () => {
     browser.driver.sleep(200);
     element(by.css('button.abort')).click();
     // Check for the Aborted status.
-    const numAbortedStatus = element.all(by.css('md-cell')).filter(function(elem, index) {
+    const numAbortedStatus = element.all(by.css('mat-cell')).filter(function(elem, index) {
       return elem.getText().then(function(text) {
         return text.includes('Aborted');
       });
@@ -97,7 +97,7 @@ describe('bosa-accessiblity-check-server App', () => {
     browser.driver.sleep(200);
     expect(element(by.css('span.is-sniffing')).isPresent()).toBeTruthy();
     // Check for the Loading status.
-    const numLoadingStatus = element.all(by.css('md-cell')).filter(function(elem, index) {
+    const numLoadingStatus = element.all(by.css('mat-cell')).filter(function(elem, index) {
       return elem.getText().then(function(text) {
         return text.includes('Loading');
       });
@@ -111,14 +111,14 @@ describe('bosa-accessiblity-check-server App', () => {
     // Check that we have results.
     expect(element(by.css('.pages-found-table')).isPresent()).toBeTruthy();
     expect(element(by.css('.pages-found-table[hidden]')).isPresent()).toBeFalsy();
-    const numUrls = element.all(by.css('md-cell')).filter(function(elem, index) {
+    const numUrls = element.all(by.css('mat-cell')).filter(function(elem, index) {
       return elem.getText().then(function(text) {
         return text === 'http://localhost:4200/';
       });
     }).count();
     expect(numUrls).toBe(1);
 
-    const numLoadedStatus = element.all(by.css('md-cell')).filter(function(elem, index) {
+    const numLoadedStatus = element.all(by.css('mat-cell')).filter(function(elem, index) {
       return elem.getText().then(function(text) {
         return text.includes('Loaded');
       });
@@ -169,7 +169,7 @@ describe('bosa-accessiblity-check-server App', () => {
         return text.includes('Page Titled');
       });
     }).count()).toBe(1);
-    const toggle = element(by.css('.num-notices md-slide-toggle .mat-slide-toggle-bar'));
+    const toggle = element(by.css('.num-notices mat-slide-toggle .mat-slide-toggle-bar'));
     browser.executeScript("arguments[0].scrollIntoView();", toggle.getWebElement());
     toggle.click();
     browser.driver.sleep(500);

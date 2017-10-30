@@ -2,21 +2,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
-import { CdkTableModule } from '@angular/cdk';
+import { CdkTableModule } from '@angular/cdk/table';
 import {
-  MdButtonModule,
-  MdCheckboxModule,
-  MdSelectModule,
-  MdInputModule,
-  MdTableModule,
-  MdListModule,
-  MdCardModule,
-  MdPaginatorModule,
-  MdSlideToggleModule,
-  MdProgressSpinnerModule,
-  MdDialogModule,
-  MdSnackBarModule,
-  MdTooltipModule
+  MatButtonModule,
+  MatCheckboxModule,
+  MatSelectModule,
+  MatInputModule,
+  MatTableModule,
+  MatListModule,
+  MatCardModule,
+  MatPaginatorModule,
+  MatSlideToggleModule,
+  MatProgressSpinnerModule,
+  MatDialogModule,
+  MatSnackBarModule,
+  MatTooltipModule
 } from '@angular/material';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -55,20 +55,20 @@ import { FederalheaderComponent } from './components/federalheader/federalheader
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MdCheckboxModule,
-    MdTableModule,
-    MdCardModule,
+    MatCheckboxModule,
+    MatTableModule,
+    MatCardModule,
     CdkTableModule,
-    MdListModule,
-    MdButtonModule,
-    MdSelectModule,
-    MdPaginatorModule,
-    MdInputModule,
-    MdSlideToggleModule,
-    MdProgressSpinnerModule,
-    MdDialogModule,
-    MdSnackBarModule,
-    MdTooltipModule
+    MatListModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatPaginatorModule,
+    MatInputModule,
+    MatSlideToggleModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   providers: [
     ApiService,

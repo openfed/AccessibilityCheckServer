@@ -1,5 +1,5 @@
 import { Input, Component, OnInit, Inject } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { SniffUrlDialogComponent } from './sniff-url-dialog.component';
 import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result';
 
@@ -21,7 +21,7 @@ export class SniffUrlComponent implements OnInit {
   numWarnings : number = 0;
   numErrors : number = 0;
 
-  constructor(public dialog: MdDialog) {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
     // Initialize the number of notices/warnings/errors.

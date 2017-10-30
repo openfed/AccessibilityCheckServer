@@ -13,7 +13,7 @@ import { Component,
        } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ReinitService } from '../../services/reinit.service';
-import { MdPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material';
 
 import { UrlData } from './url-data';
 import { UrlDatabase } from './url-database';
@@ -56,7 +56,7 @@ export class PagesFoundComponent implements OnInit, OnDestroy {
   dataSource: UrlDataSource | null;
   urlDatabase: UrlDatabase;
   displayedColumns: string[] = ['url', 'status'];
-  @ViewChild(MdPaginator) paginator: MdPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
      private apiService: ApiService,

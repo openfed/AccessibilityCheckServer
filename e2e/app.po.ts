@@ -10,10 +10,10 @@ export class BosaAccessiblityCheckServerPage {
   }
 
   getStandards() {
-    const select = element(by.css('app-search-form md-select'));
+    const select = element(by.css('app-search-form mat-select'));
     select.click();
     // Wait for the renderings
     browser.driver.sleep(1000);
-    return element.all(by.css('.cdk-overlay-container md-option')).map(item => item.getText());
+    return element.all(by.css('.cdk-overlay-container mat-option')).map(item => item.getText());
   }
 }
