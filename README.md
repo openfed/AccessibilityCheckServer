@@ -13,7 +13,7 @@ To install dependencies, run `npm install` in the root directory, then run `npm 
 
 - Express.js for the back-end server.
 - Socket.io for real-time communication.
-- Angular 4.x as a front-end framework.
+- Angular as a front-end framework.
 - [Angular Material](https://material.angular.io/) for Material Design components.
 - [Pa11y](https://github.com/pa11y/pa11y) (which uses HTML_CodeSniffer and PhantomJS) for the accessibility sniffs.
 - [Node-simplecrawler](https://github.com/cgiffard/node-simplecrawler) for crawling.

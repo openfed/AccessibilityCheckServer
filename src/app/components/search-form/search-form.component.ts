@@ -139,6 +139,16 @@ export class SearchFormComponent implements OnInit {
     this.importExportService.exportData();
   }
 
+  getDescription(x: string): string {
+    const descriptions = {
+      Section508: 'Section 508',
+      WCAG2A: 'WCAG 2.1 A',
+      WCAG2AA: 'WCAG 2.1 AA',
+      WCAG2AAA: 'WCAG 2.1 AAA',
+    };
+    return descriptions[x] || x;
+  }
+
   /** Import data. */
   importData(event): void {
     let input = event.target;

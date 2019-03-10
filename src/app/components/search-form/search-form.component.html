@@ -37,7 +37,7 @@
     <mat-option
       *ngFor="let standard of (standards$ | async)"
       [value]="standard"
-      >{{ standard }}</mat-option
+      >{{ getDescription(standard) }}</mat-option
     >
   </mat-select>
   <button
