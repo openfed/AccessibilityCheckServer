@@ -1,4 +1,5 @@
-.rTableCell, .rTableHead {
+.rTableCell,
+.rTableHead {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   float: left;
   overflow: hidden;
@@ -17,11 +18,13 @@
   background: #f0f0f0;
 }
 
-.expand, .collapse {
+.expand,
+.collapse {
   cursor: pointer;
 }
 
-.expanded, .rTableRow.expanded {
+.expanded,
+.rTableRow.expanded {
   background: #f0f0f0;
 }
 

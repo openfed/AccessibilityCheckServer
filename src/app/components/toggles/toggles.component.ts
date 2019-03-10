@@ -1,19 +1,18 @@
-import { Component, Output, OnInit, EventEmitter, NgZone } from '@angular/core';
-import { ApiService } from '../../services/api.service';
-import { ReinitService } from '../../services/reinit.service';
-import { ImportExportService } from '../../services/import-export.service';
-import { Toggle } from '../../interfaces/toggle';
-import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result';
-import { ImportedData } from '../../interfaces/imported-data';
+import { Component, Output, OnInit, EventEmitter, NgZone } from "@angular/core";
+import { ApiService } from "../../services/api.service";
+import { ReinitService } from "../../services/reinit.service";
+import { ImportExportService } from "../../services/import-export.service";
+import { Toggle } from "../../interfaces/toggle";
+import { ItemCodeUrlResult } from "../../interfaces/item-code-url-result";
+import { ImportedData } from "../../interfaces/imported-data";
 
 /** Component for the view error/warning/notice toggles */
 @Component({
-  selector: 'app-toggles',
-  templateUrl: './toggles.component.html',
-  styleUrls: ['./toggles.component.scss']
+  selector: "app-toggles",
+  templateUrl: "./toggles.component.html",
+  styleUrls: ["./toggles.component.scss"]
 })
 export class TogglesComponent implements OnInit {
-
   /** The number of notices / errors / warnings. */
   numNotices: number = 0;
   numWarnings: number = 0;
@@ -22,7 +21,7 @@ export class TogglesComponent implements OnInit {
   /** Whether to show the current component. */
   show: boolean = false;
 
-  @Output('update')
+  @Output("update")
   change: EventEmitter<Toggle> = new EventEmitter<Toggle>();
 
   constructor(
@@ -30,7 +29,6 @@ export class TogglesComponent implements OnInit {
     private reinitService: ReinitService,
     private importExportService: ImportExportService,
     private ngZone: NgZone
-
   ) {}
 
   ngOnInit() {
@@ -38,7 +36,6 @@ export class TogglesComponent implements OnInit {
       this.apiService.getAllSniffResults().subscribe(data => {
         this.ngZone.run(() => {
           data.result.forEach(item => {
-
             // Show the component as soon as the first result comes in.
             if (!this.show) {
               this.show = true;
@@ -55,14 +52,17 @@ export class TogglesComponent implements OnInit {
     });
 
     this.importExportService.doImport$.subscribe(data => {
-      let importedData : ImportedData;
+      let importedData: ImportedData;
       try {
         importedData = JSON.parse(data);
       } catch (e) {
         return;
       }
 
-      if (importedData.version === undefined || importedData.sniffList === undefined) {
+      if (
+        importedData.version === undefined ||
+        importedData.sniffList === undefined
+      ) {
         return;
       }
 
@@ -81,17 +81,17 @@ export class TogglesComponent implements OnInit {
 
   /** Emit "toggle errors" event. */
   toggleErrors(event) {
-    this.change.emit({errors: event.checked});
+    this.change.emit({ errors: event.checked });
   }
 
   /** Emit "toggle warnings" event. */
   toggleWarnings(event) {
-    this.change.emit({warnings: event.checked});
+    this.change.emit({ warnings: event.checked });
   }
 
   /** Emit "toggle notices" event. */
   toggleNotices(event) {
-    this.change.emit({notices: event.checked});
+    this.change.emit({ notices: event.checked });
   }
 
   /** Called whenever we reinitialize. */
@@ -105,13 +105,12 @@ export class TogglesComponent implements OnInit {
 
   /** Updates number of errors/warnings/notices. */
   private updateCounts(item: ItemCodeUrlResult): void {
-    if (item.type === 'error') {
+    if (item.type === "error") {
       this.numErrors++;
-    } else if (item.type === 'warning') {
+    } else if (item.type === "warning") {
       this.numWarnings++;
-    } else if (item.type === 'notice') {
+    } else if (item.type === "notice") {
       this.numNotices++;
     }
   }
-
 }

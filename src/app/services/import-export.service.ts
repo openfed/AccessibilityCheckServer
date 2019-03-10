@@ -1,12 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-
+import { Injectable } from "@angular/core";
+import { Subject } from "rxjs/Subject";
+import { Observable } from "rxjs/Observable";
 
 /** This service help import/export data into the app or out of the app, so that users can save results for later viewing. */
 @Injectable()
 export class ImportExportService {
-
   private doExportSource: Subject<boolean> = new Subject<boolean>();
   private doImportSource: Subject<string> = new Subject<string>();
 
@@ -23,5 +21,4 @@ export class ImportExportService {
   importData(data: any): void {
     this.doImportSource.next(data);
   }
-
 }

@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 /*@import "~@angular/material/prebuilt-themes/indigo-pink.css";*/
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -13,10 +13,9 @@
 // hue.
 
 $light-primary: mat-palette($mat-cyan, 900);
-$light-accent:  mat-palette($mat-amber, A200, A100, A400);
-$light-warn:    mat-palette($mat-deep-orange);
-$light-theme:   mat-light-theme($light-primary, $light-accent, $light-warn);
-
+$light-accent: mat-palette($mat-amber, A200, A100, A400);
+$light-warn: mat-palette($mat-deep-orange);
+$light-theme: mat-light-theme($light-primary, $light-accent, $light-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -28,20 +27,38 @@ body {
 }
 
 /* Rules for sizing the icon. */
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
+.material-icons.md-18 {
+  font-size: 18px;
+}
+.material-icons.md-24 {
+  font-size: 24px;
+}
+.material-icons.md-36 {
+  font-size: 36px;
+}
+.material-icons.md-48 {
+  font-size: 48px;
+}
 
 /* Rules for using icons as black on a light background. */
-.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
-.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26);
+}
 
 /* Rules for using icons as white on a dark background. */
-.material-icons.md-light { color: rgba(255, 255, 255, 1); }
-.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+.material-icons.md-light {
+  color: rgba(255, 255, 255, 1);
+}
+.material-icons.md-light.md-inactive {
+  color: rgba(255, 255, 255, 0.3);
+}
 
-a, a:hover, a:active {
+a,
+a:hover,
+a:active {
   color: #0081a0;
 }
 
@@ -52,7 +69,8 @@ body {
   min-height: 100vh;
 }
 
-html, .app.container {
+html,
+.app.container {
   min-height: 100vh;
 }
 
@@ -61,6 +79,8 @@ app-search-form .mat-placeholder-required {
   display: none;
 }
 
-h1,h2,h3 {
+h1,
+h2,
+h3 {
   color: #0081a0;
 }

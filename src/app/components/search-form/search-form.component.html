@@ -17,7 +17,7 @@
       [(ngModel)]="model.url"
       name="url"
       #url="ngModel"
-    >
+    />
     <mat-error *ngIf="url.errors && url.errors.required">
       URL is required!
     </mat-error>
@@ -30,17 +30,28 @@
     [disabled]="isSniffing"
     placeholder="Standard"
     class="select"
-    *ngIf="standards$ | async"
+    *ngIf="(standards$ | async)"
     [(ngModel)]="model.standard"
     matTooltip="Choose the accessibility standard to use for this check."
   >
     <mat-option
-      *ngFor="let standard of standards$ | async;"
+      *ngFor="let standard of (standards$ | async)"
       [value]="standard"
-    >{{standard}}</mat-option>
+      >{{ standard }}</mat-option
+    >
   </mat-select>
-  <button mat-button class="tools" (click)="advanced = !advanced" matTooltip="Click to toggle advanced options.">Tools</button>
-    <div [@fadeInOut]="'in'" *ngIf="advanced" style="
+  <button
+    mat-button
+    class="tools"
+    (click)="advanced = !advanced"
+    matTooltip="Click to toggle advanced options."
+  >
+    Tools
+  </button>
+  <div
+    [@fadeInOut]="'in'"
+    *ngIf="advanced"
+    style="
       position: relative;
       top: 30px;
       margin-bottom: 25px;
@@ -49,41 +60,71 @@
       margin: 0 auto;
       padding: 30px;
       background: #f9f9f9;
-    ">
-      <mat-select [disabled]="isSniffing" placeholder="Crawl depth" matTooltip="Choose how deep the crawler should go." class="select crawl-depth" [(ngModel)]="model.crawlDepth">
-        <mat-option value="1">0 (page on the URL only)</mat-option>
-        <mat-option value="2">1 (page on the URL & links)</mat-option>
-        <mat-option value="3">2</mat-option>
-        <mat-option value="4">3</mat-option>
-        <mat-option value="-1">Unlimited</mat-option>
-      </mat-select>
-      <span style="margin-left: 20px;">
-        <input style="display: none;" id="input-file-id" type="file" accept="text/plain" (change)="importData($event)">
-        <label for="input-file-id" matTooltip="Click to import previously exported results." class="mat-raised-button import-results">
-          <i class="material-icons" style="position: relative; top: 6px; transform:scale(0.8)">file_upload</i> Import results</label>
-      </span>
-      <button
-        class="export-results"
-        style="margin-left: 20px;"
-        [disabled]="!exportable"
-        mat-raised-button
-        (click)="exportData()"
-        matTooltip="Click to export the current results. Clicking this button will make your browser download a file that you can later import."
-      ><i style="transform:scale(0.8)" class="material-icons">file_download</i> Export results</button>
-      <button
-        class="print-version"
-        style="margin-left: 20px;"
-        [disabled]="!exportable"
-        mat-raised-button
-        (click)="printVersion()"
-        matTooltip="Click to get a print version of the currently displayed sniff results."
-      ><i style="transform:scale(0.8)" class="material-icons">print</i> Print version
-      </button>
+    "
+  >
+    <mat-select
+      [disabled]="isSniffing"
+      placeholder="Crawl depth"
+      matTooltip="Choose how deep the crawler should go."
+      class="select crawl-depth"
+      [(ngModel)]="model.crawlDepth"
+    >
+      <mat-option value="1">0 (page on the URL only)</mat-option>
+      <mat-option value="2">1 (page on the URL & links)</mat-option>
+      <mat-option value="3">2</mat-option>
+      <mat-option value="4">3</mat-option>
+      <mat-option value="-1">Unlimited</mat-option>
+    </mat-select>
+    <span style="margin-left: 20px;">
+      <input
+        style="display: none;"
+        id="input-file-id"
+        type="file"
+        accept="text/plain"
+        (change)="importData($event)"
+      />
+      <label
+        for="input-file-id"
+        matTooltip="Click to import previously exported results."
+        class="mat-raised-button import-results"
+      >
+        <i
+          class="material-icons"
+          style="position: relative; top: 6px; transform:scale(0.8)"
+          >file_upload</i
+        >
+        Import results</label
+      >
+    </span>
+    <button
+      class="export-results"
+      style="margin-left: 20px;"
+      [disabled]="!exportable"
+      mat-raised-button
+      (click)="exportData()"
+      matTooltip="Click to export the current results. Clicking this button will make your browser download a file that you can later import."
+    >
+      <i style="transform:scale(0.8)" class="material-icons">file_download</i>
+      Export results
+    </button>
+    <button
+      class="print-version"
+      style="margin-left: 20px;"
+      [disabled]="!exportable"
+      mat-raised-button
+      (click)="printVersion()"
+      matTooltip="Click to get a print version of the currently displayed sniff results."
+    >
+      <i style="transform:scale(0.8)" class="material-icons">print</i> Print
+      version
+    </button>
   </div>
-  <div style="
+  <div
+    style="
     position: relative;
     top: 50px;
-  ">
+  "
+  >
     <button
       mat-raised-button
       class="mat-primary check-url"
@@ -91,18 +132,27 @@
       (click)="sendUrl()"
       style="margin-top: 20px; transform:scale(1.2)"
       matTooltip="Click to start checking the URL."
-    >Check</button>
-    <span class="is-sniffing" style="margin-top: 15px;" [@fadeInOut]="'in'" *ngIf="isSniffing">
+    >
+      Check
+    </button>
+    <span
+      class="is-sniffing"
+      style="margin-top: 15px;"
+      [@fadeInOut]="'in'"
+      *ngIf="isSniffing"
+    >
       <mat-spinner class="spinner"></mat-spinner>
-      <span style="font-size: 14px; padding-left: 5px; padding-right: 5px;"> Sniffing</span>
+      <span style="font-size: 14px; padding-left: 5px; padding-right: 5px;">
+        Sniffing</span
+      >
       <button
         mat-raised-button
         class="mat-warn abort"
         (click)="abortAll()"
         matTooltip="Click to abort the current check."
-      >Abort</button>
+      >
+        Abort
+      </button>
     </span>
-
   </div>
-
 </div>

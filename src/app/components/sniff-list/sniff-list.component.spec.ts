@@ -1,20 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { AppModule } from '../../app.module';
+import { AppModule } from "../../app.module";
 
-import { SniffListComponent } from './sniff-list.component';
+import { SniffListComponent } from "./sniff-list.component";
 
-describe('SniffListComponent', () => {
+describe("SniffListComponent", () => {
   let component: SniffListComponent;
   let fixture: ComponentFixture<SniffListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AppModule
-      ],
-    })
-    .compileComponents();
+      imports: [AppModule]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -23,7 +20,7 @@ describe('SniffListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(component).toBeTruthy();
   });
 });

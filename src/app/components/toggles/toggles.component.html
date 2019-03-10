@@ -1,31 +1,47 @@
 <div *ngIf="show" class="toggles">
   <mat-card class="toggle-card num-errors">
-    <div class="num">{{numErrors}}</div>
-    <div style="padding: 10px;">{{ numErrors == 1 ? 'Error' : 'Errors' }}</div>
-    <label for="mat-slide-toggle-1-input" style="display: none;">Toggle errors</label>
+    <div class="num">{{ numErrors }}</div>
+    <div style="padding: 10px;">{{ numErrors == 1 ? "Error" : "Errors" }}</div>
+    <label for="mat-slide-toggle-1-input" style="display: none;"
+      >Toggle errors</label
+    >
 
     <mat-slide-toggle
-    title="Toggle errors"
-    class="toggle"
-    checked="checked" (change)="toggleErrors($event)"></mat-slide-toggle>
+      title="Toggle errors"
+      class="toggle"
+      checked="checked"
+      (change)="toggleErrors($event)"
+    ></mat-slide-toggle>
   </mat-card>
 
   <mat-card class="toggle-card num-warnings">
-    <div class="num">{{numWarnings}}</div>
-    <div style="padding: 10px;">{{ numWarnings == 1 ? 'Warning' : 'Warnings' }}</div>
-    <label for="mat-slide-toggle-2-input" style="display: none;">Toggle warnings</label>
+    <div class="num">{{ numWarnings }}</div>
+    <div style="padding: 10px;">
+      {{ numWarnings == 1 ? "Warning" : "Warnings" }}
+    </div>
+    <label for="mat-slide-toggle-2-input" style="display: none;"
+      >Toggle warnings</label
+    >
     <mat-slide-toggle
-    name="toggle-warnings"
-    class="toggle"
-    checked="checked" (change)="toggleWarnings($event)"></mat-slide-toggle>
+      name="toggle-warnings"
+      class="toggle"
+      checked="checked"
+      (change)="toggleWarnings($event)"
+    ></mat-slide-toggle>
   </mat-card>
 
   <mat-card class="toggle-card num-notices">
-    <div class="num">{{numNotices}}</div>
-    <div style="padding: 10px;">{{ numNotices == 1 ? 'Notice' : 'Notices' }}</div>
-    <label for="mat-slide-toggle-3-input" style="display: none;">Toggle notices</label>
+    <div class="num">{{ numNotices }}</div>
+    <div style="padding: 10px;">
+      {{ numNotices == 1 ? "Notice" : "Notices" }}
+    </div>
+    <label for="mat-slide-toggle-3-input" style="display: none;"
+      >Toggle notices</label
+    >
     <mat-slide-toggle
-    class="toggle"
-    checked="checked" (change)="toggleNotices($event)"></mat-slide-toggle>
+      class="toggle"
+      checked="checked"
+      (change)="toggleNotices($event)"
+    ></mat-slide-toggle>
   </mat-card>
 </div>

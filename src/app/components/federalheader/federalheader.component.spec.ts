@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FederalheaderComponent } from './federalheader.component';
+import { FederalheaderComponent } from "./federalheader.component";
 
-describe('FederalheaderComponent', () => {
+describe("FederalheaderComponent", () => {
   let component: FederalheaderComponent;
   let fixture: ComponentFixture<FederalheaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FederalheaderComponent ]
-    })
-    .compileComponents();
+      declarations: [FederalheaderComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('FederalheaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(component).toBeTruthy();
   });
 });
