@@ -69,8 +69,13 @@ body {
   min-height: 100vh;
 }
 
-html,
+html {
+  min-height: 100vh;
+}
+
 .app.container {
+  overflow-y: auto;
+  position: relative;
   min-height: 100vh;
 }
 

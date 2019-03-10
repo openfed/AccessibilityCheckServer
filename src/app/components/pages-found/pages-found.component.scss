@@ -22,8 +22,6 @@
 
 i.material-icons {
   transform: scale(0.9);
-  top: 6px;
-  left: -3px;
   position: relative;
 }
 
@@ -37,9 +35,9 @@ i.material-icons {
 
 .spinner {
   display: inline-block;
-  width: 20px;
-  padding-right: 5px;
-  height: 20px;
   position: relative;
-  top: 5px;
+  left: -5px;
+  width: 20px;
+  height: 20px;
+  margin-left: 15px;
 }
