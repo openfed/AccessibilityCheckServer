@@ -40,6 +40,10 @@
       >{{ getDescription(standard) }}</mat-option
     >
   </mat-select>
+
+
+
+
   <button
     mat-button
     class="tools"
@@ -55,8 +59,8 @@
       position: relative;
       top: 30px;
       margin-bottom: 25px;
-      box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-      width: 70%;
+      box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+      width: 90%;
       margin: 0 auto;
       padding: 30px;
       background: #f9f9f9;
@@ -75,6 +79,19 @@
       <mat-option value="4">3</mat-option>
       <mat-option value="-1">Unlimited</mat-option>
     </mat-select>
+
+  <mat-select
+  class="select"
+  placeholder="Show results for"
+  matTooltip="Show results applicable to developers only, to content managers only, or all results?"
+  [(ngModel)]="model.audience"
+  (ngModelChange)="onAudienceChange($event)"
+>
+  <mat-option value="all">All</mat-option>
+  <mat-option value="dev">Developers</mat-option>
+  <mat-option value="cm">Content managers</mat-option>
+</mat-select>
+
     <span style="margin-left: 20px;">
       <input
         style="display: none;"

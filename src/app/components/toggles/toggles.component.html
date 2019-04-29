@@ -1,5 +1,5 @@
 <div *ngIf="show" class="toggles">
-  <mat-card class="toggle-card num-errors">
+  <mat-card class="toggle-card num-errors mat-elevation-z2">
     <div class="num">{{ numErrors }}</div>
     <div style="padding: 10px;">{{ numErrors == 1 ? "Error" : "Errors" }}</div>
     <label for="mat-slide-toggle-1-input" style="display: none;"
@@ -14,7 +14,7 @@
     ></mat-slide-toggle>
   </mat-card>
 
-  <mat-card class="toggle-card num-warnings">
+  <mat-card class="toggle-card num-warnings mat-elevation-z2">
     <div class="num">{{ numWarnings }}</div>
     <div style="padding: 10px;">
       {{ numWarnings == 1 ? "Warning" : "Warnings" }}
@@ -30,7 +30,7 @@
     ></mat-slide-toggle>
   </mat-card>
 
-  <mat-card class="toggle-card num-notices">
+  <mat-card class="toggle-card num-notices mat-elevation-z2">
     <div class="num">{{ numNotices }}</div>
     <div style="padding: 10px;">
       {{ numNotices == 1 ? "Notice" : "Notices" }}

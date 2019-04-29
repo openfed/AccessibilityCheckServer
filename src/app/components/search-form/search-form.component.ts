@@ -21,6 +21,7 @@ import { ApiService } from "../../services/api.service";
 import { SniffListService } from "../../services/sniff-list.service";
 import { ImportExportService } from "../../services/import-export.service";
 import { Observable } from "rxjs/Observable";
+import { AudienceType } from '../../audience';
 
 /** Component for the form with search widgets */
 @Component({
@@ -63,8 +64,11 @@ export class SearchFormComponent implements OnInit {
     // Defaults:
     url: "",
     standard: "WCAG2AA",
-    crawlDepth: "-1"
+    crawlDepth: "-1",
+    audience: AudienceType.All
   };
+
+  @Output() audienceChanged: EventEmitter<AudienceType> = new EventEmitter<AudienceType>();
 
   // Event emitter for the reinitialize event.
   @Output() onReinitialize: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -114,6 +118,10 @@ export class SearchFormComponent implements OnInit {
     });
   }
 
+  public onAudienceChange(event: AudienceType): void {
+    this.audienceChanged.emit(event);
+  }
+
   /** Start the crawl with the provided URL */
   sendUrl(): void {
     this.reinitialize();
@@ -150,7 +158,7 @@ export class SearchFormComponent implements OnInit {
   }
 
   /** Import data. */
-  importData(event): void {
+  importData(event: any): void {
     let input = event.target;
     for (let index = 0; index < input.files.length; index++) {
       let reader = new FileReader();
@@ -170,7 +178,8 @@ export class SearchFormComponent implements OnInit {
         // Currently not passing on the url and standard as these are not in the exports, and
         // we cannot use the values in the model either as the user may have manually changed
         // these values since the results were rendered.
-        sniffList: this.sniffListService.getSniffList()
+        sniffList: this.sniffListService.getAudienceFilteredSniffList(this.model.audience),
+        audience: this.model.audience,
       }
     });
   }

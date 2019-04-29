@@ -3,6 +3,10 @@ import { Subject } from "rxjs/Subject";
 import { SniffList } from "../interfaces/sniff-list";
 import { ItemCodeUrlResult } from "../interfaces/item-code-url-result";
 import { ApiService } from "./api.service";
+import { AudienceType } from "../audience";
+import * as cloneDeep from "lodash/cloneDeep";
+import { isCmOnlySniff, isDevOnlySniff } from "../audience.functions";
+
 /** Provides an observable to subscribe to which sends out a message whenever we want to reinitialize. */
 @Injectable()
 export class SniffListService {
@@ -23,6 +27,30 @@ export class SniffListService {
 
   getSniffList(): SniffList {
     return this.sniffList;
+  }
+
+  getAudienceFilteredSniffList(audienceType: AudienceType): SniffList {
+    if (audienceType === AudienceType.All) {
+      return this.sniffList;
+    } else if (audienceType === AudienceType.Developers) {
+      const cloned = cloneDeep(this.sniffList);
+      // filter out all content-manager only sniffs
+      Object.keys(cloned)
+        .filter(key => isCmOnlySniff(key))
+        .forEach(x => {
+          delete cloned[x];
+        });
+      return cloned;
+    } else if (audienceType === AudienceType.ContentManagers) {
+      const cloned = cloneDeep(this.sniffList);
+      // filter out all developer only sniffs
+      Object.keys(cloned)
+      .filter(key => isDevOnlySniff(key))
+      .forEach(x => {
+        delete cloned[x];
+      });
+      return cloned;
+    }
   }
 
   /**
@@ -52,7 +80,7 @@ export class SniffListService {
 
   /**
    * Filter the results for a specific code, removing notices/warnings/errors if the toggle is set to disabled.
-   * @param code {string} code to filter the results for.
+   * @param code {string} code to filter the results for (example: WCAG2AA.Principle1.Guideline1_3.1_3_4.)
    * @param showNotices {boolean}
    * @param showWarnings {boolean}
    * @param showErrors {boolean}

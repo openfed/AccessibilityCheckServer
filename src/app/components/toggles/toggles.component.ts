@@ -1,10 +1,12 @@
-import { Component, Output, OnInit, EventEmitter, NgZone } from "@angular/core";
+import { Component, Output, OnInit, EventEmitter, NgZone, Input } from "@angular/core";
 import { ApiService } from "../../services/api.service";
 import { ReinitService } from "../../services/reinit.service";
 import { ImportExportService } from "../../services/import-export.service";
 import { Toggle } from "../../interfaces/toggle";
 import { ItemCodeUrlResult } from "../../interfaces/item-code-url-result";
 import { ImportedData } from "../../interfaces/imported-data";
+import { AudienceType } from '../../audience';
+import { isDevOnlySniff, isCmOnlySniff } from '../../audience.functions';
 
 /** Component for the view error/warning/notice toggles */
 @Component({
@@ -13,16 +15,58 @@ import { ImportedData } from "../../interfaces/imported-data";
   styleUrls: ["./toggles.component.scss"]
 })
 export class TogglesComponent implements OnInit {
-  /** The number of notices / errors / warnings. */
-  numNotices: number = 0;
-  numWarnings: number = 0;
-  numErrors: number = 0;
 
   /** Whether to show the current component. */
-  show: boolean = false;
+  public show: boolean = false;
+
+  /** The number of notices / errors / warnings. */
+  private numDevNotices: number = 0;
+  private numDevWarnings: number = 0;
+  private numDevErrors: number = 0;
+
+  private numCmNotices: number = 0;
+  private numCmWarnings: number = 0;
+  private numCmErrors: number = 0;
+
+  private numAllNotices: number = 0;
+  private numAllWarnings: number = 0;
+  private numAllErrors: number = 0;
+
+  @Input()
+  private audience: AudienceType = AudienceType.All;
 
   @Output("update")
-  change: EventEmitter<Toggle> = new EventEmitter<Toggle>();
+  private change: EventEmitter<Toggle> = new EventEmitter<Toggle>();
+
+  public get numErrors(): number {
+    if (this.audience === AudienceType.All) {
+      return this.numAllErrors;
+    } else if (this.audience === AudienceType.ContentManagers) {
+      return this.numCmErrors;
+    } else if (this.audience === AudienceType.Developers) {
+      return this.numDevErrors;
+    }
+  }
+
+  public get numWarnings(): number {
+    if (this.audience === AudienceType.All) {
+      return this.numAllWarnings;
+    } else if (this.audience === AudienceType.ContentManagers) {
+      return this.numCmWarnings;
+    } else if (this.audience === AudienceType.Developers) {
+      return this.numDevWarnings;
+    }
+  }
+
+  public get numNotices(): number {
+    if (this.audience === AudienceType.All) {
+      return this.numAllNotices;
+    } else if (this.audience === AudienceType.ContentManagers) {
+      return this.numCmNotices;
+    } else if (this.audience === AudienceType.Developers) {
+      return this.numDevNotices;
+    }
+  }
 
   constructor(
     private apiService: ApiService,
@@ -31,7 +75,7 @@ export class TogglesComponent implements OnInit {
     private ngZone: NgZone
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.ngZone.runOutsideAngular(() => {
       this.apiService.getAllSniffResults().subscribe(data => {
         this.ngZone.run(() => {
@@ -80,37 +124,67 @@ export class TogglesComponent implements OnInit {
   }
 
   /** Emit "toggle errors" event. */
-  toggleErrors(event) {
+  toggleErrors(event): void {
     this.change.emit({ errors: event.checked });
   }
 
   /** Emit "toggle warnings" event. */
-  toggleWarnings(event) {
+  toggleWarnings(event): void {
     this.change.emit({ warnings: event.checked });
   }
 
   /** Emit "toggle notices" event. */
-  toggleNotices(event) {
+  toggleNotices(event): void {
     this.change.emit({ notices: event.checked });
   }
 
   /** Called whenever we reinitialize. */
   private init(): void {
     // Reset state.
-    this.numErrors = 0;
-    this.numWarnings = 0;
-    this.numNotices = 0;
+    this.numDevErrors = 0;
+    this.numDevWarnings = 0;
+    this.numDevNotices = 0;
+
+    this.numCmErrors = 0;
+    this.numCmWarnings = 0;
+    this.numCmNotices = 0;
+
+    this.numAllErrors = 0;
+    this.numAllWarnings = 0;
+    this.numAllNotices = 0;
+
     this.show = false;
   }
 
   /** Updates number of errors/warnings/notices. */
   private updateCounts(item: ItemCodeUrlResult): void {
+    const isDevOnlyResult = isDevOnlySniff(item.code);
+    const isCmOnlyResult = isCmOnlySniff(item.code);
+
     if (item.type === "error") {
-      this.numErrors++;
+      this.numAllErrors++;
+      if (!isDevOnlyResult) {
+        this.numCmErrors++;
+      }
+      if (!isCmOnlyResult) {
+        this.numDevErrors++;
+      }
     } else if (item.type === "warning") {
-      this.numWarnings++;
+      this.numAllWarnings++;
+      if (!isDevOnlyResult) {
+        this.numCmWarnings++;
+      }
+      if (!isCmOnlyResult) {
+        this.numDevWarnings++;
+      }
     } else if (item.type === "notice") {
-      this.numNotices++;
+      this.numAllNotices++;
+      if (!isDevOnlyResult) {
+        this.numCmNotices++;
+      }
+      if (!isCmOnlyResult) {
+        this.numDevNotices++;
+      }
     }
   }
 }

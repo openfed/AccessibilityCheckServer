@@ -25,6 +25,7 @@ import { MatSnackBar } from "@angular/material";
 import { ImportedData } from "../../interfaces/imported-data";
 
 import "rxjs/Rx";
+import { AudienceType } from '../../audience';
 
 /** Component for the list of sniffs */
 @Component({
@@ -52,10 +53,9 @@ import "rxjs/Rx";
   ]
 })
 export class SniffListComponent implements OnInit, OnChanges {
-  keysGetter = Object.keys;
 
   get sniffList(): SniffList {
-    return this.sniffListService.getSniffList();
+    return this.sniffListService.getAudienceFilteredSniffList(this.audience);
   }
 
   set sniffList(sniffList: SniffList) {
@@ -65,6 +65,9 @@ export class SniffListComponent implements OnInit, OnChanges {
   @Input() showNotices: boolean;
   @Input() showWarnings: boolean;
   @Input() showErrors: boolean;
+  @Input() audience: AudienceType = AudienceType.All;
+
+  public keysGetter = (x: any) => Object.keys(x).sort();
 
   constructor(
     private apiService: ApiService,
@@ -75,7 +78,7 @@ export class SniffListComponent implements OnInit, OnChanges {
     private ngZone: NgZone
   ) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.ngZone.runOutsideAngular(() => {
       this.apiService.getAllSniffResults().subscribe(data => {
         this.ngZone.run(() => {
@@ -142,7 +145,7 @@ export class SniffListComponent implements OnInit, OnChanges {
   }
 
   /** Ensure that results are filtered again whenever "show errors/warnings/notices" is toggled. */
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (
       (changes.showErrors !== undefined &&
         changes.showErrors.currentValue !== changes.showErrors.previousValue) ||
