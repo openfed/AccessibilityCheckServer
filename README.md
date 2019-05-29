@@ -20,7 +20,9 @@ To install dependencies, run `npm install` in the root directory, then run `npm 
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- Copy `server/config.example.js` to `server/config.js`.
+- Navigate to the server directory and run `node bin/www` to start the back-end server.
+- Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Build
 
@@ -38,7 +40,7 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 ## Running a server on a remote machine
 
-- Update `server/config.js` to contain the URL of the HTMLCS library (used by the frontend for translating message codes received by the backend to the relevant human-readable message).
+- Copy `server/config.example.js` to `server/config.js`. Then update `server/config.js` to contain the URL of the HTMLCS library (used by the frontend for translating message codes received by the backend to the relevant human-readable message).
 - Update `src/app/config.ts` to contain the URL of the backend server.
 - Run `ng serve --public HOSTNAME --host PUBLICIP` to serve up the front-end.
 - Navigate to the server directory and run `node bin/www` to start the back-end server.
