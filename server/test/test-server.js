@@ -15,7 +15,7 @@ var ioOptions = {
 };
 var sender;
 var receiver;
-var io = require('socket.io/node_modules/socket.io-client');
+var io = require('socket.io-client');
 
 chai.use(chaiHttp);
 var testPort;

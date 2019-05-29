@@ -21,7 +21,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
-import { CdkTableModule } from "@angular/cdk";
+import { CdkTableModule } from "@angular/cdk/table";
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -47,11 +47,11 @@ describe("AppComponent", () => {
     }).compileComponents();
   }));
 
-  it("should create the app", async(() => {
+  it("should create the app", () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  }));
+  });
 
   it("should render title in a h1 tag", async(() => {
     const fixture = TestBed.createComponent(AppComponent);

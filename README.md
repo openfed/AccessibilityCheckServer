@@ -30,6 +30,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
+- Make sure the back-end server is running prior to running the tests (see instructions under "Development server")
 - Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 - Run `npm test` in `server/` to execute the server unit tests.
 
