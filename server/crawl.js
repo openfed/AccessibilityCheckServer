@@ -13,6 +13,14 @@ function crawl(url, depth) {
       console.log('Crawled: ', queueItem.url);
     });
 
+  crawler.getRequestOptions = function(queueItem) {
+    var requestOptions = Crawler.prototype.getRequestOptions.call(this, queueItem);
+    if (requestOptions.headers.cookie === "") {
+      delete requestOptions.headers.cookie;
+    }
+    return requestOptions;
+  };
+
   // Set up configuration.
   if (depth > -1) {
     crawler.maxDepth = depth;
@@ -34,6 +42,15 @@ function crawl(url, depth) {
 
     return true;
   });
+
+  // Log all crawler errors..
+  var originalEmit = crawler.emit;
+  crawler.emit = function(evtName, queueItem) {
+    if (evtName.indexOf("error") !== -1) {
+      console.log(evtName, queueItem ? queueItem.url ? queueItem.url : queueItem : null);
+    }
+    originalEmit.apply(crawler, arguments);
+  };
 
   // Start crawling.
   console.log('Crawling URL: ' + url);
