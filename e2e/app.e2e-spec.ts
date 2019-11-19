@@ -12,7 +12,7 @@ describe('bosa-accessiblity-check-server App', () => {
 
   it('should display the page title', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Accessibility Check (Beta)');
+    expect(page.getParagraphText()).toEqual('Accessibility Check');
   });
 
   it('should list the available standards', () => {
