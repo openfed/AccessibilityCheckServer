@@ -10,7 +10,15 @@ var standards = require('./routes/standards');
 
 var app = express();
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
+
+// Increase ping timeout to prevent premature disconnects:
+// https://github.com/socketio/socket.io/issues/2769#issuecomment-490858780
+var options = {
+  pingTimeout: 30000,
+  pingInterval: 25000,
+};
+
+var io = require('socket.io')(server, options);
 
 var crawlUrl = require('./crawlUrl');
 
