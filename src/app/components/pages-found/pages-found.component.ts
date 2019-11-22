@@ -62,7 +62,7 @@ export class PagesFoundComponent implements OnInit, OnDestroy {
   dataSource: UrlDataSource | null;
   urlDatabase: UrlDatabase;
   displayedColumns: string[] = ["url", "status"];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private apiService: ApiService,
