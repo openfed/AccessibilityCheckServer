@@ -2,7 +2,7 @@ import { Component, Input } from "@angular/core";
 import { ApiService } from "./services/api.service";
 import { ReinitService } from "./services/reinit.service";
 import { Toggle } from "./interfaces/toggle";
-import { AudienceType } from './audience';
+import { AudienceType } from "./audience";
 
 @Component({
   selector: "app-root",
@@ -14,7 +14,7 @@ export class AppComponent {
   showNotices: boolean = true;
   showErrors: boolean = true;
   showWarnings: boolean = true;
-  audienceText: string = '';
+  audienceText: string = "";
   audience: AudienceType = AudienceType.All;
 
   constructor(private reinitService: ReinitService) {
@@ -31,11 +31,11 @@ export class AppComponent {
   public onAudienceChanged(event: AudienceType): void {
     this.audience = event;
     if (event === AudienceType.ContentManagers) {
-      this.audienceText = 'Results filtered for: Content managers';
+      this.audienceText = "Results filtered for: Content managers";
     } else if (event === AudienceType.Developers) {
-      this.audienceText = 'Results filtered for: Developers';
+      this.audienceText = "Results filtered for: Developers";
     } else {
-      this.audienceText = '';
+      this.audienceText = "";
     }
   }
 

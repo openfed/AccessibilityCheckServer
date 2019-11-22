@@ -1,5 +1,5 @@
 export const enum AudienceType {
-    All = 'all',
-    Developers = 'dev',
-    ContentManagers = 'cm'
+  All = "all",
+  Developers = "dev",
+  ContentManagers = "cm"
 }

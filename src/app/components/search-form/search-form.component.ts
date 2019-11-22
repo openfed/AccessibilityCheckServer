@@ -21,7 +21,7 @@ import { ApiService } from "../../services/api.service";
 import { SniffListService } from "../../services/sniff-list.service";
 import { ImportExportService } from "../../services/import-export.service";
 import { Observable } from "rxjs/Observable";
-import { AudienceType } from '../../audience';
+import { AudienceType } from "../../audience";
 
 /** Component for the form with search widgets */
 @Component({
@@ -68,7 +68,9 @@ export class SearchFormComponent implements OnInit {
     audience: AudienceType.All
   };
 
-  @Output() audienceChanged: EventEmitter<AudienceType> = new EventEmitter<AudienceType>();
+  @Output() audienceChanged: EventEmitter<AudienceType> = new EventEmitter<
+    AudienceType
+  >();
 
   // Event emitter for the reinitialize event.
   @Output() onReinitialize: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -149,10 +151,10 @@ export class SearchFormComponent implements OnInit {
 
   getDescription(x: string): string {
     const descriptions = {
-      Section508: 'Section 508',
-      WCAG2A: 'WCAG 2.1 A',
-      WCAG2AA: 'WCAG 2.1 AA',
-      WCAG2AAA: 'WCAG 2.1 AAA',
+      Section508: "Section 508",
+      WCAG2A: "WCAG 2.1 A",
+      WCAG2AA: "WCAG 2.1 AA",
+      WCAG2AAA: "WCAG 2.1 AAA"
     };
     return descriptions[x] || x;
   }
@@ -178,8 +180,10 @@ export class SearchFormComponent implements OnInit {
         // Currently not passing on the url and standard as these are not in the exports, and
         // we cannot use the values in the model either as the user may have manually changed
         // these values since the results were rendered.
-        sniffList: this.sniffListService.getAudienceFilteredSniffList(this.model.audience),
-        audience: this.model.audience,
+        sniffList: this.sniffListService.getAudienceFilteredSniffList(
+          this.model.audience
+        ),
+        audience: this.model.audience
       }
     });
   }

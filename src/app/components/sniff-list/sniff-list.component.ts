@@ -25,7 +25,7 @@ import { MatSnackBar } from "@angular/material";
 import { ImportedData } from "../../interfaces/imported-data";
 
 import "rxjs/Rx";
-import { AudienceType } from '../../audience';
+import { AudienceType } from "../../audience";
 
 /** Component for the list of sniffs */
 @Component({
@@ -53,7 +53,6 @@ import { AudienceType } from '../../audience';
   ]
 })
 export class SniffListComponent implements OnInit, OnChanges {
-
   get sniffList(): SniffList {
     return this.sniffListService.getAudienceFilteredSniffList(this.audience);
   }

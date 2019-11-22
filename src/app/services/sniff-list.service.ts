@@ -45,10 +45,10 @@ export class SniffListService {
       const cloned = cloneDeep(this.sniffList);
       // filter out all developer only sniffs
       Object.keys(cloned)
-      .filter(key => isDevOnlySniff(key))
-      .forEach(x => {
-        delete cloned[x];
-      });
+        .filter(key => isDevOnlySniff(key))
+        .forEach(x => {
+          delete cloned[x];
+        });
       return cloned;
     }
   }

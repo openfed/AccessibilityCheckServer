@@ -73,10 +73,12 @@ export class SniffComponent implements OnInit, DoCheck {
   }
 
   topOnly(): boolean {
-    return Object.keys(this.results).map(key => this.results[key]).map(
-      page => page.filter(
-        result => result.selector !== ''
-        ).length).reduce((cur, x) => cur + x, 0) === 0;
+    return (
+      Object.keys(this.results)
+        .map(key => this.results[key])
+        .map(page => page.filter(result => result.selector !== "").length)
+        .reduce((cur, x) => cur + x, 0) === 0
+    );
   }
 
   updateCount(): void {

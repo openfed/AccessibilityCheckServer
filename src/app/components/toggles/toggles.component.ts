@@ -1,12 +1,19 @@
-import { Component, Output, OnInit, EventEmitter, NgZone, Input } from "@angular/core";
+import {
+  Component,
+  Output,
+  OnInit,
+  EventEmitter,
+  NgZone,
+  Input
+} from "@angular/core";
 import { ApiService } from "../../services/api.service";
 import { ReinitService } from "../../services/reinit.service";
 import { ImportExportService } from "../../services/import-export.service";
 import { Toggle } from "../../interfaces/toggle";
 import { ItemCodeUrlResult } from "../../interfaces/item-code-url-result";
 import { ImportedData } from "../../interfaces/imported-data";
-import { AudienceType } from '../../audience';
-import { isDevOnlySniff, isCmOnlySniff } from '../../audience.functions';
+import { AudienceType } from "../../audience";
+import { isDevOnlySniff, isCmOnlySniff } from "../../audience.functions";
 
 /** Component for the view error/warning/notice toggles */
 @Component({
@@ -15,7 +22,6 @@ import { isDevOnlySniff, isCmOnlySniff } from '../../audience.functions';
   styleUrls: ["./toggles.component.scss"]
 })
 export class TogglesComponent implements OnInit {
-
   /** Whether to show the current component. */
   public show: boolean = false;
 
