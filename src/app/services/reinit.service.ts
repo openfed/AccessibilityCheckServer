@@ -6,11 +6,15 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class ReinitService {
   /** The observable that will emit a true boolean whenever we need to reinitialize. */
-  reinitializer$: Observable<boolean> = this.reinitializerSource.asObservable();
+  public reinitializer$: Observable<boolean>;
   private reinitializerSource: Subject<boolean> = new Subject<boolean>();
 
+  constructor() {
+    this.reinitializer$ = this.reinitializerSource;
+  }
+
   /** Send out a reinitialization message. */
-  reinitialize(): void {
+  public reinitialize(): void {
     this.reinitializerSource.next(true);
   }
 }

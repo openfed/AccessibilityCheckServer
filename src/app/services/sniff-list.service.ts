@@ -16,19 +16,19 @@ export class SniffListService {
     this.init();
   }
 
-  init(): void {
+  public init(): void {
     this.sniffList = {};
   }
 
-  setSniffList(sniffList: SniffList): void {
+  public setSniffList(sniffList: SniffList): void {
     this.sniffList = sniffList;
   }
 
-  getSniffList(): SniffList {
+  public getSniffList(): SniffList {
     return this.sniffList;
   }
 
-  getAudienceFilteredSniffList(audienceType: AudienceType): SniffList {
+  public getAudienceFilteredSniffList(audienceType: AudienceType): SniffList {
     if (audienceType === AudienceType.All) {
       return this.sniffList;
     } else if (audienceType === AudienceType.Developers) {
@@ -56,7 +56,7 @@ export class SniffListService {
    * Adds an item to the sniff list.
    * @param item {ItemCodeUrlResult} item to add.
    */
-  addItem(item: ItemCodeUrlResult, url: string): void {
+  public addItem(item: ItemCodeUrlResult, url: string): void {
     if (this.sniffList[item.code] === undefined) {
       // Initialize the array that will hold the results.
       this.sniffList[item.code] = {
@@ -84,7 +84,7 @@ export class SniffListService {
    * @param showWarnings {boolean}
    * @param showErrors {boolean}
    */
-  filterResults(code: string, showNotices: boolean, showWarnings: boolean, showErrors: boolean): void {
+  public filterResults(code: string, showNotices: boolean, showWarnings: boolean, showErrors: boolean): void {
     let urls = Object.keys(this.sniffList[code].items);
 
     urls.forEach(url => {

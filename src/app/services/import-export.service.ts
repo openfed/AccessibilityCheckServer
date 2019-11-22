@@ -6,18 +6,23 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class ImportExportService {
   /** The observable that will emit a true boolean whenever we need to reinitialize. */
-  doExport$: Observable<boolean> = this.doExportSource.asObservable();
-  doImport$: Observable<string> = this.doImportSource.asObservable();
+  public doExport$: Observable<boolean>;
+  public doImport$: Observable<string>;
+
   private doExportSource: Subject<boolean> = new Subject<boolean>();
   private doImportSource: Subject<string> = new Subject<string>();
 
+  constructor() {
+    this.doExport$ = this.doExportSource;
+    this.doImport$ = this.doImportSource;
+  }
   /** Send out a "do export" message. */
-  exportData(): void {
+  public exportData(): void {
     this.doExportSource.next(true);
   }
 
   /** Send out a "do import" message with data. */
-  importData(data: any): void {
+  public importData(data: any): void {
     this.doImportSource.next(data);
   }
 }
