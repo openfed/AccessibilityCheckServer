@@ -16,8 +16,8 @@ var WebSocket = require('ws');
 
 function noop() {}
 
-function heartbeat() {
-  this.isAlive = true;
+function heartbeat(ws) {
+  ws.isAlive = true;
 }
 
 var wss = new WebSocket.Server({ server: server });
@@ -76,6 +76,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
 wss.on('connection', ws => {
   console.log('user connected');
   ws.isAlive = true;
@@ -83,9 +84,9 @@ wss.on('connection', ws => {
   ws.on('message', message => {
     const decoded = JSON.parse(message);
     if (decoded.type === 'pong') {
-      heartbeat();
+      heartbeat(ws);
     }
-    if (decoded.type === 'crawl-url') {
+    else if (decoded.type === 'crawl-url') {
       crawlUrl(decoded.payload, ws);
     }
   });
@@ -101,7 +102,10 @@ wss.on('connection', ws => {
 
 const interval = setInterval(function ping() {
   wss.clients.forEach(function each(ws) {
-    if (ws.isAlive === false) return ws.terminate();
+    if (ws.isAlive === false) {
+      console.log('terminating ws...');
+      return ws.terminate();
+    }
 
     ws.isAlive = false;
     ws.send(
@@ -111,7 +115,8 @@ const interval = setInterval(function ping() {
       })
     );
   });
-}, 10000);
+}, 25000);
+
 
 module.exports = {
   app: app,

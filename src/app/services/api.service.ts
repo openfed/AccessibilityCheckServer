@@ -121,7 +121,8 @@ export class ApiService {
 
   private connectSocket(): void {
     this.ngZone.runOutsideAngular(() => {
-      this.socket = new WebSocket(this.wsUrl);
+      console.log('Connecting to WebSocket...');
+      this.socket = new WebSocket(`${this.wsUrl}/ws`);
       this.socket.onmessage = (event: MessageEvent) => {
         const data = JSON.parse(event.data);
         if (data.type === 'ping') {
