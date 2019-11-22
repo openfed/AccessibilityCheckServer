@@ -1,15 +1,17 @@
-<div
-  [@fadeInOut]="'in'"
-  *ngIf="keysGetter(sniffList).length > 0"
-  style="margin-bottom: 50px;"
->
+<div [@fadeInOut]="'in'" *ngIf="keysGetter(sniffList).length > 0" style="margin-bottom: 50px;">
   <div class="rTable">
     <div class="rTableRow">
       <div class="rTableHead" style="width: 282px;">Success Criterion</div>
       <div class="rTableHead" style="width: 140px;">Suggested techniques</div>
       <div class="rTableHead" style="width: 70px;">Pages</div>
       <div class="rTableHead" style="width: 70px;">Results</div>
-      <div class="rTableHead" style="width: 60px;" matTooltip="Whether all results apply to the top-level element only (instead of to a specific element)">Top only</div>
+      <div
+        class="rTableHead"
+        style="width: 60px;"
+        matTooltip="Whether all results apply to the top-level element only (instead of to a specific element)"
+      >
+        Top only
+      </div>
       <div class="rTableHead" style="width: 70px;">Expand</div>
     </div>
     <app-sniff

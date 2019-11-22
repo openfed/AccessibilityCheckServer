@@ -1,11 +1,10 @@
-import { Injectable } from "@angular/core";
-import { Subject } from "rxjs/Subject";
-import { SniffList } from "../interfaces/sniff-list";
-import { ItemCodeUrlResult } from "../interfaces/item-code-url-result";
-import { ApiService } from "./api.service";
-import { AudienceType } from "../audience";
-import * as cloneDeep from "lodash/cloneDeep";
-import { isCmOnlySniff, isDevOnlySniff } from "../audience.functions";
+import { Injectable } from '@angular/core';
+import { SniffList } from '../interfaces/sniff-list';
+import { ItemCodeUrlResult } from '../interfaces/item-code-url-result';
+import { ApiService } from './api.service';
+import { AudienceType } from '../audience';
+import * as cloneDeep from 'lodash/cloneDeep';
+import { isCmOnlySniff, isDevOnlySniff } from '../audience.functions';
 
 /** Provides an observable to subscribe to which sends out a message whenever we want to reinitialize. */
 @Injectable()
@@ -85,25 +84,18 @@ export class SniffListService {
    * @param showWarnings {boolean}
    * @param showErrors {boolean}
    */
-  filterResults(
-    code: string,
-    showNotices: boolean,
-    showWarnings: boolean,
-    showErrors: boolean
-  ): void {
+  filterResults(code: string, showNotices: boolean, showWarnings: boolean, showErrors: boolean): void {
     let urls = Object.keys(this.sniffList[code].items);
 
     urls.forEach(url => {
       if (this.sniffList[code].filteredItems[url] === undefined) {
         this.sniffList[code].filteredItems[url] = <ItemCodeUrlResult[]>[];
       }
-      this.sniffList[code].filteredItems[url] = this.sniffList[code].items[
-        url
-      ].filter(item => {
+      this.sniffList[code].filteredItems[url] = this.sniffList[code].items[url].filter(item => {
         return (
-          (item.type === "notice" && showNotices) ||
-          (item.type === "warning" && showWarnings) ||
-          (item.type === "error" && showErrors)
+          (item.type === 'notice' && showNotices) ||
+          (item.type === 'warning' && showWarnings) ||
+          (item.type === 'error' && showErrors)
         );
       });
       // Clean up the URL if there are no results for it.

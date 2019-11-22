@@ -30,26 +30,16 @@
     [disabled]="isSniffing"
     placeholder="Standard"
     class="select"
-    *ngIf="(standards$ | async)"
+    *ngIf="standards$ | async"
     [(ngModel)]="model.standard"
     matTooltip="Choose the accessibility standard to use for this check."
   >
-    <mat-option
-      *ngFor="let standard of (standards$ | async)"
-      [value]="standard"
-      >{{ getDescription(standard) }}</mat-option
-    >
+    <mat-option *ngFor="let standard of standards$ | async" [value]="standard">{{
+      getDescription(standard)
+    }}</mat-option>
   </mat-select>
 
-
-
-
-  <button
-    mat-button
-    class="tools"
-    (click)="advanced = !advanced"
-    matTooltip="Click to toggle advanced options."
-  >
+  <button mat-button class="tools" (click)="advanced = !advanced" matTooltip="Click to toggle advanced options.">
     Tools
   </button>
   <div
@@ -80,36 +70,26 @@
       <mat-option value="-1">Unlimited</mat-option>
     </mat-select>
 
-  <mat-select
-  class="select"
-  placeholder="Show results for"
-  matTooltip="Show results applicable to developers only, to content managers only, or all results?"
-  [(ngModel)]="model.audience"
-  (ngModelChange)="onAudienceChange($event)"
->
-  <mat-option value="all">All</mat-option>
-  <mat-option value="dev">Developers</mat-option>
-  <mat-option value="cm">Content managers</mat-option>
-</mat-select>
+    <mat-select
+      class="select"
+      placeholder="Show results for"
+      matTooltip="Show results applicable to developers only, to content managers only, or all results?"
+      [(ngModel)]="model.audience"
+      (ngModelChange)="onAudienceChange($event)"
+    >
+      <mat-option value="all">All</mat-option>
+      <mat-option value="dev">Developers</mat-option>
+      <mat-option value="cm">Content managers</mat-option>
+    </mat-select>
 
     <span style="margin-left: 20px;">
-      <input
-        style="display: none;"
-        id="input-file-id"
-        type="file"
-        accept="text/plain"
-        (change)="importData($event)"
-      />
+      <input style="display: none;" id="input-file-id" type="file" accept="text/plain" (change)="importData($event)" />
       <label
         for="input-file-id"
         matTooltip="Click to import previously exported results."
         class="mat-raised-button import-results"
       >
-        <i
-          class="material-icons"
-          style="position: relative; top: 6px; transform:scale(0.8)"
-          >file_upload</i
-        >
+        <i class="material-icons" style="position: relative; top: 6px; transform:scale(0.8)">file_upload</i>
         Import results</label
       >
     </span>
@@ -132,8 +112,7 @@
       (click)="printVersion()"
       matTooltip="Click to get a print version of the currently displayed sniff results."
     >
-      <i style="transform:scale(0.8)" class="material-icons">print</i> Print
-      version
+      <i style="transform:scale(0.8)" class="material-icons">print</i> Print version
     </button>
   </div>
   <div
@@ -152,16 +131,9 @@
     >
       Check
     </button>
-    <span
-      class="is-sniffing"
-      style="margin-top: 15px;"
-      [@fadeInOut]="'in'"
-      *ngIf="isSniffing"
-    >
+    <span class="is-sniffing" style="margin-top: 15px;" [@fadeInOut]="'in'" *ngIf="isSniffing">
       <mat-spinner diameter="20" class="spinner"></mat-spinner>
-      <span style="font-size: 14px; padding-left: 5px; padding-right: 5px;">
-        Sniffing</span
-      >
+      <span style="font-size: 14px; padding-left: 5px; padding-right: 5px;"> Sniffing</span>
       <button
         mat-raised-button
         class="mat-warn abort"

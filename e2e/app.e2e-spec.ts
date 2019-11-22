@@ -1,7 +1,6 @@
 import { BosaAccessiblityCheckServerPage } from './app.po';
 import { protractor, ExpectedConditions, browser, by, element } from 'protractor';
-
-const path = require('path');
+import * as path from 'path';
 
 describe('bosa-accessiblity-check-server App', () => {
   let page: BosaAccessiblityCheckServerPage;

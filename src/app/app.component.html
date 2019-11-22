@@ -6,7 +6,10 @@
   </div>
 
   <h1>Accessibility Check</h1>
-  <app-search-form (audienceChanged)="onAudienceChanged($event)" (onReinitialize)="reinitialize($event)"></app-search-form>
+  <app-search-form
+    (audienceChanged)="onAudienceChanged($event)"
+    (onReinitialize)="reinitialize($event)"
+  ></app-search-form>
 
   <app-pages-found></app-pages-found>
 

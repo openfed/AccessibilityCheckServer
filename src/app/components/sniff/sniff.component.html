@@ -1,9 +1,4 @@
-<div
-  [@fadeInOut]="'in'"
-  *ngIf="keysGetter(results).length > 0"
-  class="rTableRow"
-  [class.expanded]="expanded"
->
+<div [@fadeInOut]="'in'" *ngIf="keysGetter(results).length > 0" class="rTableRow" [class.expanded]="expanded">
   <div class="rTableCell" style="width: 282px;">
     <span [innerHtml]="codeMessages[0][1]"></span>
   </div>
@@ -27,11 +22,7 @@
     </a>
   </div>
 </div>
-<div
-  [@fadeInOut]="'in'"
-  *ngIf="keysGetter(results).length > 0 && expanded"
-  class="rTableRow"
->
+<div [@fadeInOut]="'in'" *ngIf="keysGetter(results).length > 0 && expanded" class="rTableRow">
   <div class="rTableCellFullWidth">
     <mat-list *ngFor="let url of keysGetter(results)">
       <app-sniff-url [url]="url" [urlResults]="results[url]"></app-sniff-url>

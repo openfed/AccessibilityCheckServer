@@ -1,7 +1,7 @@
-import { UrlData } from "./url-data";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { ApiService } from "../../services/api.service";
-import { NgZone } from "@angular/core";
+import { UrlData } from './url-data';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ApiService } from '../../services/api.service';
+import { NgZone } from '@angular/core';
 
 /** Database class that retrieves the URLs and their statuses (Queued/Loading/etc.) */
 export class UrlDatabase {
@@ -22,19 +22,19 @@ export class UrlDatabase {
       this.apiService.getCrawledUrls().subscribe(crawledUrl => {
         this.ngZone.run(() => {
           const copiedData = this.data.slice();
-          copiedData.push({ url: crawledUrl, status: "Queued" });
+          copiedData.push({ url: crawledUrl, status: 'Queued' });
           this.dataChange.next(copiedData);
 
           this.apiService.getSniffResults(crawledUrl).subscribe(data => {
-            this.updateStatus(crawledUrl, "Loaded");
+            this.updateStatus(crawledUrl, 'Loaded');
           });
 
           this.apiService.getSniffLoading(crawledUrl).subscribe(data => {
-            this.updateStatus(crawledUrl, "Loading");
+            this.updateStatus(crawledUrl, 'Loading');
           });
 
           this.apiService.getSniffError(crawledUrl).subscribe(data => {
-            this.updateStatus(crawledUrl, "Error");
+            this.updateStatus(crawledUrl, 'Error');
           });
         });
       });

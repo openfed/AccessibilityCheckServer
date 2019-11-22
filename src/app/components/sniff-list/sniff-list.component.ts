@@ -1,49 +1,34 @@
-import {
-  Component,
-  OnInit,
-  OnChanges,
-  Input,
-  SimpleChanges,
-  NgZone
-} from "@angular/core";
-import {
-  trigger,
-  state,
-  transition,
-  animate,
-  style
-} from "@angular/animations";
+import { Component, OnInit, OnChanges, Input, SimpleChanges, NgZone } from '@angular/core';
+import { trigger, state, transition, animate, style } from '@angular/animations';
 
-import { ApiService } from "../../services/api.service";
-import { ReinitService } from "../../services/reinit.service";
-import { SniffListService } from "../../services/sniff-list.service";
-import { ImportExportService } from "../../services/import-export.service";
-import { SniffList } from "../../interfaces/sniff-list";
-import { ItemCodeUrlResultList } from "../../interfaces/item-code-url-result-list";
-import { ItemCodeUrlResult } from "../../interfaces/item-code-url-result";
-import { MatSnackBar } from "@angular/material";
-import { ImportedData } from "../../interfaces/imported-data";
+import { ApiService } from '../../services/api.service';
+import { ReinitService } from '../../services/reinit.service';
+import { SniffListService } from '../../services/sniff-list.service';
+import { ImportExportService } from '../../services/import-export.service';
+import { SniffList } from '../../interfaces/sniff-list';
+import { MatSnackBar } from '@angular/material';
+import { ImportedData } from '../../interfaces/imported-data';
 
-import "rxjs/Rx";
-import { AudienceType } from "../../audience";
+import 'rxjs/Rx';
+import { AudienceType } from '../../audience';
 
 /** Component for the list of sniffs */
 @Component({
-  selector: "app-sniff-list",
-  templateUrl: "./sniff-list.component.html",
-  styleUrls: ["./sniff-list.component.scss"],
+  selector: 'app-sniff-list',
+  templateUrl: './sniff-list.component.html',
+  styleUrls: ['./sniff-list.component.scss'],
   animations: [
-    trigger("fadeInOut", [
-      state("in", style({ opacity: 1 })),
-      transition("void => *", [
+    trigger('fadeInOut', [
+      state('in', style({ opacity: 1 })),
+      transition('void => *', [
         style({
           opacity: 0
         }),
-        animate(".2s ease-in")
+        animate('.2s ease-in')
       ]),
-      transition("* => void", [
+      transition('* => void', [
         animate(
-          ".2s ease-out",
+          '.2s ease-out',
           style({
             opacity: 0
           })
@@ -83,12 +68,7 @@ export class SniffListComponent implements OnInit, OnChanges {
         this.ngZone.run(() => {
           data.result.forEach(item => {
             this.sniffListService.addItem(item, data.url);
-            this.sniffListService.filterResults(
-              item.code,
-              this.showNotices,
-              this.showWarnings,
-              this.showErrors
-            );
+            this.sniffListService.filterResults(item.code, this.showNotices, this.showWarnings, this.showErrors);
           });
         });
       });
@@ -98,17 +78,17 @@ export class SniffListComponent implements OnInit, OnChanges {
       if (item === true) {
         const data: ImportedData = {
           sniffList: this.sniffList,
-          version: "1.0"
+          version: '1.0'
         };
         const blob = new Blob([JSON.stringify(data)], {
-          type: "application/json"
+          type: 'application/json'
         });
         const url = window.URL.createObjectURL(blob);
-        let a = window.document.createElement("a");
+        let a = window.document.createElement('a');
         a.href = url;
-        a.download = "export.json";
+        a.download = 'export.json';
         a.click();
-        this.openSnackBar("Data exported.");
+        this.openSnackBar('Data exported.');
       }
     });
 
@@ -119,19 +99,16 @@ export class SniffListComponent implements OnInit, OnChanges {
       try {
         importedData = JSON.parse(data);
       } catch (e) {
-        this.openSnackBar("Invalid data!");
+        this.openSnackBar('Invalid data!');
         return;
       }
 
-      if (
-        importedData.version !== undefined &&
-        importedData.sniffList !== undefined
-      ) {
+      if (importedData.version !== undefined && importedData.sniffList !== undefined) {
         this.sniffList = importedData.sniffList;
-        this.openSnackBar("Imported!");
+        this.openSnackBar('Imported!');
       } else {
         // Not a valid json file.
-        this.openSnackBar("Invalid data!");
+        this.openSnackBar('Invalid data!');
       }
     });
 
@@ -146,28 +123,20 @@ export class SniffListComponent implements OnInit, OnChanges {
   /** Ensure that results are filtered again whenever "show errors/warnings/notices" is toggled. */
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      (changes.showErrors !== undefined &&
-        changes.showErrors.currentValue !== changes.showErrors.previousValue) ||
+      (changes.showErrors !== undefined && changes.showErrors.currentValue !== changes.showErrors.previousValue) ||
       (changes.showWarnings !== undefined &&
-        changes.showWarnings.currentValue !==
-          changes.showWarnings.previousValue) ||
-      (changes.showNotices !== undefined &&
-        changes.showNotices.currentValue !== changes.showNotices.previousValue)
+        changes.showWarnings.currentValue !== changes.showWarnings.previousValue) ||
+      (changes.showNotices !== undefined && changes.showNotices.currentValue !== changes.showNotices.previousValue)
     ) {
       // Get the list of message codes.
       let codes = Object.keys(this.sniffList);
       codes.forEach(code =>
-        this.sniffListService.filterResults(
-          code,
-          this.showNotices,
-          this.showWarnings,
-          this.showErrors
-        )
+        this.sniffListService.filterResults(code, this.showNotices, this.showWarnings, this.showErrors)
       );
     }
   }
 
   private openSnackBar(message: string): void {
-    this.snackBar.open(message, "", { duration: 500 });
+    this.snackBar.open(message, '', { duration: 500 });
   }
 }
