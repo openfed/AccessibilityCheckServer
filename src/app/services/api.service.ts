@@ -9,26 +9,29 @@ import { CrawlUrlStatus } from '../interfaces/crawl-url-status';
 
 import 'rxjs/add/operator/filter';
 import config from '../config';
-
-import * as io from 'socket.io-client';
+import { filter, map, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 /**
  * Service used for communicating with the backend server.
- * Note: we run socket.io subscriptions outside Angular because of
+ * Note: we run WebSocket subscriptions outside Angular because of
  * https://christianliebel.com/2016/11/angular-2-protractor-timeout-heres-fix/
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ApiService {
   // The URL to connect to.
   private url: string = config.apiServerUrl;
-  private socket: io.Socket;
+  private wsUrl: string = config.wsServerUrl;
+  private socket: WebSocket;
+  private socketMessages: Subject<{ type: string; payload: any }> = new Subject<{ type: string; payload: any }>();
 
   constructor(private http: HttpClient, private ngZone: NgZone) {
-    // Initialize the socket.
-    this.ngZone.runOutsideAngular(() => {
-      this.socket = io(this.url);
-    });
+    console.log('hi');
+    this.connectSocket();
   }
+
 
   /**
    * Send out an URL to start crawling at.
@@ -36,8 +39,8 @@ export class ApiService {
    * @param {string} standard - The accessibility standard to use.
    * @param {string} crawlDepth - How deep to crawl.
    */
-  sendUrl(url: string, standard: string, crawlDepth: string): void {
-    this.socket.emit('crawl-url', {
+  public sendUrl(url: string, standard: string, crawlDepth: string): void {
+    this.sendMessage('crawl-url', {
       url: url,
       standard: standard,
       crawlDepth: crawlDepth
@@ -45,24 +48,24 @@ export class ApiService {
   }
 
   /**  Observable that emits URLs that have been crawled. */
-  getCrawledUrls(): Observable<string> {
-    return this.createObservableFromSocketIoEvent('crawled-url');
+  public getCrawledUrls(): Observable<string> {
+    return this.createObservableFromEventType('crawled-url');
   }
 
   /**
    * Observable that emits the results for a specific URL.
    * @param {string} url - The URL to filter results on.
    */
-  getSniffResults(url: string): Observable<SniffResult> {
+  public getSniffResults(url: string): Observable<SniffResult> {
     // Only get results for this specific URL.
-    return this.getAllSniffResults().filter((result: SniffResult) => url === result.url);
+    return this.getAllSniffResults().pipe(filter((result: SniffResult) => url === result.url));
   }
 
   /**
    * Retrieves the message info for a specific code.
    * @param {string} code - The code to get message info for.
    */
-  getMessageInfo(code: string): any {
+  public getMessageInfo(code: string): any {
     const standard = code.split('.')[0];
     // Used for translating message codes to actual messages.
     // Connects to an external HTMLCS.js javascript file.
@@ -70,50 +73,73 @@ export class ApiService {
   }
 
   /** Observable that emits all sniff results. */
-  getAllSniffResults(): Observable<SniffResult> {
-    return this.createObservableFromSocketIoEvent('sniff-result');
+  public getAllSniffResults(): Observable<SniffResult> {
+    return this.createObservableFromEventType('sniff-result');
   }
 
   /**
    * Observable that emits the loading status for a specific URL.
    * @param {string} url - The URL to filter results on.
    */
-  getSniffLoading(url: string): Observable<SniffLoading> {
-    return this.createObservableFromSocketIoEvent('sniff-loading').filter((result: SniffLoading) => url === result.url);
+  public getSniffLoading(url: string): Observable<SniffLoading> {
+    return this.createObservableFromEventType('sniff-loading').pipe(
+      filter((result: SniffLoading) => url === result.url)
+    );
   }
 
   /**
    * Observable that emits the error status for a specific URL.
    * @param {string} url - The URL to filter results on.
    */
-  getSniffError(url: string): Observable<SniffError> {
-    return this.createObservableFromSocketIoEvent('sniff-error').filter((result: SniffError) => url === result.url);
+  public getSniffError(url: string): Observable<SniffError> {
+    return this.createObservableFromEventType('sniff-error').pipe(filter((result: SniffError) => url === result.url));
   }
 
   /** Observable that emits where we are in the crawl (started/aborted/complete) */
-  crawlStatus(): Observable<CrawlUrlStatus> {
-    return this.createObservableFromSocketIoEvent('crawl-url-status');
+  public crawlStatus(): Observable<CrawlUrlStatus> {
+    return this.createObservableFromEventType('crawl-url-status');
   }
 
   /** Retrieves a list of standards. */
-  getStandards(): Observable<any> {
+  public getStandards(): Observable<any> {
     return this.http.get(this.url + '/standards');
   }
 
   /** Aborts everything on the backend server for the current socket. */
-  abortAll(): void {
-    this.socket.emit('abort');
+  public abortAll(): void {
+    this.sendMessage('abort', {});
   }
 
-  /**
-   * Creates an Observable based on a Socket.IO Event.
-   * @param {string} eventName - Name of the Socket.IO event.
-   */
-  private createObservableFromSocketIoEvent(eventName: string): Observable<any> {
-    return new Observable(observer => {
-      this.socket.on(eventName, data => {
-        observer.next(data);
-      });
+  private sendMessage(type: string, payload: any) {
+    this.socket.send(JSON.stringify({type, payload}));
+  }
+
+  private createObservableFromEventType(type: string) {
+    return this.socketMessages.pipe(
+      filter(data => data.type === type),
+      map(data => data.payload)
+    );
+  }
+
+
+  private connectSocket(): void {
+    this.ngZone.runOutsideAngular(() => {
+      this.socket = new WebSocket(this.wsUrl);
+      this.socket.onmessage = (event: MessageEvent) => {
+        this.socketMessages.next(JSON.parse(event.data));
+      };
+
+      this.socket.onerror = (ev: Event) => {
+        console.error('WebSocket error: ', ev);
+        this.socket.close();
+      };
+
+      this.socket.onclose = ev => {
+        console.log('Socket is closed. Reconnect will be attempted in 1 second.', ev);
+        setTimeout(() => {
+          this.connectSocket();
+        }, 1000);
+      };
     });
   }
 }

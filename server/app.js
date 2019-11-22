@@ -1,3 +1,5 @@
+require('log-timestamp');
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,16 +12,15 @@ var standards = require('./routes/standards');
 
 var app = express();
 var server = require('http').Server(app);
+var WebSocket = require('ws');
 
-// Increase ping timeout to prevent premature disconnects:
-// https://github.com/socketio/socket.io/issues/2769#issuecomment-490858780
-var options = {
-  pingTimeout: 30000,
-  pingInterval: 25000,
-};
+function noop() {}
 
-var io = require('socket.io')(server, options);
+function heartbeat() {
+  this.isAlive = true;
+}
 
+var wss = new WebSocket.Server({ server: server });
 var crawlUrl = require('./crawlUrl');
 
 var env = process.env.NODE_ENV || 'development';
@@ -33,11 +34,6 @@ app.use(bodyParser.urlencoded({
   extended: true,
 }));
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(function (req, res, next) {
-  res.io = io;
-  next();
-});
 
 if (app.locals.ENV == 'test') {
   app.use(express.static('routes/test/public'));
@@ -78,17 +74,34 @@ app.use(function (err, req, res, next) {
   });
 });
 
-io.on('connection', (socket) => {
+wss.on('connection', (ws) => {
   console.log('user connected');
+  ws.isAlive = true;
+  ws.on('pong', heartbeat);
 
-  socket.on('disconnect', function () {
-    console.log('user disconnected');
+  ws.on('message', (message) => {
+    const decoded = JSON.parse(message);
+    if (decoded.type === 'crawl-url') {
+      crawlUrl(decoded.payload, ws);
+    }
   });
 
-  socket.on('crawl-url', function (data) {
-    crawlUrl(data, socket, io);
+  ws.on('close', ev => {
+    console.log('user disconnected', ev);
+  });
+
+  ws.on('error', ev => {
+    console.log('WS Errored', ev);
   });
 });
+
+const interval = setInterval(function ping() {
+  wss.clients.forEach(function each(ws) {
+    if (ws.isAlive === false) return ws.terminate();
+
+    ws.isAlive = false;
+  });
+}, 20000);
 
 module.exports = {
   app: app,

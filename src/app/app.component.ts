@@ -8,7 +8,6 @@ import { AudienceType } from './audience';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [ApiService, ReinitService]
 })
 export class AppComponent {
   showNotices: boolean = true;

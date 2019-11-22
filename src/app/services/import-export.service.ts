@@ -3,6 +3,9 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
 /** This service help import/export data into the app or out of the app, so that users can save results for later viewing. */
+@Injectable({
+  providedIn: 'root',
+})
 @Injectable()
 export class ImportExportService {
   /** The observable that will emit a true boolean whenever we need to reinitialize. */

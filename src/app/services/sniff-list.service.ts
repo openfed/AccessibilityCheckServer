@@ -7,6 +7,9 @@ import * as cloneDeep from 'lodash/cloneDeep';
 import { isCmOnlySniff, isDevOnlySniff } from '../audience.functions';
 
 /** Provides an observable to subscribe to which sends out a message whenever we want to reinitialize. */
+@Injectable({
+  providedIn: 'root',
+})
 @Injectable()
 export class SniffListService {
   /** This object may also be mutated in other components using it (such as the SniffListComponent). */

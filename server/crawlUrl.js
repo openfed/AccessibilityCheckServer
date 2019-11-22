@@ -4,8 +4,13 @@ var validUrl = require('valid-url');
 var crawl = require('./crawl');
 var config = require('./config');
 
-function crawlUrl(data, socket, io) {
-
+function crawlUrl(data, ws) {
+  function sendMessage(type, payload) {
+    ws.send(JSON.stringify({
+      type: type,
+      payload: payload,
+    }));
+  }
   // Flag that is set to true whenever we receive the abort signal.
   var aborted = false;
 
@@ -47,7 +52,7 @@ function crawlUrl(data, socket, io) {
     // The queue function will be called with each URL. We
     // can then run the pa11y test function on them and call
     // `done` when we're finished to free up the queue
-    io.to(socket.id).emit('sniff-loading', {
+    sendMessage('sniff-loading', {
       url: url,
     });
     console.log('Running tests for: ' + url);
@@ -64,16 +69,16 @@ function crawlUrl(data, socket, io) {
       // Handle the error
       if (error) {
         console.error({ error: error.message });
-        io.to(socket.id).emit('sniff-error', {
-          url: url,
-          error: error.message,
+        sendMessage('sniff-error', {
+            url: url,
+            error: error.message,
         });
         done();
         return;
       }
 
       // Emit the result.
-      io.to(socket.id).emit('sniff-result', {
+      sendMessage('sniff-result', {
         url: url,
         result: result,
       });
@@ -90,7 +95,7 @@ function crawlUrl(data, socket, io) {
   crawler = crawl(url, depth);
 
   // Emit the "started" action.
-  io.to(socket.id).emit('crawl-url-status', {
+  sendMessage('crawl-url-status', {
     status: 'started',
   });
 
@@ -109,17 +114,19 @@ function crawlUrl(data, socket, io) {
 
     // Empty the queue.
     queue.kill();
-    io.to(socket.id).emit('crawl-url-status', {
+    sendMessage('crawl-url-status', {
       status: 'aborted',
     });
     delete test;
     delete queue;
-    socket.removeAllListeners('abort');
-    socket.removeAllListeners('disconnect');
     console.log('Aborted by user.');
   };
 
-  socket.on('abort', abortListener);
+  ws.on('message', function incoming(message) {
+    if (JSON.parse(message).type === 'abort') {
+      abortListener();
+    }
+  });
 
   var disconnectListener = function () {
     console.log('Disconnecting.');
@@ -129,20 +136,18 @@ function crawlUrl(data, socket, io) {
     queue.kill();
     delete test;
     delete queue;
-    socket.removeAllListeners('abort');
-    socket.removeAllListeners('disconnect');
 
     // Set aborted flag, so that any currently running jobs will be discarded.
     aborted = true;
     console.log('Aborted by disconnection.');
   };
 
-  socket.on('disconnect', disconnectListener);
+  ws.on('close', disconnectListener);
 
   // Whenever we're done crawling, execute the callback.
   crawler.on('complete', function () {
     const complete = function () {
-      io.to(socket.id).emit('crawl-url-status', {
+      sendMessage('crawl-url-status', {
         status: 'complete',
       });
       console.log('All items processed.');
@@ -166,7 +171,7 @@ function crawlUrl(data, socket, io) {
     }
 
     // Emit the crawled URL
-    io.to(socket.id).emit('crawled-url', queueItem.url);
+    sendMessage('crawled-url', queueItem.url);
 
     // Run the tests.
     queue.push([queueItem.url]);
