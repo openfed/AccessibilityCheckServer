@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 /** This service help import/export data into the app or out of the app, so that users can save results for later viewing. */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 @Injectable()
 export class ImportExportService {

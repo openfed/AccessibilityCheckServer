@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ApiService } from './services/api.service';
 import { ReinitService } from './services/reinit.service';
 import { Toggle } from './interfaces/toggle';
 import { AudienceType } from './audience';
@@ -7,7 +6,7 @@ import { AudienceType } from './audience';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   showNotices: boolean = true;

@@ -6,10 +6,12 @@ var config = require('./config');
 
 function crawlUrl(data, ws) {
   function sendMessage(type, payload) {
-    ws.send(JSON.stringify({
-      type: type,
-      payload: payload,
-    }));
+    ws.send(
+      JSON.stringify({
+        type: type,
+        payload: payload
+      })
+    );
   }
   // Flag that is set to true whenever we receive the abort signal.
   var aborted = false;
@@ -29,8 +31,8 @@ function crawlUrl(data, ws) {
     htmlcs: config.htmlcs,
     page: {
       settings: {
-        loadImages: false,
-      },
+        loadImages: false
+      }
     },
 
     // Stop loading an individual page after 30 seconds.
@@ -41,25 +43,23 @@ function crawlUrl(data, ws) {
     log: {
       debug: console.log.bind(console),
       error: console.error.bind(console),
-      info: console.log.bind(console),
-    },
+      info: console.log.bind(console)
+    }
   });
 
   // Keeping it simple and setting concurrency for the sniffer to 1 for now.
   var concurrency = 1;
-  var queue = async.queue(function (url, done) {
-
+  var queue = async.queue(function(url, done) {
     // The queue function will be called with each URL. We
     // can then run the pa11y test function on them and call
     // `done` when we're finished to free up the queue
     sendMessage('sniff-loading', {
-      url: url,
+      url: url
     });
     console.log('Running tests for: ' + url);
 
     // Call Pa11y.
-    test.run(url, function (error, result) {
-
+    test.run(url, function(error, result) {
       // If the aborted flag is set, exit early.
       if (aborted) {
         done();
@@ -70,8 +70,8 @@ function crawlUrl(data, ws) {
       if (error) {
         console.error({ error: error.message });
         sendMessage('sniff-error', {
-            url: url,
-            error: error.message,
+          url: url,
+          error: error.message
         });
         done();
         return;
@@ -80,7 +80,7 @@ function crawlUrl(data, ws) {
       // Emit the result.
       sendMessage('sniff-result', {
         url: url,
-        result: result,
+        result: result
       });
       done();
     });
@@ -96,10 +96,10 @@ function crawlUrl(data, ws) {
 
   // Emit the "started" action.
   sendMessage('crawl-url-status', {
-    status: 'started',
+    status: 'started'
   });
 
-  var abortListener = function (data) {
+  var abortListener = function(data) {
     if (aborted) {
       return;
     }
@@ -115,7 +115,7 @@ function crawlUrl(data, ws) {
     // Empty the queue.
     queue.kill();
     sendMessage('crawl-url-status', {
-      status: 'aborted',
+      status: 'aborted'
     });
     delete test;
     delete queue;
@@ -128,7 +128,7 @@ function crawlUrl(data, ws) {
     }
   });
 
-  var disconnectListener = function () {
+  var disconnectListener = function() {
     console.log('Disconnecting.');
     crawler.stop();
 
@@ -145,10 +145,10 @@ function crawlUrl(data, ws) {
   ws.on('close', disconnectListener);
 
   // Whenever we're done crawling, execute the callback.
-  crawler.on('complete', function () {
-    const complete = function () {
+  crawler.on('complete', function() {
+    const complete = function() {
       sendMessage('crawl-url-status', {
-        status: 'complete',
+        status: 'complete'
       });
       console.log('All items processed.');
     };
@@ -162,7 +162,7 @@ function crawlUrl(data, ws) {
     }
   });
 
-  crawler.on('fetchcomplete', function (queueItem, responseBuffer, response) {
+  crawler.on('fetchcomplete', function(queueItem, responseBuffer, response) {
     console.log('Fetch complete for: ' + queueItem.url);
 
     // Exit early if the aborted flag is set.

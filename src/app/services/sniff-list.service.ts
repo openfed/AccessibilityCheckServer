@@ -8,7 +8,7 @@ import { isCmOnlySniff, isDevOnlySniff } from '../audience.functions';
 
 /** Provides an observable to subscribe to which sends out a message whenever we want to reinitialize. */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 @Injectable()
 export class SniffListService {

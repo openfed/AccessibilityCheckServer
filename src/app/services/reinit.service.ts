@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 /** Provides an observable to subscribe to which sends out a message whenever we want to reinitialize. */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ReinitService {
   /** The observable that will emit a true boolean whenever we need to reinitialize. */

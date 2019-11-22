@@ -5,7 +5,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-var exphbs  = require('express-handlebars');
+var exphbs = require('express-handlebars');
 var cors = require('cors');
 
 var standards = require('./routes/standards');
@@ -30,9 +30,11 @@ app.locals.ENV_DEVELOPMENT = env == 'development';
 app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true,
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 app.use(express.static(path.join(__dirname, 'public')));
 
 if (app.locals.ENV == 'test') {
@@ -42,7 +44,7 @@ if (app.locals.ENV == 'test') {
 app.use('/standards', standards);
 
 /// catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -53,34 +55,36 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function (err, req, res, next) {
+  app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.send({
       message: err.message,
       error: err,
-      title: 'error',
+      title: 'error'
     });
   });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.send({
     message: err.message,
     error: {},
-    title: 'error',
+    title: 'error'
   });
 });
 
-wss.on('connection', (ws) => {
+wss.on('connection', ws => {
   console.log('user connected');
   ws.isAlive = true;
-  ws.on('pong', heartbeat);
 
-  ws.on('message', (message) => {
+  ws.on('message', message => {
     const decoded = JSON.parse(message);
+    if (decoded.type === 'pong') {
+      heartbeat();
+    }
     if (decoded.type === 'crawl-url') {
       crawlUrl(decoded.payload, ws);
     }
@@ -100,10 +104,16 @@ const interval = setInterval(function ping() {
     if (ws.isAlive === false) return ws.terminate();
 
     ws.isAlive = false;
+    ws.send(
+      JSON.stringify({
+        type: 'ping',
+        payload: {}
+      })
+    );
   });
-}, 20000);
+}, 10000);
 
 module.exports = {
   app: app,
-  server: server,
+  server: server
 };

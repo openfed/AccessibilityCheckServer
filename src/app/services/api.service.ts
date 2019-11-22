@@ -18,7 +18,7 @@ import { Subject } from 'rxjs';
  * https://christianliebel.com/2016/11/angular-2-protractor-timeout-heres-fix/
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ApiService {
   // The URL to connect to.
@@ -28,10 +28,8 @@ export class ApiService {
   private socketMessages: Subject<{ type: string; payload: any }> = new Subject<{ type: string; payload: any }>();
 
   constructor(private http: HttpClient, private ngZone: NgZone) {
-    console.log('hi');
     this.connectSocket();
   }
-
 
   /**
    * Send out an URL to start crawling at.
@@ -111,7 +109,7 @@ export class ApiService {
   }
 
   private sendMessage(type: string, payload: any) {
-    this.socket.send(JSON.stringify({type, payload}));
+    this.socket.send(JSON.stringify({ type, payload }));
   }
 
   private createObservableFromEventType(type: string) {
@@ -121,12 +119,15 @@ export class ApiService {
     );
   }
 
-
   private connectSocket(): void {
     this.ngZone.runOutsideAngular(() => {
       this.socket = new WebSocket(this.wsUrl);
       this.socket.onmessage = (event: MessageEvent) => {
-        this.socketMessages.next(JSON.parse(event.data));
+        const data = JSON.parse(event.data);
+        if (data.type === 'ping') {
+          this.sendMessage('pong', {});
+        }
+        this.socketMessages.next(data);
       };
 
       this.socket.onerror = (ev: Event) => {
