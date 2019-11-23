@@ -9,7 +9,7 @@ import { CrawlUrlStatus } from '../interfaces/crawl-url-status';
 
 import 'rxjs/add/operator/filter';
 import config from '../config';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 /**
@@ -125,9 +125,9 @@ export class ApiService {
       this.socket = new WebSocket(`${this.wsUrl}/ws`);
       this.socket.onmessage = (event: MessageEvent) => {
         const data = JSON.parse(event.data);
-        if (data.type === 'ping') {
-          this.sendMessage('pong', {});
-        }
+        // Send pong on every message type (even non-ping messages), as when there's too much backpressure (after about an hour of crawling very large sites) we get timeouts:
+        // https://github.com/theturtle32/WebSocket-Node/issues/229
+        this.sendMessage('pong', {});
         this.socketMessages.next(data);
       };
 
