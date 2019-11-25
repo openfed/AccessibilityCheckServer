@@ -1,8 +1,8 @@
-# BOSA Accessiblity Check Server
-
-Tested with Node.js 6. Built using angular CLI v1.2.1.
+# BOSA Accessibility Check Server
 
 To install dependencies, run `npm install` in the root directory, then run `npm install` in the `server` directory as well.
+
+The pa11y HTMLCS test runner has been patched (using patch-package) to use the HTMLCS.js located in `src/assets/HTMLCS.js` instead.
 
 ## Directory structure
 
@@ -12,7 +12,7 @@ To install dependencies, run `npm install` in the root directory, then run `npm 
 ## Technologies
 
 - Express.js for the back-end server.
-- Socket.io for real-time communication.
+- WebSockets for real-time communication.
 - Angular as a front-end framework.
 - [Angular Material](https://material.angular.io/) for Material Design components.
 - [Pa11y](https://github.com/pa11y/pa11y) (which uses HTML_CodeSniffer and PhantomJS) for the accessibility sniffs.
@@ -20,7 +20,6 @@ To install dependencies, run `npm install` in the root directory, then run `npm 
 
 ## Development server
 
-- Copy `server/config.example.js` to `server/config.js`.
 - Navigate to the server directory and run `node bin/www` to start the back-end server.
 - Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
@@ -41,8 +40,6 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 ## Running a server on a remote machine
 
-- Copy `server/config.example.js` to `server/config.js`. Then update `server/config.js` to contain the URL of the HTMLCS library (used by the frontend for translating message codes received by the backend to the relevant human-readable message).
 - Update `src/app/config.ts` to contain the URL of the backend server.
 - Run `ng serve --public HOSTNAME --host PUBLICIP` to serve up the front-end.
 - Navigate to the server directory and run `node bin/www` to start the back-end server.
-

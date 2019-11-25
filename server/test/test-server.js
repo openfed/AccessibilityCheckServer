@@ -1,80 +1,89 @@
 process.env.NODE_ENV = 'test';
-process.env.PORT = 8000;
 
-var chai = require('chai');
-var chaiHttp = require('chai-http');
-var myApp = require('../app');
-var app = myApp.app;
-var server = myApp.server;
-var should = chai.should();
-var ioOptions = {
-  transports: ['websocket'],
-  forceNew: true,
-  reconnection: false,
-  'force new connection': true,
-};
-var sender;
-var receiver;
-var io = require('socket.io-client');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const myApp = require('../app');
 
+const { app } = myApp;
+const { server, wss } = myApp;
+const should = chai.should();
+let sender;
+let receiver;
+
+let client;
+
+const WebSocket = require('ws');
 chai.use(chaiHttp);
-var testPort;
+let testPort;
 
-describe('Server', function () {
-  it('should list all standards on /standards GET', function (done) {
+function sendMessage(client, type, payload) {
+  client.send(
+    JSON.stringify({
+      type,
+      payload,
+    }),
+  );
+}
+
+describe('Server', () => {
+  it('should list all standards on /standards GET', (done) => {
     chai.request(server)
-    .get('/standards')
-    .end(function (err, res) {
-      res.should.have.status(200);
-      res.should.be.json;
-      res.body.should.be.a('array');
-      res.body.should.include.members(['Section508', 'WCAG2A', 'WCAG2AA', 'WCAG2AAA']);
-      done();
-    });
+      .get('/standards')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.be.json;
+        res.body.should.be.a('array');
+        res.body.should.include.members(['Section508', 'WCAG2A', 'WCAG2AA', 'WCAG2AAA']);
+        done();
+      });
   });
 });
 
-describe('Test page', function () {
-  it('should deliver a test page', function (done) {
-
+describe('Test page', () => {
+  it('should deliver a test page', (done) => {
     chai.request(server)
-    .get('/test1.html')
-    .end(function (err, res) {
-      res.should.have.status(200);
-      done();
-    });
+      .get('/test1.html')
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
   });
 });
 
-describe('URL crawling', function () {
+describe('URL crawling', () => {
+  
 
-  beforeEach(function (done) {
-    testPort = server.address().port;
-    client = io('http://localhost:' +  testPort  + '/', ioOptions);
+  beforeEach((done) => {
+    server.close();
+    server.listen(0, () => {
+      testPort = wss.address().port;
+      client = new WebSocket(`http://localhost:${testPort}`);
+      client.on('open', () => {
+        done();
+      });
+    });
+  });
+
+  afterEach((done) => {
+    // kill WebSocket after each test
+    client.terminate();
     done();
   });
 
-  afterEach(function (done) {
-
-    // disconnect io client after each test
-    client.disconnect();
-    done();
-  });
-
-  describe('Status alerts', function () {
+  describe('Status alerts', () => {
     it('Clients should receive the correct notifications.', function (done) {
       this.timeout(30000);
       let checks = 0;
-      let testUrl = 'http://localhost:' +  testPort  + '/test1.html';
+      const testUrl = `http://localhost:${testPort}/test1.html`;
 
       function check() {
         checks++;
-        if (checks == 5) {
+        if (checks === 5) {
           done();
         }
       }
 
-      client.emit('crawl-url', {
+      sendMessage(client, 'crawl-url', {
         url: testUrl,
         standard: 'WCAG2AA',
 
@@ -84,47 +93,53 @@ describe('URL crawling', function () {
 
       let i = 0;
 
-      // Test the "started" and "complete" messages.
-      client.on('crawl-url-status', function (data) {
-        data.should.have.property('status');
-        if (i == 0) {
-          data.status.should.equal('started');
-          check();
-        } else if (i == 1) {
-          data.status.should.equal('complete');
+      client.on('message', (message) => {
+        const parsed = JSON.parse(message);
+        
+        const data = parsed.payload;
+        const type = parsed.type;
+
+        if (type === 'crawl-url-status') {
+          data.should.have.property('status');
+          if (i === 0) {
+            data.status.should.equal('started');
+            check();
+          } else if (i === 1) {
+            data.status.should.equal('complete');
+            check();
+          }
+
+          i++;
+        }
+        
+        else if (type === 'sniff-loading') {
+          // Test the "loading" message for an individual sniff.
+          data.should.have.property('url');
+          data.url.should.equal(testUrl);
           check();
         }
 
-        i++;
-      });
+        else if (type === 'crawled-url') {
+          data.should.equal(testUrl);
+          check();
+        }
 
-      // Test the "loading" message for an individual sniff.
-      client.on('sniff-loading', function (data) {
-        data.should.have.property('url');
-        data.url.should.equal(testUrl);
-        check();
-      });
+        else if (type === 'sniff-result') {
+          data.should.have.property('url');
+          data.should.have.property('result');
+          data.url.should.equal(testUrl);
+          data.result.should.be.a('array');
 
-      client.on('crawled-url', function (data) {
-        data.should.equal(testUrl);
-        check();
-      });
-
-      client.on('sniff-result', function (data) {
-        data.should.have.property('url');
-        data.should.have.property('result');
-        data.url.should.equal(testUrl);
-        data.result.should.be.a('array');
-
-        // Check that we have at least 2 issues.
-        data.result.length.should.be.above(1);
-        data.result[0].should.have.property('code');
-        data.result[0].should.have.property('context');
-        data.result[0].should.have.property('message');
-        data.result[0].should.have.property('selector');
-        data.result[0].should.have.property('type');
-        data.result[0].should.have.property('typeCode');
-        check();
+          // Check that we have at least 2 issues.
+          data.result.length.should.be.above(1);
+          data.result[0].should.have.property('code');
+          data.result[0].should.have.property('context');
+          data.result[0].should.have.property('message');
+          data.result[0].should.have.property('selector');
+          data.result[0].should.have.property('type');
+          data.result[0].should.have.property('typeCode');
+          check();
+        }
       });
     });
   });
@@ -132,22 +147,26 @@ describe('URL crawling', function () {
   describe('Crawl depth', function () {
     this.timeout(30000);
 
-    beforeEach(function (done) {
-      testPort = server.address().port;
-      client = io('http://localhost:' +  testPort + '/', ioOptions);
+    beforeEach((done) => {
+      server.close();
+      server.listen(0, () => {
+        testPort = wss.address().port;
+        client = new WebSocket(`http://localhost:${testPort}`);
+        client.on('open', () => {
+          done();
+        });
+      });
+    });
+  
+    afterEach((done) => {
+      // kill WebSocket after each test
+      client.terminate();
       done();
     });
-
-    afterEach(function (done) {
-
-      // disconnect io client after each test
-      client.disconnect();
-      done();
-    });
-
-    it('should not go any levels deep if requested', function (done) {
-      client.emit('crawl-url', {
-        url: 'http://localhost:' + server.address().port  + '/test1.html',
+  
+    it('should not go any levels deep if requested', (done) => {
+      sendMessage(client, 'crawl-url', {
+        url: `http://localhost:${testPort}/test1.html`,
         standard: 'WCAG2AA',
 
         // Only check the given URL.
@@ -155,25 +174,29 @@ describe('URL crawling', function () {
       });
 
       let count = 0;
-      client.on('sniff-result', function (data) {
-        data.should.have.property('url');
-        data.should.have.property('result');
-        count++;
-      });
+      client.on('message', (message) => {
+        const parsed = JSON.parse(message);
+        
+        const data = parsed.payload;
+        const type = parsed.type;
 
-      // Give ourselves 5 seconds to receive a result.
-      client.on('crawl-url-status', function (data) {
-        if (data.status == 'complete') {
-          count.should.equal(1);
-          done();
+        if (type === 'sniff-result') {
+          data.should.have.property('url');
+          data.should.have.property('result');
+          count++;
+     
+        } else if (type === 'crawl-url-status') {
+          if (data.status === 'complete') {
+            count.should.equal(1);
+            done();
+          }
         }
       });
     });
 
-    it('should go only 1 level deep if requested', function (done) {
-
-      client.emit('crawl-url', {
-        url: 'http://localhost:' + server.address().port  + '/test1.html',
+    it('should go only 1 level deep if requested', (done) => {
+      sendMessage(client, 'crawl-url', {
+        url: `http://localhost:${testPort}/test1.html`,
         standard: 'WCAG2AA',
 
         // Only check the given URL.
@@ -181,24 +204,29 @@ describe('URL crawling', function () {
       });
 
       let count = 0;
-      client.on('sniff-result', function (data) {
-        data.should.have.property('url');
-        data.should.have.property('result');
-        count++;
-      });
+      client.on('message', (message) => {
+        const parsed = JSON.parse(message);
+        
+        const data = parsed.payload;
+        const type = parsed.type;
 
-      // Give ourselves 5 seconds to receive a result.
-      client.on('crawl-url-status', function (data) {
-        if (data.status == 'complete') {
-          count.should.equal(2);
-          done();
+        if (type === 'sniff-result') {
+          data.should.have.property('url');
+          data.should.have.property('result');
+          count++;
+        }
+        else if (type === 'crawl-url-status') {
+          if (data.status === 'complete') {
+            count.should.equal(2);
+            done();
+          }
         }
       });
     });
 
-    it('should go all levels deep if requested', function (done) {
-      client.emit('crawl-url', {
-        url: 'http://localhost:' + server.address().port  + '/test1.html',
+    it('should go all levels deep if requested', (done) => {
+      sendMessage(client, 'crawl-url', {
+        url: `http://localhost:${testPort}/test1.html`,
         standard: 'WCAG2AA',
 
         // Only check the given URL.
@@ -206,44 +234,52 @@ describe('URL crawling', function () {
       });
 
       let count = 0;
-      client.on('sniff-result', function (data) {
-        data.should.have.property('url');
-        data.should.have.property('result');
-        count++;
-      });
+      client.on('message', (message) => {
+        const parsed = JSON.parse(message);
+        
+        const data = parsed.payload;
+        const type = parsed.type;
 
-      // Give ourselves 5 seconds to receive a result.
-      client.on('crawl-url-status', function (data) {
-        if (data.status == 'complete') {
-          count.should.equal(3);
-          done();
+        if (type === 'sniff-result') {
+          data.should.have.property('url');
+          data.should.have.property('result');
+          count++;
+        }
+
+        else if (type === 'crawl-url-status') {
+          if (data.status === 'complete') {
+            count.should.equal(3);
+            done();
+          }
         }
       });
     });
-
   });
 
   describe('Abortion', function () {
     this.timeout(30000);
 
-    beforeEach(function (done) {
-      testPort = server.address().port;
-      client = io('http://localhost:' +  testPort + '/', ioOptions);
+    beforeEach((done) => {
+      server.close();
+      server.listen(0, () => {
+        testPort = wss.address().port;
+        client = new WebSocket(`http://localhost:${testPort}`);
+        client.on('open', () => {
+          done();
+        });
+      });
+    });
+  
+    afterEach((done) => {
+      // kill WebSocket after each test
+      client.terminate();
       done();
     });
+  
+    it('should abort if requested', (done) => {
+      const testUrl = `http://localhost:${testPort}/test1.html`;
 
-    afterEach(function (done) {
-
-      // disconnect io client after each test
-      client.disconnect();
-      done();
-    });
-
-    it('should abort if requested', function (done) {
-
-      let testUrl = 'http://localhost:' + testPort  + '/test1.html';
-
-      client.emit('crawl-url', {
+      sendMessage(client, 'crawl-url', {
         url: testUrl,
         standard: 'WCAG2AA',
 
@@ -251,20 +287,18 @@ describe('URL crawling', function () {
         crawlDepth: '1',
       });
 
-      client.on('sniff-result', function (data) {
-
+      client.on('sniff-result', (data) => {
         // This should never happen.
         true.should.equal(false);
       });
 
-      client.emit('abort');
+      sendMessage(client, 'abort', {});
       let i = 0;
-      client.on('crawl-url-status', function (data) {
-
+      client.on('crawl-url-status', (data) => {
         data.should.have.property('status');
-        if (i == 0) {
+        if (i === 0) {
           data.status.should.equal('started');
-        } else if (i == 1) {
+        } else if (i === 1) {
           data.status.should.equal('aborted');
         }
 
@@ -275,5 +309,4 @@ describe('URL crawling', function () {
       setTimeout(done, 5000);
     });
   });
-
 });

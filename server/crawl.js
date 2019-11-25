@@ -1,4 +1,4 @@
-var Crawler = require('simplecrawler');
+const Crawler = require('simplecrawler');
 
 /**
  * Performs a crawl
@@ -8,12 +8,12 @@ var Crawler = require('simplecrawler');
  */
 function crawl(url, depth) {
   // Initialize crawler.
-  var crawler = Crawler(url).on('fetchcomplete', function(queueItem, responseBuffer, response) {
+  const crawler = Crawler(url).on('fetchcomplete', (queueItem, responseBuffer, response) => {
     console.log('Crawled: ', queueItem.url);
   });
 
   crawler.getRequestOptions = function(queueItem) {
-    var requestOptions = Crawler.prototype.getRequestOptions.call(this, queueItem);
+    const requestOptions = Crawler.prototype.getRequestOptions.call(this, queueItem);
     if (requestOptions.headers.cookie === '') {
       delete requestOptions.headers.cookie;
     }
@@ -30,7 +30,7 @@ function crawl(url, depth) {
   crawler.downloadUnsupported = false;
 
   // Skip static assets. (Maybe not needed because we already skip their MIME types?)
-  crawler.addFetchCondition(function(parsedURL) {
+  crawler.addFetchCondition(parsedURL => {
     if (parsedURL.path.match(/\.(css|jpg|pdf|docx|js|png|ico|svg|xml|gif)(\?.*)?$/i)) {
       console.log('Skipped URL: ', parsedURL.path);
       return false;
@@ -40,7 +40,7 @@ function crawl(url, depth) {
   });
 
   // Log all crawler errors..
-  var originalEmit = crawler.emit;
+  const originalEmit = crawler.emit;
   crawler.emit = function(evtName, queueItem) {
     if (evtName.indexOf('error') !== -1) {
       console.log(evtName, queueItem ? (queueItem.url ? queueItem.url : queueItem) : null);
@@ -49,7 +49,7 @@ function crawl(url, depth) {
   };
 
   // Start crawling.
-  console.log('Crawling URL: ' + url);
+  console.log(`Crawling URL: ${url}`);
   crawler.start();
   return crawler;
 }

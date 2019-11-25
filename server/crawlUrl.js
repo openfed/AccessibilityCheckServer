@@ -1,105 +1,94 @@
-var pa11y = require('pa11y');
-var async = require('async');
-var validUrl = require('valid-url');
-var crawl = require('./crawl');
-var config = require('./config');
+const pa11y = require('pa11y');
+const async = require('async');
+const validUrl = require('valid-url');
+const crawl = require('./crawl');
 
 function crawlUrl(data, ws) {
   function sendMessage(type, payload) {
     ws.send(
       JSON.stringify({
-        type: type,
-        payload: payload
+        type,
+        payload
       })
     );
   }
   // Flag that is set to true whenever we receive the abort signal.
-  var aborted = false;
+  let aborted = false;
 
   // The URL to start crawling at.
-  var url = data.url;
+  const { url } = data;
 
   // The standard to use.
-  var standard = data.standard;
+  const { standard } = data;
 
   // How deep to crawl (-1 is unlimited).
-  var depth = data.crawlDepth;
+  const depth = data.crawlDepth;
 
-  // Initialize the Pa11y accessibility test.
-  var test = pa11y({
-    // The path for HTMLCS.
-    htmlcs: config.htmlcs,
-    page: {
-      settings: {
-        loadImages: false
-      }
-    },
-
-    // Stop loading an individual page after 30 seconds.
-    timeout: 30000,
-    standard: data.standard,
-
-    // Log what's happening to the console
-    log: {
-      debug: console.log.bind(console),
-      error: console.error.bind(console),
-      info: console.log.bind(console)
-    }
-  });
-
-  // Keeping it simple and setting concurrency for the sniffer to 1 for now.
-  var concurrency = 1;
-  var queue = async.queue(function(url, done) {
+  const queue = async.queue(async function(url) {
     // The queue function will be called with each URL. We
     // can then run the pa11y test function on them and call
     // `done` when we're finished to free up the queue
     sendMessage('sniff-loading', {
-      url: url
+      url
     });
-    console.log('Running tests for: ' + url);
+    console.log(`Running tests for: ${url}`);
 
-    // Call Pa11y.
-    test.run(url, function(error, result) {
+    try {
       // If the aborted flag is set, exit early.
       if (aborted) {
-        done();
         return;
       }
 
-      // Handle the error
-      if (error) {
-        console.error({ error: error.message });
-        sendMessage('sniff-error', {
-          url: url,
-          error: error.message
-        });
-        done();
+      // Initialize the Pa11y accessibility test.
+      const result = await pa11y(url, {
+        includeNotices: true,
+        includeWarnings: true,
+
+        // Stop loading an individual page after 30 seconds.
+        timeout: 30000,
+        standard,
+
+        // Log what's happening to the console
+        log: {
+          debug: console.log.bind(console),
+          error: console.error.bind(console),
+          info: console.log.bind(console)
+        }
+      });
+
+      // If the aborted flag is set, exit early.
+      if (aborted) {
         return;
       }
 
       // Emit the result.
       sendMessage('sniff-result', {
-        url: url,
-        result: result
+        url,
+        result: result.issues
       });
-      done();
-    });
-  }, concurrency);
+    } catch (error) {
+      console.error({ error: error.message });
+      sendMessage('sniff-error', {
+        url,
+        error: error.message
+      });
+    }
+  });
 
   if (!validUrl.isHttpUri(url) && !validUrl.isHttpsUri(url)) {
-    console.log('Invalid url:' + url);
+    console.log(`Invalid url:${url}`);
     return;
   }
 
   // Start crawling.
-  crawler = crawl(url, depth);
+  const crawler = crawl(url, depth);
 
   // Emit the "started" action.
   sendMessage('crawl-url-status', {
     status: 'started'
   });
 
-  var abortListener = function(data) {
+  const abortListener = function() {
     if (aborted) {
       return;
     }
@@ -117,25 +106,21 @@ function crawlUrl(data, ws) {
     sendMessage('crawl-url-status', {
       status: 'aborted'
     });
-    delete test;
-    delete queue;
     console.log('Aborted by user.');
   };
 
-  ws.on('message', function incoming(message) {
+  ws.on('message', message => {
     if (JSON.parse(message).type === 'abort') {
       abortListener();
     }
   });
 
-  var disconnectListener = function() {
+  const disconnectListener = function() {
     console.log('Disconnecting.');
     crawler.stop();
 
     // Empty the queue.
     queue.kill();
-    delete test;
-    delete queue;
 
     // Set aborted flag, so that any currently running jobs will be discarded.
     aborted = true;
@@ -145,7 +130,7 @@ function crawlUrl(data, ws) {
   ws.on('close', disconnectListener);
 
   // Whenever we're done crawling, execute the callback.
-  crawler.on('complete', function() {
+  crawler.on('complete', () => {
     const complete = function() {
       sendMessage('crawl-url-status', {
         status: 'complete'
@@ -155,15 +140,15 @@ function crawlUrl(data, ws) {
 
     // If there are no running queue items, finish up. Otherwise, set the finish
     // function to run wheneer the queue is empty.
-    if (queue.running() == 0) {
+    if (queue.running() === 0) {
       complete();
     } else {
-      queue.drain = complete;
+      queue.drain(complete);
     }
   });
 
-  crawler.on('fetchcomplete', function(queueItem, responseBuffer, response) {
-    console.log('Fetch complete for: ' + queueItem.url);
+  crawler.on('fetchcomplete', queueItem => {
+    console.log(`Fetch complete for: ${queueItem.url}`);
 
     // Exit early if the aborted flag is set.
     if (aborted) {

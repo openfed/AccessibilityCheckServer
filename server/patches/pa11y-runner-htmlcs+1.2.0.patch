@@ -1,0 +1,15 @@
+diff --git a/node_modules/pa11y-runner-htmlcs/lib/runner.js b/node_modules/pa11y-runner-htmlcs/lib/runner.js
+index dae8afd..889bc13 100644
+--- a/node_modules/pa11y-runner-htmlcs/lib/runner.js
++++ b/node_modules/pa11y-runner-htmlcs/lib/runner.js
+@@ -15,9 +15,8 @@ runner.supports = '^5.0.0';
+  * @type {Array}
+  */
+ runner.scripts = [
+-	require.resolve('html_codesniffer/build/HTMLCS.js')
++	require.resolve('../../../../src/assets/HTMLCS.js')
+ ];
+-
+ /**
+  * Run the test runner.
+  * @public

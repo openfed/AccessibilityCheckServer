@@ -1,10 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
 
-var pa11y = require('pa11y');
+const router = express.Router();
 
-router.get('/', function (req, res) {
-  res.send(pa11y.defaults.allowedStandards);
+const pa11y = require('pa11y');
+
+router.get('/', (req, res) => {
+  res.send(pa11y.allowedStandards);
 });
 
 module.exports = router;

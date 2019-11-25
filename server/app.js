@@ -1,31 +1,26 @@
 require('log-timestamp');
 
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var exphbs = require('express-handlebars');
-var cors = require('cors');
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
-var standards = require('./routes/standards');
-
-var app = express();
-var server = require('http').Server(app);
-var WebSocket = require('ws');
-
-function noop() {}
+const app = express();
+const server = require('http').Server(app);
+const WebSocket = require('ws');
+const standards = require('./routes/standards');
 
 function heartbeat(ws) {
   ws.isAlive = true;
 }
 
-var wss = new WebSocket.Server({ server: server });
-var crawlUrl = require('./crawlUrl');
+const wss = new WebSocket.Server({ server });
+const crawlUrl = require('./crawlUrl');
 
-var env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'development';
 app.locals.ENV = env;
-app.locals.ENV_DEVELOPMENT = env == 'development';
+app.locals.ENV_DEVELOPMENT = env === 'development';
 
 app.use(cors());
 app.use(logger('dev'));
@@ -37,25 +32,25 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, 'public')));
 
-if (app.locals.ENV == 'test') {
+if (app.locals.ENV === 'test') {
   app.use(express.static('routes/test/public'));
 }
 
 app.use('/standards', standards);
 
-/// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+// / catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-/// error handlers
+// / error handlers
 
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.send({
       message: err.message,
@@ -67,7 +62,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.send({
     message: err.message,
@@ -76,34 +71,32 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
 wss.on('connection', ws => {
-  console.log('user connected');
+  console.log('User connected.');
   ws.isAlive = true;
 
-  ws.on('message', message => {
+  ws.on('message', async message => {
     const decoded = JSON.parse(message);
     if (decoded.type === 'pong') {
       heartbeat(ws);
-    }
-    else if (decoded.type === 'crawl-url') {
-      crawlUrl(decoded.payload, ws);
+    } else if (decoded.type === 'crawl-url') {
+      await crawlUrl(decoded.payload, ws);
     }
   });
 
   ws.on('close', ev => {
-    console.log('user disconnected', ev);
+    console.log('User disconnected.', ev);
   });
 
   ws.on('error', ev => {
-    console.log('WS Errored', ev);
+    console.log('WebSocket Errored', ev);
   });
 });
 
-const interval = setInterval(function ping() {
-  wss.clients.forEach(function each(ws) {
+setInterval(() => {
+  wss.clients.forEach(ws => {
     if (ws.isAlive === false) {
-      console.log('terminating ws...');
+      console.log('Terminating WebSocket...');
       return ws.terminate();
     }
 
@@ -117,8 +110,8 @@ const interval = setInterval(function ping() {
   });
 }, 25000);
 
-
 module.exports = {
-  app: app,
-  server: server
+  app,
+  server,
+  wss
 };
