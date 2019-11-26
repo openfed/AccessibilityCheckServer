@@ -23,3 +23,8 @@
 .logo img {
   margin-top: 20px;
 }
+
+h1, h3 {
+  padding-left: 20px;
+  padding-right: 20px;
+}

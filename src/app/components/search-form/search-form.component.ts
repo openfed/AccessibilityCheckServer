@@ -9,6 +9,7 @@ import { SniffListService } from '../../services/sniff-list.service';
 import { ImportExportService } from '../../services/import-export.service';
 import { Observable } from 'rxjs/Observable';
 import { AudienceType } from '../../audience';
+import { AggregationAggressiveness } from '../../model/aggregation-aggressiveness';
 
 /** Component for the form with search widgets */
 @Component({
@@ -52,10 +53,14 @@ export class SearchFormComponent implements OnInit {
     url: '',
     standard: 'WCAG2AA',
     crawlDepth: '-1',
-    audience: AudienceType.All
+    audience: AudienceType.All,
+    aggressiveness: AggregationAggressiveness.Minimal
   };
 
+  AggregationAggressiveness = AggregationAggressiveness;
+
   @Output() audienceChanged: EventEmitter<AudienceType> = new EventEmitter<AudienceType>();
+  @Output() aggressivenessChanged: EventEmitter<AggregationAggressiveness> = new EventEmitter<AggregationAggressiveness>();
 
   // Event emitter for the reinitialize event.
   @Output() onReinitialize: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -100,6 +105,10 @@ export class SearchFormComponent implements OnInit {
       }
       this.exportable = true;
     });
+  }
+
+  public onAggressivenessChange(event: AggregationAggressiveness): void {
+    this.aggressivenessChanged.emit(event);
   }
 
   public onAudienceChange(event: AudienceType): void {

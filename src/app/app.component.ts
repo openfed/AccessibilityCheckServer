@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ReinitService } from './services/reinit.service';
 import { Toggle } from './interfaces/toggle';
 import { AudienceType } from './audience';
+import { AggregationAggressiveness } from './model/aggregation-aggressiveness';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,9 @@ export class AppComponent {
   showErrors: boolean = true;
   showWarnings: boolean = true;
   audienceText: string = '';
+  aggressivenessText: string = '';
   audience: AudienceType = AudienceType.All;
+  aggressiveness: AggregationAggressiveness = AggregationAggressiveness.Limited;
 
   constructor(private reinitService: ReinitService) {
     // Whenever we reinitialize, show all notices/warnings/errors again.
@@ -26,19 +29,18 @@ export class AppComponent {
     });
   }
 
+  public onAggressivenessChanged(event: AggregationAggressiveness): void {
+    this.aggressiveness = event;
+    this.aggressivenessText = this.getAggressivenessText(); 
+  }
+
   public onAudienceChanged(event: AudienceType): void {
     this.audience = event;
-    if (event === AudienceType.ContentManagers) {
-      this.audienceText = 'Results filtered for: Content managers';
-    } else if (event === AudienceType.Developers) {
-      this.audienceText = 'Results filtered for: Developers';
-    } else {
-      this.audienceText = '';
-    }
+    this.audienceText = this.getAudienceText();
   }
 
   /** If any of the show error/warning/notice toggles change, toggle them everywhere. */
-  togglesChange(event: Toggle): void {
+  public togglesChange(event: Toggle): void {
     if (event.errors !== undefined) {
       this.showErrors = event.errors;
     }
@@ -51,7 +53,36 @@ export class AppComponent {
   }
 
   /** Send out a reinitialization message using the Reinit service. */
-  reinitialize(event: any): void {
+  public reinitialize(event: any): void {
     this.reinitService.reinitialize();
+  }
+
+
+  private getAggressivenessText(): string {
+    switch (this.aggressiveness) {
+      case AggregationAggressiveness.Minimal:
+        return '';
+      case AggregationAggressiveness.Limited:
+          return 'Limited Aggregation. Considered a single result when: 1. Code snippet is identical and 2. Selector is identical and 3. Success criterion and suggested technique(s) are identical.';
+      case AggregationAggressiveness.VariableContent:
+          return 'Variable Content Aggregation. Considered a single result when: 1. Selector is identical and 2. Success criterion and suggested technique(s) are identical';
+      case AggregationAggressiveness.RepeatedError1:
+          return 'Repeated Error Aggregation 1. Considered a single result when: 1. Selector is identical except for the final selection level and 2. Success criterion and suggested technique(s) are identical';
+      case AggregationAggressiveness.RepeatedError2:
+          return 'Repeated Error Aggregation 2. Considered a single result when: 1. Selector is identical except for the final two selection levels and 2. Success criterion and suggested technique(s) are identical';
+      default:
+        return '';
+    }
+  }
+
+  private getAudienceText(): string {
+    switch(this.audience) {
+      case AudienceType.ContentManagers:
+        return 'Results filtered for: Content managers';
+      case AudienceType.Developers:
+        return 'Results filtered for: Developers';
+      default:
+        return '';
+    }
   }
 }

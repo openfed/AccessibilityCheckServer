@@ -82,6 +82,21 @@
       <mat-option value="cm">Content managers</mat-option>
     </mat-select>
 
+
+    <mat-select
+      class="select"
+      placeholder="Aggressiveness"
+      matTooltip="Choose the level of aggregation aggressiveness"
+      [(ngModel)]="model.aggressiveness"
+      (ngModelChange)="onAggressivenessChange($event)"
+    >
+      <mat-option [value]="AggregationAggressiveness.Minimal">Minimal aggregation</mat-option>
+      <mat-option [value]="AggregationAggressiveness.Limited">Limited aggregation</mat-option>
+      <mat-option [value]="AggregationAggressiveness.VariableContent">Variable content aggregation</mat-option>
+      <mat-option [value]="AggregationAggressiveness.RepeatedError1">Repeated error aggregation 1</mat-option>
+      <mat-option [value]="AggregationAggressiveness.RepeatedError2">Repeated error aggregation 2</mat-option>
+    </mat-select>
+
     <span style="margin-left: 20px;">
       <input style="display: none;" id="input-file-id" type="file" accept="text/plain" (change)="importData($event)" />
       <label
@@ -90,7 +105,7 @@
         class="mat-raised-button import-results"
       >
         <i class="material-icons" style="position: relative; top: 6px; transform:scale(0.8)">file_upload</i>
-        Import results</label
+        Import</label
       >
     </span>
     <button
@@ -102,7 +117,7 @@
       matTooltip="Click to export the current results. Clicking this button will make your browser download a file that you can later import."
     >
       <i style="transform:scale(0.8)" class="material-icons">file_download</i>
-      Export results
+      Export
     </button>
     <button
       class="print-version"
@@ -112,13 +127,14 @@
       (click)="printVersion()"
       matTooltip="Click to get a print version of the currently displayed sniff results."
     >
-      <i style="transform:scale(0.8)" class="material-icons">print</i> Print version
+      <i style="transform:scale(0.8)" class="material-icons">print</i> Print
     </button>
   </div>
   <div
     style="
     position: relative;
     top: 50px;
+    height: 120px;
   "
   >
     <button

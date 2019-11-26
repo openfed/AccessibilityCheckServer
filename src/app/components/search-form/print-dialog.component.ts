@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { SafeHtml } from '@angular/platform-browser';
 import { AudienceType } from '../../audience';
+import { AggregationAggressiveness } from '../../model/aggregation-aggressiveness';
 
 /** Dialog invoked from the SniffUrlComponent. */
 @Component({
@@ -21,6 +22,16 @@ export class PrintDialogComponent {
       html += '<h2>Results filtered for: Developers</h2>';
     } else if (this.data.audience === AudienceType.ContentManagers) {
       html += '<h2>Results filtered for: Content Managers</h2>';
+    }
+
+    if (this.data.aggressiveness === AggregationAggressiveness.Limited) {
+      html += '<h2>Aggregation level: Limited</h2>'
+    } else if (this.data.aggressiveness === AggregationAggressiveness.RepeatedError1) {
+      html += '<h2>Aggregation level: Repeated Error 1</h2>'
+    } else if (this.data.aggressiveness === AggregationAggressiveness.RepeatedError1) {
+      html += '<h2>Aggregation level: Repeated Error 2</h2>'
+    } else if (this.data.aggressiveness === AggregationAggressiveness.VariableContent) {
+      html += '<h2>Aggregation level: Variable Content</h2>'
     }
     Object.keys(this.data.sniffList)
       .sort()

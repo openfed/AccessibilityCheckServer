@@ -8,13 +8,15 @@
   <h1>Accessibility Check</h1>
   <app-search-form
     (audienceChanged)="onAudienceChanged($event)"
+    (aggressivenessChanged)="onAggressivenessChanged($event)"
     (onReinitialize)="reinitialize($event)"
   ></app-search-form>
 
   <app-pages-found></app-pages-found>
 
   <app-toggles (update)="togglesChange($event)" [audience]="audience"></app-toggles>
-  <h1>{{ audienceText }}</h1>
+    <h1 *ngIf="audienceText !== ''">{{ audienceText }}</h1>
+    <h3 *ngIf="aggressivenessText !== ''">{{ aggressivenessText }}</h3>
   <app-sniff-list
     [audience]="audience"
     [showNotices]="showNotices"
