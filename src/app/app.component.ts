@@ -14,9 +14,8 @@ export class AppComponent {
   showErrors: boolean = true;
   showWarnings: boolean = true;
   audienceText: string = '';
-  aggressivenessText: string = '';
   audience: AudienceType = AudienceType.All;
-  aggressiveness: AggregationAggressiveness = AggregationAggressiveness.Limited;
+  aggressiveness: AggregationAggressiveness = AggregationAggressiveness.Minimal;
 
   constructor(private reinitService: ReinitService) {
     // Whenever we reinitialize, show all notices/warnings/errors again.
@@ -31,7 +30,6 @@ export class AppComponent {
 
   public onAggressivenessChanged(event: AggregationAggressiveness): void {
     this.aggressiveness = event;
-    this.aggressivenessText = this.getAggressivenessText(); 
   }
 
   public onAudienceChanged(event: AudienceType): void {
@@ -57,26 +55,37 @@ export class AppComponent {
     this.reinitService.reinitialize();
   }
 
-
-  private getAggressivenessText(): string {
+  public get aggressivenessText(): string {
     switch (this.aggressiveness) {
-      case AggregationAggressiveness.Minimal:
-        return '';
       case AggregationAggressiveness.Limited:
-          return 'Limited Aggregation. Considered a single result when: 1. Code snippet is identical and 2. Selector is identical and 3. Success criterion and suggested technique(s) are identical.';
+        return 'Limited Aggregation';
       case AggregationAggressiveness.VariableContent:
-          return 'Variable Content Aggregation. Considered a single result when: 1. Selector is identical and 2. Success criterion and suggested technique(s) are identical';
+        return 'Variable Content Aggregation';
       case AggregationAggressiveness.RepeatedError1:
-          return 'Repeated Error Aggregation 1. Considered a single result when: 1. Selector is identical except for the final selection level and 2. Success criterion and suggested technique(s) are identical';
+        return 'Repeated Error Aggregation 1';
       case AggregationAggressiveness.RepeatedError2:
-          return 'Repeated Error Aggregation 2. Considered a single result when: 1. Selector is identical except for the final two selection levels and 2. Success criterion and suggested technique(s) are identical';
+        return 'Repeated Error Aggregation 2';
+      default:
+        return '';
+    }
+  }
+  public get aggressivenessDescription(): string {
+    switch (this.aggressiveness) {
+      case AggregationAggressiveness.Limited:
+        return 'Considered a single result when: 1. Code snippet is identical and 2. Selector is identical and 3. Success criterion and suggested technique(s) are identical.';
+      case AggregationAggressiveness.VariableContent:
+        return 'Considered a single result when: 1. Selector is identical and 2. Success criterion and suggested technique(s) are identical';
+      case AggregationAggressiveness.RepeatedError1:
+        return 'Considered a single result when: 1. Selector is identical except for the final selection level and 2. Success criterion and suggested technique(s) are identical';
+      case AggregationAggressiveness.RepeatedError2:
+        return 'Considered a single result when: 1. Selector is identical except for the final two selection levels and 2. Success criterion and suggested technique(s) are identical';
       default:
         return '';
     }
   }
 
   private getAudienceText(): string {
-    switch(this.audience) {
+    switch (this.audience) {
       case AudienceType.ContentManagers:
         return 'Results filtered for: Content managers';
       case AudienceType.Developers:

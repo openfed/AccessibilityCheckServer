@@ -60,7 +60,9 @@ export class SearchFormComponent implements OnInit {
   AggregationAggressiveness = AggregationAggressiveness;
 
   @Output() audienceChanged: EventEmitter<AudienceType> = new EventEmitter<AudienceType>();
-  @Output() aggressivenessChanged: EventEmitter<AggregationAggressiveness> = new EventEmitter<AggregationAggressiveness>();
+  @Output() aggressivenessChanged: EventEmitter<AggregationAggressiveness> = new EventEmitter<
+    AggregationAggressiveness
+  >();
 
   // Event emitter for the reinitialize event.
   @Output() onReinitialize: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -167,7 +169,7 @@ export class SearchFormComponent implements OnInit {
         // Currently not passing on the url and standard as these are not in the exports, and
         // we cannot use the values in the model either as the user may have manually changed
         // these values since the results were rendered.
-        sniffList: this.sniffListService.getAudienceFilteredSniffList(this.model.audience),
+        sniffList: this.sniffListService.getFilteredSniffList(this.model.audience, this.model.aggressiveness),
         audience: this.model.audience
       }
     });

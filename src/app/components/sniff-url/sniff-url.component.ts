@@ -5,7 +5,7 @@ import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result';
 
 /** Component for listing a sniff for an individual URL with a button to view the results in a dialog. */
 @Component({
-  selector: 'app-sniff-url',
+  selector: 'app-sniff-item',
   templateUrl: './sniff-url.component.html',
   styleUrls: ['./sniff-url.component.scss']
 })

@@ -11,6 +11,7 @@ import { ImportedData } from '../../interfaces/imported-data';
 
 import 'rxjs/Rx';
 import { AudienceType } from '../../audience';
+import { AggregationAggressiveness } from '../../model/aggregation-aggressiveness';
 
 /** Component for the list of sniffs */
 @Component({
@@ -38,18 +39,37 @@ import { AudienceType } from '../../audience';
   ]
 })
 export class SniffListComponent implements OnInit, OnChanges {
-  get sniffList(): SniffList {
-    return this.sniffListService.getAudienceFilteredSniffList(this.audience);
-  }
-
-  set sniffList(sniffList: SniffList) {
-    this.sniffListService.setSniffList(sniffList);
-  }
+  public AggregationAggressiveness = AggregationAggressiveness;
 
   @Input() showNotices: boolean;
   @Input() showWarnings: boolean;
   @Input() showErrors: boolean;
   @Input() audience: AudienceType = AudienceType.All;
+  @Input() aggressiveness: AggregationAggressiveness = AggregationAggressiveness.Minimal;
+
+  private lastSniffList: SniffList;
+  private lastAudience: string;
+  private lastAggressiveness: AggregationAggressiveness;
+  private cachedAggregated: SniffList;
+
+  get sniffList(): SniffList {
+    if (
+      this.audience === this.lastAudience &&
+      this.aggressiveness === this.lastAggressiveness &&
+      this.lastSniffList === this.sniffListService.getSniffList()
+    ) {
+      return this.cachedAggregated;
+    }
+    this.cachedAggregated = this.sniffListService.getFilteredSniffList(this.audience, this.aggressiveness);
+    this.lastSniffList = this.sniffListService.getSniffList();
+    this.lastAudience = this.audience;
+    this.lastAggressiveness = this.aggressiveness;
+    return this.cachedAggregated;
+  }
+
+  set sniffList(sniffList: SniffList) {
+    this.sniffListService.setSniffList(sniffList);
+  }
 
   public keysGetter = (x: any) => Object.keys(x).sort();
 

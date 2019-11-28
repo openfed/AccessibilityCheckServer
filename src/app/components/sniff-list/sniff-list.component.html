@@ -14,11 +14,21 @@
       </div>
       <div class="rTableHead" style="width: 70px;">Expand</div>
     </div>
-    <app-sniff
-      *ngFor="let code of keysGetter(sniffList)"
-      [code]="code"
-      [codeMessages]="sniffList[code].codeMessages"
-      [results]="sniffList[code].filteredItems"
-    ></app-sniff>
+    <ng-container *ngIf="aggressiveness === AggregationAggressiveness.Minimal">
+      <app-sniff
+        *ngFor="let code of keysGetter(sniffList)"
+        [code]="code"
+        [codeMessages]="sniffList[code].codeMessages"
+        [results]="sniffList[code].filteredItems"
+      ></app-sniff>
+    </ng-container>
+    <ng-container *ngIf="aggressiveness !== AggregationAggressiveness.Minimal">
+      <app-sniff-aggregated
+        *ngFor="let code of keysGetter(sniffList)"
+        [code]="code"
+        [codeMessages]="sniffList[code].codeMessages"
+        [results]="sniffList[code].aggregatedFilteredItems"
+      ></app-sniff-aggregated>
+    </ng-container>
   </div>
 </div>

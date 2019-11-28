@@ -36,6 +36,8 @@ import { SniffUrlDialogComponent } from './components/sniff-url/sniff-url-dialog
 import { PrintDialogComponent } from './components/search-form/print-dialog.component';
 import { TogglesComponent } from './components/toggles/toggles.component';
 import { FederalheaderComponent } from './components/federalheader/federalheader.component';
+import { SniffAggregatedComponent } from './components/sniff-aggregated/sniff-aggregated.component';
+import { SniffAggregatedItemComponent } from './components/sniff-aggregated-item/sniff-aggregated-item.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { FederalheaderComponent } from './components/federalheader/federalheader
     SearchFormComponent,
     PagesFoundComponent,
     SniffComponent,
+    SniffAggregatedComponent,
+    SniffAggregatedItemComponent,
     SniffListComponent,
     SniffUrlComponent,
     SniffUrlDialogComponent,

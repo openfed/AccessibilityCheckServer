@@ -15,13 +15,15 @@
   <app-pages-found></app-pages-found>
 
   <app-toggles (update)="togglesChange($event)" [audience]="audience"></app-toggles>
-    <h1 *ngIf="audienceText !== ''">{{ audienceText }}</h1>
-    <h3 *ngIf="aggressivenessText !== ''">{{ aggressivenessText }}</h3>
+  <h1 *ngIf="audienceText !== ''">{{ audienceText }}</h1>
+  <h3 *ngIf="aggressivenessText !== ''">{{ aggressivenessText }}</h3>
+  <p style="font-size: 12px" *ngIf="aggressivenessDescription !== ''">{{ aggressivenessDescription }}</p>
   <app-sniff-list
     [audience]="audience"
     [showNotices]="showNotices"
     [showWarnings]="showWarnings"
     [showErrors]="showErrors"
+    [aggressiveness]="aggressiveness"
   ></app-sniff-list>
 
   <!--<div style="height: 40px; position: fixed; bottom: 0; width: 940px; text-align: center; font-size: 11px; color: #ccc;">Copyright © 2017 FPS Strategy and Support</div>-->
