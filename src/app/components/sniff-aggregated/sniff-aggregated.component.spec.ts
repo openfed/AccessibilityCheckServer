@@ -22,16 +22,17 @@ describe('SniffComponent', () => {
       ['Suggested techniques', '<a href="http://www.example.com">test</a>']
     ];
     component.results = {
-      'http://www.example.com': [
-        {
+      hash: {
+        numResults: 1,
+        result: {
           code: 'WCAG2AA.Principle2.Guideline2_4.2_4_2.H25.2',
           context: 'foo',
           message: 'foo',
           selector: 'foo',
           type: 'notice',
           typeCode: 3
-        }
-      ]
+        },
+      }
     };
     fixture.detectChanges();
   });

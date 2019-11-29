@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 import { SafeHtml } from '@angular/platform-browser';
 import { AudienceType } from '../../audience';
 import { AggregationAggressiveness } from '../../model/aggregation-aggressiveness';
-import { SniffList } from 'src/app/interfaces/sniff-list';
+import { SniffList } from '../../interfaces/sniff-list';
 
 /** Dialog invoked from the SniffUrlComponent. */
 @Component({
