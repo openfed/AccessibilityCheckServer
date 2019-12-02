@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, SimpleChanges, NgZone } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, NgZone } from '@angular/core';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 
 import { ApiService } from '../../services/api.service';
@@ -38,7 +38,7 @@ import { AggregationAggressiveness } from '../../model/aggregation-aggressivenes
     ])
   ]
 })
-export class SniffListComponent implements OnInit, OnChanges {
+export class SniffListComponent implements OnInit {
   public AggregationAggressiveness = AggregationAggressiveness;
 
   @Input() showNotices: boolean;
@@ -47,6 +47,9 @@ export class SniffListComponent implements OnInit, OnChanges {
   @Input() audience: AudienceType = AudienceType.All;
   @Input() aggressiveness: AggregationAggressiveness = AggregationAggressiveness.Minimal;
 
+  private lastShowNotices: boolean;
+  private lastShowWarnings: boolean;
+  private lastShowErrors: boolean;
   private lastSniffList: SniffList;
   private lastAudience: string;
   private lastAggressiveness: AggregationAggressiveness;
@@ -56,14 +59,25 @@ export class SniffListComponent implements OnInit, OnChanges {
     if (
       this.audience === this.lastAudience &&
       this.aggressiveness === this.lastAggressiveness &&
-      this.lastSniffList === this.sniffListService.getSniffList()
+      this.lastSniffList === this.sniffListService.getSniffList() &&
+      this.showWarnings === this.lastShowWarnings &&
+      this.showNotices === this.lastShowNotices &&
+      this.showErrors === this.lastShowErrors
     ) {
       return this.cachedAggregated;
     }
+    let codes = Object.keys(this.sniffListService.getSniffList());
+    codes.forEach(code =>
+      this.sniffListService.filterResults(code, this.showNotices, this.showWarnings, this.showErrors)
+    );
     this.cachedAggregated = this.sniffListService.getFilteredSniffList(this.audience, this.aggressiveness);
     this.lastSniffList = this.sniffListService.getSniffList();
     this.lastAudience = this.audience;
     this.lastAggressiveness = this.aggressiveness;
+    this.lastShowErrors = this.showErrors;
+    this.lastShowNotices = this.showNotices;
+    this.lastShowWarnings = this.showWarnings;
+
     return this.cachedAggregated;
   }
 
@@ -138,22 +152,6 @@ export class SniffListComponent implements OnInit, OnChanges {
         this.sniffList = {};
       }
     });
-  }
-
-  /** Ensure that results are filtered again whenever "show errors/warnings/notices" is toggled. */
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      (changes.showErrors !== undefined && changes.showErrors.currentValue !== changes.showErrors.previousValue) ||
-      (changes.showWarnings !== undefined &&
-        changes.showWarnings.currentValue !== changes.showWarnings.previousValue) ||
-      (changes.showNotices !== undefined && changes.showNotices.currentValue !== changes.showNotices.previousValue)
-    ) {
-      // Get the list of message codes.
-      let codes = Object.keys(this.sniffList);
-      codes.forEach(code =>
-        this.sniffListService.filterResults(code, this.showNotices, this.showWarnings, this.showErrors)
-      );
-    }
   }
 
   private openSnackBar(message: string): void {
