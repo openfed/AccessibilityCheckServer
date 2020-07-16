@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "^8.2.14",
     "@angular/router": "^8.2.14",
     "core-js": "^2.6.5",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "md5": "^2.2.1",
     "rxjs": "^6.5.3",
     "rxjs-compat": "^6.5.3",
