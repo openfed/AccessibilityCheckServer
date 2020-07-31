@@ -1,5 +1,5 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AggregatedResult } from '../../interfaces/item-code-result-list';
 import { SniffUrlDialogComponent } from '../sniff-url/sniff-url-dialog.component';
 

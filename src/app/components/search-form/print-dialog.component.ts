@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SafeHtml } from '@angular/platform-browser';
 import { AudienceType } from '../../audience';
 import { AggregationAggressiveness } from '../../model/aggregation-aggressiveness';

@@ -3,7 +3,7 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
 
 import { ApiService } from '../../services/api.service';
 import { ReinitService } from '../../services/reinit.service';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
 
 import { UrlDatabase } from './url-database';
 import { UrlDataSource } from './url-data-source';

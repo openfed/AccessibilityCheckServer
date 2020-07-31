@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit, NgZone } from '@angular/core';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 
 import { PrintDialogComponent } from './print-dialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ImportedData } from '../../interfaces/imported-data';
 import { ApiService } from '../../services/api.service';
 import { SniffListService } from '../../services/sniff-list.service';

@@ -2,7 +2,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import { UrlData } from './url-data';
 import { UrlDatabase } from './url-database';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
 import 'rxjs/add/observable/merge';
 
 /** Data source class for the table */

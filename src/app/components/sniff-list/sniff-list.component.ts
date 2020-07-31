@@ -6,7 +6,7 @@ import { ReinitService } from '../../services/reinit.service';
 import { SniffListService } from '../../services/sniff-list.service';
 import { ImportExportService } from '../../services/import-export.service';
 import { SniffList } from '../../interfaces/sniff-list';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImportedData } from '../../interfaces/imported-data';
 
 import 'rxjs/Rx';
