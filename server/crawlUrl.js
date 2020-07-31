@@ -2,6 +2,7 @@ const pa11y = require('pa11y');
 const async = require('async');
 const validUrl = require('valid-url');
 const crawl = require('./crawl');
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 function crawlUrl(data, ws) {
   function sendMessage(type, payload) {
