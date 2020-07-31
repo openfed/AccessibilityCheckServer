@@ -7,6 +7,9 @@
       "check-space"
     ],
     "curly": false,
+    "deprecation": {
+      "severity": "warning"
+    },
     "forin": true,
     "interface-name": false,
     "jsdoc-format": true,
@@ -37,7 +40,6 @@
     "no-string-literal": true,
     "no-switch-case-fall-through": true,
     "no-unused-expression": true,
-    "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-var-requires": false,
     "radix": true,
