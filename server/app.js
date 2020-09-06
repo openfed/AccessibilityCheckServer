@@ -18,7 +18,7 @@ function heartbeat(ws) {
 const wss = new WebSocket.Server({ server });
 const crawlUrl = require('./crawlUrl');
 
-const env = process.env.NODE_ENV || 'development';
+const env = 'development';
 app.locals.ENV = env;
 app.locals.ENV_DEVELOPMENT = env === 'development';
 

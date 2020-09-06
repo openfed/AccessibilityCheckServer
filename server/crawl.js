@@ -1,5 +1,9 @@
 const Crawler = require('simplecrawler');
 
+
+
+
+
 /**
  * Performs a crawl
  * @param url {string} - Url to start crawling at.
@@ -11,7 +15,29 @@ function crawl(url, depth) {
   const crawler = Crawler(url).on('fetchcomplete', (queueItem, responseBuffer, response) => {
     console.log('Crawled: ', queueItem.url);
   });
-
+  var originalEmit = crawler.emit;
+  crawler.emit = function(evtName, queueItem) {
+      crawler.queue.countItems({ fetched: true }, function(err, completeCount) {
+          if (err) {
+              throw err;
+          }
+  
+          crawler.queue.getLength(function(err, length) {
+              if (err) {
+                  throw err;
+              }
+  
+              console.log("fetched %d of %d — %d open requests, %d open listeners",
+                  completeCount,
+                  length,
+                  crawler._openRequests.length,
+                  crawler._openListeners);
+          });
+      });
+  
+      console.log(evtName, queueItem ? queueItem.url ? queueItem.url : queueItem : null);
+      originalEmit.apply(crawler, arguments);
+  };
   crawler.getRequestOptions = function(queueItem) {
     const requestOptions = Crawler.prototype.getRequestOptions.call(this, queueItem);
     if (requestOptions.headers.cookie === '') {
@@ -40,13 +66,7 @@ function crawl(url, depth) {
   });
 
   // Log all crawler errors..
-  const originalEmit = crawler.emit;
-  crawler.emit = function(evtName, queueItem) {
-    if (evtName.indexOf('error') !== -1) {
-      console.log(evtName, queueItem ? (queueItem.url ? queueItem.url : queueItem) : null);
-    }
-    originalEmit.apply(crawler, arguments);
-  };
+  
 
   // Start crawling.
   console.log(`Crawling URL: ${url}`);

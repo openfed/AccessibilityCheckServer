@@ -138,6 +138,10 @@ export class SearchFormComponent implements OnInit {
     this.importExportService.exportData();
   }
 
+  generateCsv(): void {
+    this.importExportService.generateCsv(); 
+  }
+
   getDescription(x: string): string {
     const descriptions = {
       Section508: 'Section 508',

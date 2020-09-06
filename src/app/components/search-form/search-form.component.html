@@ -128,6 +128,18 @@
     >
       <i style="transform:scale(0.8)" class="material-icons">print</i> Print
     </button>
+
+    <button
+      class="csv"
+      style="margin-left: 20px;"
+      [disabled]="!exportable"
+      mat-raised-button
+      (click)="generateCsv()"
+      matTooltip="Click to download the current results as a CSV file."
+    >
+      <i style="transform:scale(0.8)" class="material-icons">file_download</i>
+      CSV
+    </button>
   </div>
   <div
     style="

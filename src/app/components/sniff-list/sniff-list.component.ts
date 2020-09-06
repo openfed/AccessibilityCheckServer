@@ -1,6 +1,5 @@
 import { Component, OnInit, OnChanges, Input, NgZone } from '@angular/core';
 import { trigger, state, transition, animate, style } from '@angular/animations';
-
 import { ApiService } from '../../services/api.service';
 import { ReinitService } from '../../services/reinit.service';
 import { SniffListService } from '../../services/sniff-list.service';
@@ -8,6 +7,7 @@ import { ImportExportService } from '../../services/import-export.service';
 import { SniffList } from '../../interfaces/sniff-list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImportedData } from '../../interfaces/imported-data';
+import { sniffListToCsv } from '../../functions/csv';
 
 import 'rxjs/Rx';
 import { AudienceType } from '../../audience';
@@ -123,6 +123,23 @@ export class SniffListComponent implements OnInit {
         a.download = 'export.json';
         a.click();
         this.openSnackBar('Data exported.');
+      }
+    });
+
+
+    // Perform the CSV generation whenever "true" is emitted.
+    this.importExportService.doGenerateCsv$.subscribe(item => {
+      if (item === true) {
+        const blob = new Blob([sniffListToCsv(this.sniffList)], {
+          type: 'text/csv;charset=utf-8;'
+        });
+        const url = window.URL.createObjectURL(blob);
+        let a = window.document.createElement('a');
+        a.href = url;
+        const domain = Object.keys(Object.values(this.sniffList)[0].items)[0].replace('http://','').replace('https://','').split(/[/?#]/)[0].replace(/\./g, '_');
+        a.download = domain + '.csv';
+        a.click();
+        this.openSnackBar('CSV generated.');
       }
     });
 
