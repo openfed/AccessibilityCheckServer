@@ -1,50 +1,53 @@
 <div>
-  <div>
-    <label for="url">Enter your URL</label>
-  </div>
+  <ng-container *ngIf="crawlAllowed">
+    <div>
+      <label for="url">Enter your URL</label>
+    </div>
 
-  <mat-form-field class="example-full-width">
-    <input
-      matTooltip="Enter your URL here."
-      size="50"
-      matInput
-      title="Enter your URL"
-      placeholder="E.g.: http://www.example.com"
-      type="text"
-      id="url"
-      required
-      pattern="https?://.+"
-      [(ngModel)]="model.url"
-      name="url"
-      #url="ngModel"
-    />
-    <mat-error *ngIf="url.errors && url.errors.required">
-      URL is required!
-    </mat-error>
-    <mat-error *ngIf="url.invalid">
-      Must be a valid URL!
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input
+        matTooltip="Enter your URL here."
+        size="50"
+        matInput
+        title="Enter your URL"
+        placeholder="E.g.: http://www.example.com"
+        type="text"
+        id="url"
+        required
+        pattern="https?://.+"
+        [(ngModel)]="model.url"
+        name="url"
+        #url="ngModel"
+      />
+      <mat-error *ngIf="url.errors && url.errors.required">
+        URL is required!
+      </mat-error>
+      <mat-error *ngIf="url.invalid">
+        Must be a valid URL!
+      </mat-error>
+    </mat-form-field>
 
-  <mat-select
-    [disabled]="isSniffing"
-    placeholder="Standard"
-    class="select"
-    *ngIf="standards$ | async"
-    [(ngModel)]="model.standard"
-    matTooltip="Choose the accessibility standard to use for this check."
-  >
-    <mat-option *ngFor="let standard of standards$ | async" [value]="standard">{{
-      getDescription(standard)
-    }}</mat-option>
-  </mat-select>
+    <mat-select
+      [disabled]="isSniffing"
+      placeholder="Standard"
+      class="select"
+      *ngIf="standards$ | async"
+      [(ngModel)]="model.standard"
+      matTooltip="Choose the accessibility standard to use for this check."
+    >
+      <mat-option *ngFor="let standard of standards$ | async" [value]="standard">{{
+        getDescription(standard)
+      }}</mat-option>
+    </mat-select>
 
-  <button mat-button class="tools" (click)="advanced = !advanced" matTooltip="Click to toggle advanced options.">
-    Tools
-  </button>
+
+    <button mat-button class="tools" (click)="advanced = !advanced" matTooltip="Click to toggle advanced options.">
+      Tools
+    </button>
+  </ng-container>
   <div
     [@fadeInOut]="'in'"
-    *ngIf="advanced"
+    *ngIf="advanced || !crawlAllowed"
     style="
       position: relative;
       top: 30px;
@@ -62,6 +65,7 @@
       matTooltip="Choose how deep the crawler should go."
       class="select crawl-depth"
       [(ngModel)]="model.crawlDepth"
+      *ngIf="crawlAllowed"
     >
       <mat-option value="1">0 (page on the URL only)</mat-option>
       <mat-option value="2">1 (page on the URL & links)</mat-option>
@@ -108,6 +112,16 @@
       >
     </span>
     <button
+      class="web-import"
+      style="margin-left: 20px;"
+      mat-raised-button
+      (click)="webImport()"
+      matTooltip="Click to browse and import one of the BOSA-hosted exports."
+    >
+      <i style="transform:scale(0.8)" class="material-icons">cloud</i>
+      Browse
+    </button>
+    <button
       class="export-results"
       style="margin-left: 20px;"
       [disabled]="!exportable"
@@ -151,10 +165,11 @@
     <button
       mat-raised-button
       class="mat-primary check-url"
-      [disabled]="url.errrors || url.invalid"
+      [disabled]="!url || url.errrors || url.invalid"
       (click)="sendUrl()"
       style="margin-top: 20px; transform:scale(1.2)"
       matTooltip="Click to start checking the URL."
+      *ngIf="crawlAllowed"
     >
       Check
     </button>

@@ -2,15 +2,15 @@ import { Component, Inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SafeHtml } from '@angular/platform-browser';
-import { AudienceType } from '../../audience';
-import { AggregationAggressiveness } from '../../model/aggregation-aggressiveness';
-import { SniffList } from '../../interfaces/sniff-list';
+import { AudienceType } from '../../../audience';
+import { AggregationAggressiveness } from '../../../model/aggregation-aggressiveness';
+import { SniffList } from '../../../interfaces/sniff-list';
 
 /** Dialog invoked from the SniffUrlComponent. */
 @Component({
   selector: 'print-dialog',
   templateUrl: './print-dialog.component.html',
-  styleUrls: ['./search-form.component.scss']
+  styleUrls: ['../search-form.component.scss']
 })
 export class PrintDialogComponent {
   /** srcdoc contents of the iframe */

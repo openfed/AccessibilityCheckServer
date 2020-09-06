@@ -1,0 +1,14 @@
+.url {
+    text-decoration: underline;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.content {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    max-height: 600px;
+    overflow: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+}

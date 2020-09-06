@@ -11,6 +11,7 @@ import 'rxjs/add/operator/filter';
 import config from '../config';
 import { filter, map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { environment } from 'environments/environment';
 
 /**
  * Service used for communicating with the backend server.
@@ -28,7 +29,9 @@ export class ApiService {
   private socketMessages: Subject<{ type: string; payload: any }> = new Subject<{ type: string; payload: any }>();
 
   constructor(private http: HttpClient, private ngZone: NgZone) {
-    this.connectSocket();
+    if (environment.crawlAllowed) {
+      this.connectSocket();
+    }
   }
 
   /**

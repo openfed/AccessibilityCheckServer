@@ -1,4 +1,4 @@
-<div class="pages-found-table table-container mat-elevation-z2" [hidden]="!urlDatabase.data.length">
+<div class="pages-found-table table-container mat-elevation-z2" *ngIf="urlDatabase.data.length > 0">
   <mat-table [@fadeInOut]="'in'" #table layout-align="center center" [dataSource]="dataSource">
     <ng-container cdkColumnDef="url">
       <mat-header-cell *cdkHeaderCellDef> URL </mat-header-cell>

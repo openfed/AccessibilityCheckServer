@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, OnInit, NgZone } from '@angular/core';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 
-import { PrintDialogComponent } from './print-dialog.component';
+import { PrintDialogComponent } from './print-dialog/print-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ImportedData } from '../../interfaces/imported-data';
 import { ApiService } from '../../services/api.service';
@@ -10,6 +10,8 @@ import { ImportExportService } from '../../services/import-export.service';
 import { Observable } from 'rxjs/Observable';
 import { AudienceType } from '../../audience';
 import { AggregationAggressiveness } from '../../model/aggregation-aggressiveness';
+import { environment } from 'environments/environment';
+import { WebImportDialogComponent } from './web-import-dialog/web-import-dialog.component';
 
 /** Component for the form with search widgets */
 @Component({
@@ -37,6 +39,7 @@ import { AggregationAggressiveness } from '../../model/aggregation-aggressivenes
   ]
 })
 export class SearchFormComponent implements OnInit {
+  public crawlAllowed = environment.crawlAllowed;
   /** Whether we are currently sniffing or not. */
   isSniffing: boolean = false;
   /** Whether the current state is exportable. */
@@ -150,6 +153,10 @@ export class SearchFormComponent implements OnInit {
       WCAG2AAA: 'WCAG 2.1 AAA'
     };
     return descriptions[x] || x;
+  }
+
+  webImport(): void {
+    this.dialog.open(WebImportDialogComponent);
   }
 
   /** Import data. */

@@ -44,6 +44,29 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "readOnlyProduction": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.readonlyprod.ts"
+                }
+              ]
             }
           }
         },
@@ -55,6 +78,9 @@
           "configurations": {
             "production": {
               "browserTarget": "bosa-accessiblity-check-server:build:production"
+            },
+            "readOnlyProduction" : {
+              "browserTarget": "bosa-accessiblity-check-server:build:readOnlyProduction"
             }
           }
         },

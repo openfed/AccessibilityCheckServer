@@ -31,11 +31,12 @@ import { SniffComponent } from './components/sniff/sniff.component';
 import { SniffListComponent } from './components/sniff-list/sniff-list.component';
 import { SniffUrlComponent } from './components/sniff-url/sniff-url.component';
 import { SniffUrlDialogComponent } from './components/sniff-url/sniff-url-dialog.component';
-import { PrintDialogComponent } from './components/search-form/print-dialog.component';
+import { PrintDialogComponent } from './components/search-form/print-dialog/print-dialog.component';
 import { TogglesComponent } from './components/toggles/toggles.component';
 import { FederalheaderComponent } from './components/federalheader/federalheader.component';
 import { SniffAggregatedComponent } from './components/sniff-aggregated/sniff-aggregated.component';
 import { SniffAggregatedItemComponent } from './components/sniff-aggregated-item/sniff-aggregated-item.component';
+import { WebImportDialogComponent } from './components/search-form/web-import-dialog/web-import-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { SniffAggregatedItemComponent } from './components/sniff-aggregated-item
     SniffUrlDialogComponent,
     PrintDialogComponent,
     TogglesComponent,
-    FederalheaderComponent
+    FederalheaderComponent,
+    WebImportDialogComponent
   ],
   imports: [
     BrowserModule,

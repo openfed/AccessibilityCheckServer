@@ -26,6 +26,7 @@ The pa11y HTMLCS test runner has been patched (using patch-package) to use the H
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `ng build --configuration=readOnlyProduction` to build a read-only build (without the crawler).
 
 ## Running unit tests
 
