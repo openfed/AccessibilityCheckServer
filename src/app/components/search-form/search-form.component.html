@@ -5,20 +5,9 @@
     </div>
 
     <mat-form-field class="example-full-width">
-      <input
-        matTooltip="Enter your URL here."
-        size="50"
-        matInput
-        title="Enter your URL"
-        placeholder="E.g.: http://www.example.com"
-        type="text"
-        id="url"
-        required
-        pattern="https?://.+"
-        [(ngModel)]="model.url"
-        name="url"
-        #url="ngModel"
-      />
+      <input matTooltip="Enter your URL here." size="50" matInput title="Enter your URL"
+        placeholder="E.g.: http://www.example.com" type="text" id="url" required pattern="https?://.+"
+        [(ngModel)]="model.url" name="url" #url="ngModel" />
       <mat-error *ngIf="url.errors && url.errors.required">
         URL is required!
       </mat-error>
@@ -27,14 +16,8 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-select
-      [disabled]="isSniffing"
-      placeholder="Standard"
-      class="select"
-      *ngIf="standards$ | async"
-      [(ngModel)]="model.standard"
-      matTooltip="Choose the accessibility standard to use for this check."
-    >
+    <mat-select [disabled]="isSniffing" placeholder="Standard" class="select" *ngIf="standards$ | async"
+      [(ngModel)]="model.standard" matTooltip="Choose the accessibility standard to use for this check.">
       <mat-option *ngFor="let standard of standards$ | async" [value]="standard">{{
         getDescription(standard)
       }}</mat-option>
@@ -45,10 +28,7 @@
       Tools
     </button>
   </ng-container>
-  <div
-    [@fadeInOut]="'in'"
-    *ngIf="advanced || !crawlAllowed"
-    style="
+  <div [@fadeInOut]="'in'" *ngIf="advanced || !crawlAllowed" style="
       position: relative;
       top: 30px;
       margin-bottom: 25px;
@@ -57,16 +37,9 @@
       margin: 0 auto;
       padding: 30px;
       background: #f9f9f9;
-    "
-  >
-    <mat-select
-      [disabled]="isSniffing"
-      placeholder="Crawl depth"
-      matTooltip="Choose how deep the crawler should go."
-      class="select crawl-depth"
-      [(ngModel)]="model.crawlDepth"
-      *ngIf="crawlAllowed"
-    >
+    ">
+    <mat-select [disabled]="isSniffing" placeholder="Crawl depth" matTooltip="Choose how deep the crawler should go."
+      class="select crawl-depth" [(ngModel)]="model.crawlDepth" *ngIf="crawlAllowed">
       <mat-option value="1">0 (page on the URL only)</mat-option>
       <mat-option value="2">1 (page on the URL & links)</mat-option>
       <mat-option value="3">2</mat-option>
@@ -74,25 +47,16 @@
       <mat-option value="-1">Unlimited</mat-option>
     </mat-select>
 
-    <mat-select
-      class="select"
-      placeholder="Show results for"
+    <mat-select class="select" placeholder="Show results for"
       matTooltip="Show results applicable to developers only, to content managers only, or all results?"
-      [(ngModel)]="model.audience"
-      (ngModelChange)="onAudienceChange($event)"
-    >
+      [(ngModel)]="model.audience" (ngModelChange)="onAudienceChange($event)">
       <mat-option value="all">All</mat-option>
       <mat-option value="dev">Developers</mat-option>
       <mat-option value="cm">Content managers</mat-option>
     </mat-select>
 
-    <mat-select
-      class="select"
-      placeholder="Aggressiveness"
-      matTooltip="Choose the level of aggregation aggressiveness"
-      [(ngModel)]="model.aggressiveness"
-      (ngModelChange)="onAggressivenessChange($event)"
-    >
+    <mat-select class="select" placeholder="Aggressiveness" matTooltip="Choose the level of aggregation aggressiveness"
+      [(ngModel)]="model.aggressiveness" (ngModelChange)="onAggressivenessChange($event)">
       <mat-option [value]="AggregationAggressiveness.Minimal">Minimal aggregation</mat-option>
       <mat-option [value]="AggregationAggressiveness.Limited">Limited aggregation</mat-option>
       <mat-option [value]="AggregationAggressiveness.VariableContent">Variable content aggregation</mat-option>
@@ -102,86 +66,48 @@
 
     <span style="margin-left: 20px;">
       <input style="display: none;" id="input-file-id" type="file" accept="text/plain" (change)="importData($event)" />
-      <label
-        for="input-file-id"
-        matTooltip="Click to import previously exported results."
-        class="mat-raised-button import-results"
-      >
+      <label for="input-file-id" matTooltip="Click to import previously exported results."
+        class="mat-raised-button import-results">
         <i class="material-icons" style="position: relative; top: 6px; transform:scale(0.8)">file_upload</i>
-        Import</label
-      >
+        Import</label>
     </span>
-    <button
-      class="web-import"
-      style="margin-left: 20px;"
-      mat-raised-button
-      (click)="webImport()"
-      matTooltip="Click to browse and import one of the BOSA-hosted exports."
-    >
+    <button class="web-import" style="margin-left: 20px;" mat-raised-button (click)="webImport()"
+      matTooltip="Click to browse and import one of the BOSA-hosted exports.">
       <i style="transform:scale(0.8)" class="material-icons">cloud</i>
       Browse
     </button>
-    <button
-      class="export-results"
-      style="margin-left: 20px;"
-      [disabled]="!exportable"
-      mat-raised-button
+    <button class="export-results" style="margin-left: 20px;" [disabled]="!exportable" mat-raised-button
       (click)="exportData()"
-      matTooltip="Click to export the current results. Clicking this button will make your browser download a file that you can later import."
-    >
+      matTooltip="Click to export the current results. Clicking this button will make your browser download a file that you can later import.">
       <i style="transform:scale(0.8)" class="material-icons">file_download</i>
       Export
     </button>
-    <button
-      class="print-version"
-      style="margin-left: 20px;"
-      [disabled]="!exportable"
-      mat-raised-button
-      (click)="printVersion()"
-      matTooltip="Click to get a print version of the currently displayed sniff results."
-    >
+    <button class="print-version" style="margin-left: 20px;" [disabled]="!exportable" mat-raised-button
+      (click)="printVersion()" matTooltip="Click to get a print version of the currently displayed sniff results.">
       <i style="transform:scale(0.8)" class="material-icons">print</i> Print
     </button>
 
-    <button
-      class="csv"
-      style="margin-left: 20px;"
-      [disabled]="!exportable"
-      mat-raised-button
-      (click)="generateCsv()"
-      matTooltip="Click to download the current results as a CSV file."
-    >
+    <button class="csv" style="margin-left: 20px;" [disabled]="!exportable" mat-raised-button (click)="generateCsv()"
+      matTooltip="Click to download the current results as a CSV file.">
       <i style="transform:scale(0.8)" class="material-icons">file_download</i>
       CSV
     </button>
   </div>
-  <div
-    style="
+  <div style="
     position: relative;
     top: 50px;
     height: 120px;
-  "
-  >
-    <button
-      mat-raised-button
-      class="mat-primary check-url"
-      [disabled]="!url || url.errrors || url.invalid"
-      (click)="sendUrl()"
-      style="margin-top: 20px; transform:scale(1.2)"
-      matTooltip="Click to start checking the URL."
-      *ngIf="crawlAllowed"
-    >
+  ">
+    <button mat-raised-button class="mat-primary check-url" [disabled]="!url || url.errrors || url.invalid"
+      (click)="sendUrl()" style="margin-top: 20px; transform:scale(1.2)" matTooltip="Click to start checking the URL."
+      *ngIf="crawlAllowed">
       Check
     </button>
     <span class="is-sniffing" style="margin-top: 15px;" [@fadeInOut]="'in'" *ngIf="isSniffing">
       <mat-spinner diameter="20" class="spinner"></mat-spinner>
       <span style="font-size: 14px; padding-left: 5px; padding-right: 5px;"> Sniffing</span>
-      <button
-        mat-raised-button
-        class="mat-warn abort"
-        (click)="abortAll()"
-        matTooltip="Click to abort the current check."
-      >
+      <button mat-raised-button class="mat-warn abort" (click)="abortAll()"
+        matTooltip="Click to abort the current check.">
         Abort
       </button>
     </span>

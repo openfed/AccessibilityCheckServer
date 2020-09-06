@@ -13,6 +13,8 @@ import { MatDialogRef } from "@angular/material/dialog";
 })
 export class WebImportDialogComponent implements OnInit {
   public urls$: Observable<string[]>;
+  public loading = false;
+
   constructor(
     private httpClient: HttpClient,
     private service: ImportExportService,
@@ -26,10 +28,12 @@ export class WebImportDialogComponent implements OnInit {
   ngOnInit(): void {}
 
   public importFromUrl(url: string) {
+    this.loading = true;
     this.httpClient
       .get(url, { responseType: "text" })
       .subscribe((sniffList: string) => {
         this.service.importData(sniffList);
+        this.loading = false;
         this.dialogRef.close();
       });
   }
