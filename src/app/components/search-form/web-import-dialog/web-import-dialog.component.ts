@@ -3,8 +3,8 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "environments/environment";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { ImportExportService } from 'app/services/import-export.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { ImportExportService } from "app/services/import-export.service";
+import { MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: "app-web-import-dialog",
@@ -13,19 +13,21 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class WebImportDialogComponent implements OnInit {
   public urls$: Observable<string[]>;
-  constructor(private httpClient: HttpClient, private service: ImportExportService, private dialogRef: MatDialogRef<WebImportDialogComponent>) {
+  constructor(
+    private httpClient: HttpClient,
+    private service: ImportExportService,
+    private dialogRef: MatDialogRef<WebImportDialogComponent>
+  ) {
     this.urls$ = this.httpClient
-      .get(environment.urlList, {responseType: 'text'})
-      .pipe(
-        map((x: string) => x.split(/\r?\n/))
-      );
+      .get(environment.urlList, { responseType: "text" })
+      .pipe(map((x: string) => x.split(/\r?\n/).filter(item => item !== "")));
   }
 
   ngOnInit(): void {}
 
   public importFromUrl(url: string) {
     this.httpClient
-      .get(url, {responseType: 'text'})
+      .get(url, { responseType: "text" })
       .subscribe((sniffList: string) => {
         this.service.importData(sniffList);
         this.dialogRef.close();
@@ -33,6 +35,6 @@ export class WebImportDialogComponent implements OnInit {
   }
 
   public filename(url: string): string {
-    return url.split('/').pop();
+    return url.split("/").pop();
   }
 }
