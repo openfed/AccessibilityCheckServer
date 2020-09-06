@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SniffResult } from '../interfaces/sniff-result';
 import { SniffLoading } from '../interfaces/sniff-loading';

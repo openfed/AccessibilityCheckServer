@@ -1,5 +1,5 @@
 import { UrlData } from './url-data';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { NgZone } from '@angular/core';
 

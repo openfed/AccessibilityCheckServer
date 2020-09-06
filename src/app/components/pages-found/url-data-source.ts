@@ -1,5 +1,5 @@
 import { DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { UrlData } from './url-data';
 import { UrlDatabase } from './url-database';
 import { MatPaginator } from '@angular/material/paginator';

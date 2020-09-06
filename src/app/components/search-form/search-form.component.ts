@@ -7,7 +7,7 @@ import { ImportedData } from '../../interfaces/imported-data';
 import { ApiService } from '../../services/api.service';
 import { SniffListService } from '../../services/sniff-list.service';
 import { ImportExportService } from '../../services/import-export.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AudienceType } from '../../audience';
 import { AggregationAggressiveness } from '../../model/aggregation-aggressiveness';
 import { environment } from 'environments/environment';
