@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="211c191bb4674c7284545c8b30b02802213656f2" datatype="html">
+        <source>Please click a file to import:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/web-import-dialog/web-import-dialog.component.ts</context>
+          <context context-type="linenumber">33,43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="94516fa213706c67ce5a5b5765681d7fb032033a" datatype="html">
+        <source>Loading...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/web-import-dialog/web-import-dialog.component.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3042471551767868839" datatype="html">
+        <source>Notice</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-aggregated-item/sniff-aggregated-item.component.ts</context>
+          <context context-type="linenumber">33,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6759205696902713848" datatype="html">
+        <source>Warning</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-aggregated-item/sniff-aggregated-item.component.ts</context>
+          <context context-type="linenumber">37,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1519954996184640001" datatype="html">
+        <source>Error</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-aggregated-item/sniff-aggregated-item.component.ts</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="334548632284947467" datatype="html">
+        <source>average per page</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-aggregated-item/sniff-aggregated-item.component.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6829218544e108e152f5fa72cb79c4ccb82e0d06" datatype="html">
+        <source>View</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-aggregated-item/sniff-aggregated-item.component.ts</context>
+          <context context-type="linenumber">28,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6811901802533648897" datatype="html">
+        <source>N/A</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-aggregated/sniff-aggregated.component.ts</context>
+          <context context-type="linenumber">108,109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2807800733729323332" datatype="html">
+        <source>Yes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-aggregated/sniff-aggregated.component.ts</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3542042671420335679" datatype="html">
+        <source>No</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-aggregated/sniff-aggregated.component.ts</context>
+          <context context-type="linenumber">112,113</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="779e11c32a7179ddfe4b4dcebece0594ebbca338" datatype="html">
+        <source>Collapse (-)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-aggregated/sniff-aggregated.component.ts</context>
+          <context context-type="linenumber">54,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bffdabf8012f5345131a6748c2836d0707f154e2" datatype="html">
+        <source>Expand (+)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-aggregated/sniff-aggregated.component.ts</context>
+          <context context-type="linenumber">79,88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="316a46dfd8cf122cd57924525b802d7205c52e9f" datatype="html">
+        <source> Other official information and services: <x id="START_LINK"/>www.belgium.be<x id="CLOSE_LINK"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/federalheader/federalheader.component.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0b858549cad2dd25f76159fd4698379fd5e71fc5" datatype="html">
+        <source>.be logo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/federalheader/federalheader.component.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="21f3d3a5452267a8a05b30218e2538df5f648892" datatype="html">
+        <source>{VAR_PLURAL, plural, =1 {Error} other {Errors}}</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/toggles/toggles.component.ts</context>
+          <context context-type="linenumber">35,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="375eaaad29870f57fa017a8be608c2e5c6495f9d" datatype="html">
+        <source>Toggle errors</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/toggles/toggles.component.ts</context>
+          <context context-type="linenumber">61,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5f6a2e18b23870accbf4cf86e318fb51d378dc89" datatype="html">
+        <source>{VAR_PLURAL, plural, =1 {Warning} other {Warnings}}</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/toggles/toggles.component.ts</context>
+          <context context-type="linenumber">82,93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d6844636b450d0c46653899e48c1943cd0664358" datatype="html">
+        <source>Toggle warnings</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/toggles/toggles.component.ts</context>
+          <context context-type="linenumber">112,122</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5385b2672019cff584b3cc3c04e9224a6f02187d" datatype="html">
+        <source>{VAR_PLURAL, plural, =1 {Notice} other {Notices}}</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/toggles/toggles.component.ts</context>
+          <context context-type="linenumber">138,155</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8e91740b350b86202a5211048bb08e51cf351418" datatype="html">
+        <source> <x id="ICU" equiv-text="s.numC"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/toggles/toggles.component.ts</context>
+          <context context-type="linenumber">170,179</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c5c4dfd7001c1d3b22b344d9abc9eb25c72e0f07" datatype="html">
+        <source>Toggle notices</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/toggles/toggles.component.ts</context>
+          <context context-type="linenumber">187</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fba6af4c93eb62fbbf1793c0408b259cde3f9f84" datatype="html">
+        <source> Code snippet: <x id="START_TAG_PRE"/><x id="INTERPOLATION"/><x id="CLOSE_TAG_PRE"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-url/sniff-url-dialog.component.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="358dfb5c8030e22580c82c90a5dae8f39fa4b458" datatype="html">
+        <source> Selector: <x id="START_TAG_PRE"/><x id="INTERPOLATION"/><x id="CLOSE_TAG_PRE"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-url/sniff-url-dialog.component.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7685017724318031843" datatype="html">
+        <source>1 notice</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-url/sniff-url.component.ts</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6249774711473732239" datatype="html">
+        <source><x id="PH" equiv-text="this.numNotices"/> notices</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-url/sniff-url.component.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1025728440921243521" datatype="html">
+        <source>1 warning</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-url/sniff-url.component.ts</context>
+          <context context-type="linenumber">42,43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6958694284476391769" datatype="html">
+        <source><x id="PH" equiv-text="this.numNotices"/> warnings</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-url/sniff-url.component.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6191865108032473830" datatype="html">
+        <source>1 error</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-url/sniff-url.component.ts</context>
+          <context context-type="linenumber">48,49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8755645479432082091" datatype="html">
+        <source><x id="PH" equiv-text="this.numErrors"/> errors</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-url/sniff-url.component.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1631480544601531741" datatype="html">
+        <source>Data exported.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-list/sniff-list.component.ts</context>
+          <context context-type="linenumber">125,126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5364790163264919625" datatype="html">
+        <source>CSV generated.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-list/sniff-list.component.ts</context>
+          <context context-type="linenumber">142,143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4703259712684957653" datatype="html">
+        <source>Invalid data!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-list/sniff-list.component.ts</context>
+          <context context-type="linenumber">153,154</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4640248400983183903" datatype="html">
+        <source>Imported!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-list/sniff-list.component.ts</context>
+          <context context-type="linenumber">159,160</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6a71ea175eda0369a254bb42e4e18e53fa6f0c15" datatype="html">
+        <source>Whether all results apply to the top-level element only (instead of to a specific element)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-list/sniff-list.component.ts</context>
+          <context context-type="linenumber">60,70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ef8e9e08c80285f290b41ac7efd28f3692020200" datatype="html">
+        <source> Top only </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-list/sniff-list.component.ts</context>
+          <context context-type="linenumber">76,85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1f332ec66f3bc8d943c248091be7f92772ba280f" datatype="html">
+        <source>Expand</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff-list/sniff-list.component.ts</context>
+          <context context-type="linenumber">99,104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9002871522056222346" datatype="html">
+        <source>page</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff/sniff.component.ts</context>
+          <context context-type="linenumber">115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3000507912077213325" datatype="html">
+        <source>pages</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/sniff/sniff.component.ts</context>
+          <context context-type="linenumber">115,116</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cf167ebc5c67de89f0ed37a18b3f2fb54b07693d" datatype="html">
+        <source> URL </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/pages-found/pages-found.component.ts</context>
+          <context context-type="linenumber">68,73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="81b97b8ea996ad1e4f9fca8415021850214884b1" datatype="html">
+        <source>Status</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/pages-found/pages-found.component.ts</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2dc42d2514006562447f746e6b20c2005849cdc4" datatype="html">
+        <source>Enter your URL here.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">60,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b3b67fb77b6bebd9c77b8a391f6b15be02d653eb" datatype="html">
+        <source>Enter your URL</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">79,87</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="40702e8adc9b536f014ae56777861a8a3b756e56" datatype="html">
+        <source>E.g.: http://www.example.com</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">101,112</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="308fb230ce54d26256eb5f5f47e0e97582542fc1" datatype="html">
+        <source>Click to toggle advanced options.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">129,141</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cc5d364b9b05522c80411d9d91e7d0033b4da728" datatype="html">
+        <source> Tools </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">159,167</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ca15a6dc750438f025a71e1768b2b67e9fec88a3" datatype="html">
+        <source> URL is required! </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">180,183</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="102f01f53005f4cd8d76938962e39ad20ae2ef6a" datatype="html">
+        <source>Choose the accessibility standard to use for this check.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="78c278f23cfe83edb63ab986dec607cfe1ff4f23" datatype="html">
+        <source>Show results for</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="60c2d6e2b7b9a1019cbf0650e7265f7cb8c45e65" datatype="html">
+        <source>Show results applicable to developers only, to content managers only, or all results?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dfc3c34e182ea73c5d784ff7c8135f087992dac1" datatype="html">
+        <source>All</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0c7f255903e77d61fb2ed40959c63a42ab4b26e0" datatype="html">
+        <source>Developers</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70a8b54632eab5cb2e5e4c83f3ae8ddf21bbec79" datatype="html">
+        <source>Content managers</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8cb6412715f8f0c5554709959f3b2f7533326364" datatype="html">
+        <source>Aggressiveness</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fd035f70abde898623e5be505b9f35d483561697" datatype="html">
+        <source>Choose the level of aggregation aggressiveness</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0ec954376ecae7dfec4c8dd21aeefcce8d0991bf" datatype="html">
+        <source>Minimal aggregation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="615f457206665da40263dc831a61157037d72910" datatype="html">
+        <source>Limited aggregation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="470abaf75466f3810603c3605a3cca2e73281166" datatype="html">
+        <source>Variable content aggregation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b87a601c2496734e55c025c2d5ff3f86b3f10b5f" datatype="html">
+        <source>Repeated error aggregation 1</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eb9f345b7786c357c5727c50b42b9267075382a9" datatype="html">
+        <source>Repeated error aggregation 2</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8cbf0a1fcfc76cdd4f211cf6c6935fd497370ab7" datatype="html">
+        <source>Click to import previously exported results.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7fb5a2196af989b5efc4b687c1d0ccc44c5aab3b" datatype="html">
+        <source><x id="START_ITALIC_TEXT"/>file_upload<x id="CLOSE_ITALIC_TEXT"/> Import</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5f414b6efe0ad08804ed79a1344138def802d95a" datatype="html">
+        <source>Click to browse and import one of the BOSA-hosted exports.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="55e528fbe1218fa7dfae3ff502320c2d7be8d393" datatype="html">
+        <source>Click to export the current results. Clicking this button will make your browser download a file that you can later import.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cc57f5f9d9aa9ddf90de97ddeeb466689a7bfabc" datatype="html">
+        <source><x id="START_ITALIC_TEXT"/>file_download<x id="CLOSE_ITALIC_TEXT"/> Export </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ec638afe14a49640aa64deb407755195c604b53b" datatype="html">
+        <source>Click to get a print version of the currently displayed sniff results.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6bfcdaa70ee6cc4d5dfbfab27fdd42b9b611c860" datatype="html">
+        <source><x id="START_ITALIC_TEXT"/>print<x id="CLOSE_ITALIC_TEXT"/> Print </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="25b844a0480293f86e7830c1e281387e9bd450ec" datatype="html">
+        <source>Click to download the current results as a CSV file.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="df96ab134d67b6249fe37b331c02f83447785d8c" datatype="html">
+        <source><x id="START_ITALIC_TEXT"/>file_download<x id="CLOSE_ITALIC_TEXT"/> CSV </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ea8ab2ca1ffebef2fd2eeaee3fb61cbcb53a83ba" datatype="html">
+        <source>Crawl depth</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9dcfab1334669e008391339b1a2c20b7b9b74118" datatype="html">
+        <source>Choose how deep the crawler should go.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="de9aa994d8eb332219ec83a229729d1080f13637" datatype="html">
+        <source>0 (page on the URL only)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="96e551e81757b4aa8556bd9d7f08c32df95b8697" datatype="html">
+        <source>1 (page on the URL &amp; links)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="446c5c1e01eb5746070f8fd6e6647013366baa03" datatype="html">
+        <source>2</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a98b6fdf6513b598738f4d70bd87a696690504fa" datatype="html">
+        <source>3</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="aa6fb95c355f172bda303de1ce2f38c251a149cf" datatype="html">
+        <source>Unlimited</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2dee10003c4d896dbd7fad651f1ec7de7cf917d0" datatype="html">
+        <source>Click to start checking the URL.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="937fab74185ea83c7c377bdba862e2615f0ed556" datatype="html">
+        <source> Check </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a54c3d918e09e829950efeb7e98f8b7b26680ea8" datatype="html">
+        <source> Sniffing</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="caf02a1652705a5349f834402497de3bd1abfef4" datatype="html">
+        <source>Click to abort the current check.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7473df66a02a83638db39d971ae52c29ff159083" datatype="html">
+        <source> Abort </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/search-form.component.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2865090317172276816" datatype="html">
+        <source>Limited Aggregation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5586853053273959497" datatype="html">
+        <source>Variable Content Aggregation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">63,64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6456624040623789547" datatype="html">
+        <source>Repeated Error Aggregation 1</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7916500064060074012" datatype="html">
+        <source>Repeated Error Aggregation 2</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">67,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3423606159355926649" datatype="html">
+        <source>Considered a single result when: 1. Code snippet is identical and 2. Selector is identical and 3. Success criterion and suggested technique(s) are identical.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">75,76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5780567669523060868" datatype="html">
+        <source>Considered a single result when: 1. Selector is identical and 2. Success criterion and suggested technique(s) are identical</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">77,78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7441135162381259034" datatype="html">
+        <source>Considered a single result when: 1. Selector is identical except for the final selection level and 2. Success criterion and suggested technique(s) are identical</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">79,80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7712239619924722128" datatype="html">
+        <source>Considered a single result when: 1. Selector is identical except for the final two selection levels and 2. Success criterion and suggested technique(s) are identical</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">81,82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6968239436032955110" datatype="html">
+        <source>Results filtered for: Content managers</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">90,91</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2396688121596604507" datatype="html">
+        <source>Results filtered for: Developers</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">92,93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ed1075e7a520e8b4aabb5b15d0234de44ca43342" datatype="html">
+        <source>BOSA logo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">22,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="140fb39b2920b578705f4709936632db24c5244b" datatype="html">
+        <source>Accessibility Check</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">42,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1842094669219148549" datatype="html">
+        <source>Accessibility check results</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1973488991099075178" datatype="html">
+        <source>Results filtered for: Content Managers</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5689342496744432811" datatype="html">
+        <source>Aggregation level: Limited</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7383209019684737929" datatype="html">
+        <source>Code snippet</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3540108566782816830" datatype="html">
+        <source>Selector</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8598544882731133931" datatype="html">
+        <source>Aggregation level: Repeated Error 1</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5802349377443257307" datatype="html">
+        <source>Aggregation level: Repeated Error 2</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7522856528555145312" datatype="html">
+        <source>Aggregation level: Variable Content</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1678690339592249255" datatype="html">
+        <source>Detected on</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71034262288928638" datatype="html">
+        <source>Average per page</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a38dbee9e94ca7d1d1483a1c72e39a76ee0e7214" datatype="html">
+        <source>Print version</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">31,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e592cd3fe3c9119c83e6dd5cba89a0841cd35959" datatype="html">
+        <source>Print</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search-form/print-dialog/print-dialog.component.ts</context>
+          <context context-type="linenumber">47,51</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
