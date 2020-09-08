@@ -26,15 +26,15 @@ export class PrintDialogComponent {
     },
     private sanitizer: DomSanitizer
   ) {
-    let html: string = '<h1>Accessibility check results</h1>';
+    let html: string = `<h1>${$localize `Accessibility check results`}</h1>`;
     if (this.data.audience === AudienceType.Developers) {
-      html += '<h2>Results filtered for: Developers</h2>';
+      html += `<h2>${$localize `Results filtered for: Developers`}</h2>`;
     } else if (this.data.audience === AudienceType.ContentManagers) {
-      html += '<h2>Results filtered for: Content Managers</h2>';
+      html += `<h2>${$localize `Results filtered for: Content Managers`}</h2>`;
     }
 
     if (this.data.aggressiveness === AggregationAggressiveness.Limited) {
-      html += '<h2>Aggregation level: Limited</h2>';
+      html += `<h2>${$localize `Aggregation level: Limited`}</h2>`;
 
       Object.keys(this.data.sniffList)
         .sort()
@@ -65,10 +65,10 @@ export class PrintDialogComponent {
               html +=
                 '<p>' + this.capitalizeFirstLetter(this.escapeHtml(item.type)) + ': ' + item.message + '</em></p>';
               if (item.context) {
-                html += '<p>Code snippet: <pre>' + this.escapeHtml(item.context) + '</pre></p>';
+                html += '<p>' + $localize `Code snippet` + ': <pre>' + this.escapeHtml(item.context) + '</pre></p>';
               }
               if (item.selector) {
-                html += '<p>Selector: <pre>' + this.escapeHtml(item.selector) + '</pre></p>';
+                html += '<p>' + $localize `Selector` + ': <pre>' + this.escapeHtml(item.selector) + '</pre></p>';
               }
               html += '</div>';
             });
@@ -78,11 +78,11 @@ export class PrintDialogComponent {
         });
     } else {
       if (this.data.aggressiveness === AggregationAggressiveness.RepeatedError1) {
-        html += '<h2>Aggregation level: Repeated Error 1</h2>';
+        html += `<h2>${$localize `Aggregation level: Repeated Error 1`}</h2>`;
       } else if (this.data.aggressiveness === AggregationAggressiveness.RepeatedError2) {
-        html += '<h2>Aggregation level: Repeated Error 2</h2>';
+        html += `<h2>${$localize `Aggregation level: Repeated Error 2`}</h2>`;
       } else if (this.data.aggressiveness === AggregationAggressiveness.VariableContent) {
-        html += '<h2>Aggregation level: Variable Content</h2>';
+        html += `<h2>${$localize `Aggregation level: Variable Content`}</h2>`;
       }
 
       Object.keys(this.data.sniffList)
@@ -109,19 +109,19 @@ export class PrintDialogComponent {
           Object.keys(this.data.sniffList[result].aggregatedFilteredItems).forEach(hash => {
             const res = this.data.sniffList[result].aggregatedFilteredItems[hash];
             html += '<div style="padding: 10px; border: 1px solid #000">';
-            html += '<h3>Detected on ' + this.escapeHtml(res.numResults.toString()) + (res.numResults === 1 ? ' page' : ' pages');
+            html += '<h3>' + $localize `Detected on` + ' ' + this.escapeHtml(res.numResults.toString()) + ' ' + (res.numResults === 1 ? $localize `page` : $localize `pages`);
             if (res.averageOccurrencesPerPage) {
-              html += ' (Average per page: ' + this.escapeHtml(res.averageOccurrencesPerPage.toString() + ')');
+              html += ' (' + $localize `Average per page` + ': ' + this.escapeHtml(res.averageOccurrencesPerPage.toString() + ')');
             }
             html += '</h3>';
             const item = res.result;
             html += '<div style="padding: 10px; border: 1px solid #000">';
             html += '<p>' + this.capitalizeFirstLetter(this.escapeHtml(item.type)) + ': ' + item.message + '</em></p>';
             if (item.context) {
-              html += '<p>Code snippet: <pre>' + this.escapeHtml(item.context) + '</pre></p>';
+              html += '<p>' + $localize `Code snippet` + ': <pre>' + this.escapeHtml(item.context) + '</pre></p>';
             }
             if (item.selector) {
-              html += '<p>Selector: <pre>' + this.escapeHtml(item.selector) + '</pre></p>';
+              html += '<p>' + $localize `Selector` + ': <pre>' + this.escapeHtml(item.selector) + '</pre></p>';
             }
             html += '</div>';
             html += '</div>';

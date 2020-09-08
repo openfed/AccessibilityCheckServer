@@ -13,12 +13,12 @@
   </div>
 
   <div class="rTableCell" style="width: 60px;">
-    {{ topOnly() ? 'Yes' : 'No' }}
+    {{ isTopOnly() }}
   </div>
   <div class="rTableCell" style="width: 70px;">
     <a class="toggle-expand-collapse" (click)="expanded = !expanded">
-      <span class="collapse" *ngIf="expanded">Collapse (-)</span>
-      <span class="expand" *ngIf="!expanded">Expand (+)</span>
+      <span class="collapse" *ngIf="expanded" i18n>Collapse (-)</span>
+      <span class="expand" *ngIf="!expanded" i18n>Expand (+)</span>
     </a>
   </div>
 </div>

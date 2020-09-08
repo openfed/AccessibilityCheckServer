@@ -89,21 +89,21 @@ export class SniffComponent implements OnInit, DoCheck {
   getStats(): string {
     let stats = [];
     if (this.numNotices === 1) {
-      stats.push('1 notice');
+      stats.push($localize `1 notice`);
     } else if (this.numNotices > 1) {
-      stats.push(this.numNotices + ' notices');
+      stats.push($localize `${this.numNotices} notices`);
     }
 
     if (this.numWarnings === 1) {
-      stats.push('1 warning');
+      stats.push($localize `1 warning`);
     } else if (this.numWarnings > 1) {
-      stats.push(this.numWarnings + ' warnings');
+      stats.push($localize `${this.numNotices} warnings`);
     }
 
     if (this.numErrors === 1) {
-      stats.push('1 error');
+      stats.push($localize `1 error`);
     } else if (this.numErrors > 1) {
-      stats.push(this.numErrors + ' errors');
+      stats.push($localize `${this.numErrors} errors`);
     }
 
     return stats.join(', ');
@@ -112,6 +112,10 @@ export class SniffComponent implements OnInit, DoCheck {
   /** Returns a human-readable string with the number of pages. */
   getNumPages(): string {
     const len = this.keysGetter(this.results).length;
-    return len + ' ' + (len === 1 ? 'page' : 'pages');
+    return len + ' ' + (len === 1 ? $localize `page` : $localize `pages`);
+  }
+
+  isTopOnly(): string {
+    return this.topOnly ? $localize `Yes` : $localize `No`;
   }
 }

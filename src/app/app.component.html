@@ -2,10 +2,10 @@
   <app-federalheader></app-federalheader>
 
   <div class="logo">
-    <img src="assets/logo.png" alt="BOSA logo" />
+    <img src="assets/logo.png" i18n-alt alt="BOSA logo" />
   </div>
 
-  <h1>Accessibility Check</h1>
+  <h1 i18n>Accessibility Check</h1>
   <app-search-form
     (audienceChanged)="onAudienceChanged($event)"
     (aggressivenessChanged)="onAggressivenessChanged($event)"
@@ -25,6 +25,4 @@
     [showErrors]="showErrors"
     [aggressiveness]="aggressiveness"
   ></app-sniff-list>
-
-  <!--<div style="height: 40px; position: fixed; bottom: 0; width: 940px; text-align: center; font-size: 11px; color: #ccc;">Copyright © 2017 FPS Strategy and Support</div>-->
 </div>

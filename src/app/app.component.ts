@@ -58,13 +58,13 @@ export class AppComponent {
   public get aggressivenessText(): string {
     switch (this.aggressiveness) {
       case AggregationAggressiveness.Limited:
-        return 'Limited Aggregation';
+        return $localize `Limited Aggregation`;
       case AggregationAggressiveness.VariableContent:
-        return 'Variable Content Aggregation';
+        return  $localize `Variable Content Aggregation`;
       case AggregationAggressiveness.RepeatedError1:
-        return 'Repeated Error Aggregation 1';
+        return  $localize `Repeated Error Aggregation 1`;
       case AggregationAggressiveness.RepeatedError2:
-        return 'Repeated Error Aggregation 2';
+        return  $localize `Repeated Error Aggregation 2`;
       default:
         return '';
     }
@@ -72,13 +72,13 @@ export class AppComponent {
   public get aggressivenessDescription(): string {
     switch (this.aggressiveness) {
       case AggregationAggressiveness.Limited:
-        return 'Considered a single result when: 1. Code snippet is identical and 2. Selector is identical and 3. Success criterion and suggested technique(s) are identical.';
+        return $localize `Considered a single result when: 1. Code snippet is identical and 2. Selector is identical and 3. Success criterion and suggested technique(s) are identical.`;
       case AggregationAggressiveness.VariableContent:
-        return 'Considered a single result when: 1. Selector is identical and 2. Success criterion and suggested technique(s) are identical';
+        return $localize `Considered a single result when: 1. Selector is identical and 2. Success criterion and suggested technique(s) are identical`;
       case AggregationAggressiveness.RepeatedError1:
-        return 'Considered a single result when: 1. Selector is identical except for the final selection level and 2. Success criterion and suggested technique(s) are identical';
+        return $localize `Considered a single result when: 1. Selector is identical except for the final selection level and 2. Success criterion and suggested technique(s) are identical`;
       case AggregationAggressiveness.RepeatedError2:
-        return 'Considered a single result when: 1. Selector is identical except for the final two selection levels and 2. Success criterion and suggested technique(s) are identical';
+        return $localize `Considered a single result when: 1. Selector is identical except for the final two selection levels and 2. Success criterion and suggested technique(s) are identical`;
       default:
         return '';
     }
@@ -87,9 +87,9 @@ export class AppComponent {
   private getAudienceText(): string {
     switch (this.audience) {
       case AudienceType.ContentManagers:
-        return 'Results filtered for: Content managers';
+        return $localize `Results filtered for: Content managers`;
       case AudienceType.Developers:
-        return 'Results filtered for: Developers';
+        return $localize `Results filtered for: Developers`;
       default:
         return '';
     }

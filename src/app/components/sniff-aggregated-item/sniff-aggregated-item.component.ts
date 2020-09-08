@@ -30,19 +30,19 @@ export class SniffAggregatedItemComponent implements OnInit {
   getStats(): string {
     let stats = [];
     if (this.numNotices === 1) {
-      stats.push('Notice');
+      stats.push($localize `Notice`);
     }
 
     if (this.numWarnings === 1) {
-      stats.push('Warning');
+      stats.push($localize `Warning`);
     }
 
     if (this.numErrors === 1) {
-      stats.push('Error');
+      stats.push($localize `Error`);
     }
     stats.push('detected on ' + this.result.numResults + (this.result.numResults === 1 ? ' page' : ' pages'));
     if (this.result.averageOccurrencesPerPage) {
-      stats.push(`average per page: ${this.result.averageOccurrencesPerPage}`);
+      stats.push($localize `average per page` + `: ${this.result.averageOccurrencesPerPage}`);
     }
     return stats.join(', ');
   }

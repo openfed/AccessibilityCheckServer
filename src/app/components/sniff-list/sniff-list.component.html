@@ -8,11 +8,11 @@
       <div
         class="rTableHead"
         style="width: 60px;"
-        matTooltip="Whether all results apply to the top-level element only (instead of to a specific element)"
+        i18n-matTooltip i18n matTooltip="Whether all results apply to the top-level element only (instead of to a specific element)"
       >
         Top only
       </div>
-      <div class="rTableHead" style="width: 70px;">Expand</div>
+      <div class="rTableHead" style="width: 70px;" i18n>Expand</div>
     </div>
     <ng-container *ngIf="aggressiveness === AggregationAggressiveness.Minimal">
       <app-sniff

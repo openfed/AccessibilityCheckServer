@@ -122,7 +122,7 @@ export class SniffListComponent implements OnInit {
         a.href = url;
         a.download = 'export.json';
         a.click();
-        this.openSnackBar('Data exported.');
+        this.openSnackBar($localize `Data exported.`);
       }
     });
 
@@ -139,7 +139,7 @@ export class SniffListComponent implements OnInit {
         const domain = Object.keys(Object.values(this.sniffList)[0].items)[0].replace('http://','').replace('https://','').split(/[/?#]/)[0].replace(/\./g, '_');
         a.download = domain + '.csv';
         a.click();
-        this.openSnackBar('CSV generated.');
+        this.openSnackBar($localize `CSV generated.`);
       }
     });
 
@@ -150,16 +150,16 @@ export class SniffListComponent implements OnInit {
       try {
         importedData = JSON.parse(data);
       } catch (e) {
-        this.openSnackBar('Invalid data!');
+        this.openSnackBar($localize `Invalid data!`);
         return;
       }
 
       if (importedData.version !== undefined && importedData.sniffList !== undefined) {
         this.sniffList = importedData.sniffList;
-        this.openSnackBar('Imported!');
+        this.openSnackBar($localize `Imported!`);
       } else {
         // Not a valid json file.
-        this.openSnackBar('Invalid data!');
+        this.openSnackBar($localize `Invalid data!`);
       }
     });
 

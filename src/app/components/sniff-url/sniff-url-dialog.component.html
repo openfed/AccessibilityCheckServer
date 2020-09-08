@@ -8,11 +8,11 @@
       <span [innerHTML]="sanitizer.bypassSecurityTrustHtml(result.message)"></span>
     </div>
 
-    <div *ngIf="result.context" style="padding: 15px; background-color: #f0f0f0;">
+    <div *ngIf="result.context" style="padding: 15px; background-color: #f0f0f0;" i18n>
       Code snippet:
       <pre>{{ result.context }}</pre>
     </div>
-    <div *ngIf="result.selector" style="padding: 15px; background-color: #f0f0f0;">
+    <div *ngIf="result.selector" style="padding: 15px; background-color: #f0f0f0;" i18n>
       Selector:
       <pre>{{ result.selector }}</pre>
     </div>

@@ -1,12 +1,12 @@
 <div class="pages-found-table table-container mat-elevation-z2" *ngIf="urlDatabase.data.length > 0">
   <mat-table [@fadeInOut]="'in'" #table layout-align="center center" [dataSource]="dataSource">
     <ng-container cdkColumnDef="url">
-      <mat-header-cell *cdkHeaderCellDef> URL </mat-header-cell>
+      <mat-header-cell i18n *cdkHeaderCellDef> URL </mat-header-cell>
       <mat-cell class="url" *cdkCellDef="let row"> {{ row.url }} </mat-cell>
     </ng-container>
 
     <ng-container cdkColumnDef="status">
-      <mat-header-cell *cdkHeaderCellDef> Status </mat-header-cell>
+      <mat-header-cell *cdkHeaderCellDef i18n>Status</mat-header-cell>
       <mat-cell *cdkCellDef="let row">
         <mat-spinner
           diameter="20"

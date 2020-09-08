@@ -1,7 +1,7 @@
 <h2 matDialogTitle>Web Import</h2>
 <div class="content">
-    <div>Please click a file to import:</div>
-    <div *ngIf="loading">Loading...</div>
+    <div i18n>Please click a file to import:</div>
+    <div *ngIf="loading" i18n>Loading...</div>
     <div class="url-list">
         <ul>
             <li *ngFor="let url of urls$ | async" class="url" (click)="importFromUrl(url)">{{ filename(url) }}</li>

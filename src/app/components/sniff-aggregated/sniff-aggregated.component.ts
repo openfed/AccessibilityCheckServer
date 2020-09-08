@@ -89,15 +89,15 @@ export class SniffAggregatedComponent implements OnInit, DoCheck {
   getStats(): string {
     let stats = [];
     if (this.numNotices > 0) {
-      stats.push('Notice');
+      stats.push($localize `Notice`);
     }
 
     if (this.numWarnings > 0) {
-      stats.push('Warning');
+      stats.push($localize `Warning`);
     }
 
     if (this.numErrors > 0) {
-      stats.push('Error');
+      stats.push($localize `Error`);
     }
 
     return stats.join(', ');
@@ -105,6 +105,10 @@ export class SniffAggregatedComponent implements OnInit, DoCheck {
 
   /** Returns a human-readable string with the number of pages. */
   getNumPages(): string {
-    return 'N/A';
+    return $localize `N/A`;
+  }
+  
+  isTopOnly(): string {
+    return this.topOnly ? $localize `Yes` : $localize `No`;
   }
 }
