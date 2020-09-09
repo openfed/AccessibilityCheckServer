@@ -1,4 +1,4 @@
-<div class="pages-found-table table-container mat-elevation-z2" *ngIf="urlDatabase.data.length > 0">
+<div class="pages-found-table table-container mat-elevation-z2" [ngClass]="{hidden: !urlDatabase.data.length }">
   <mat-table [@fadeInOut]="'in'" #table layout-align="center center" [dataSource]="dataSource">
     <ng-container cdkColumnDef="url">
       <mat-header-cell i18n *cdkHeaderCellDef> URL </mat-header-cell>
@@ -30,7 +30,6 @@
   </mat-table>
 
   <mat-paginator
-    #paginator
     [length]="urlDatabase.data.length"
     [pageIndex]="0"
     [pageSize]="10"

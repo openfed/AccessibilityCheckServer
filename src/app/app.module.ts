@@ -75,7 +75,6 @@ import { WebImportDialogComponent } from './components/search-form/web-import-di
     MatTooltipModule
   ],
   providers: [ApiService, ReinitService, ImportExportService, SniffListService],
-  entryComponents: [SniffUrlDialogComponent, PrintDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

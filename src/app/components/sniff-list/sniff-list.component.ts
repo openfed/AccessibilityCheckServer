@@ -66,7 +66,7 @@ export class SniffListComponent implements OnInit {
     ) {
       return this.cachedAggregated;
     }
-    let codes = Object.keys(this.sniffListService.getSniffList());
+    const codes = Object.keys(this.sniffListService.getSniffList());
     codes.forEach(code =>
       this.sniffListService.filterResults(code, this.showNotices, this.showWarnings, this.showErrors)
     );

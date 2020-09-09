@@ -1,7 +1,7 @@
 <div *ngIf="show" class="toggles">
   <mat-card class="toggle-card num-errors mat-elevation-z2">
     <div class="num">{{ numErrors }}</div>
-    <div style="padding: 10px;">
+    <div style="padding: 10px;" i18n>
       {numErrors, plural, =1 {Error} other {Errors}}
     </div>
     <label for="mat-slide-toggle-1-input" style="display: none;" i18n>Toggle errors</label>
