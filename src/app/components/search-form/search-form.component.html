@@ -1,5 +1,5 @@
 <div>
-  <ng-container *ngIf="crawlAllowed">
+  <div [ngClass]="{'hidden': !crawlAllowed}">
     <div>
       <label for="url">Enter your URL</label>
     </div>
@@ -8,10 +8,11 @@
       <input i18n-matTooltip i18n-title i18n-placeholder matTooltip="Enter your URL here." size="50" matInput title="Enter your URL"
         placeholder="E.g.: http://www.example.com" type="text" id="url" required pattern="https?://.+"
         [(ngModel)]="model.url" name="url" #url="ngModel" />
-      <mat-error i18n *ngIf="url.errors && url.errors.required">
+
+      <mat-error i18n>
         URL is required!
       </mat-error>
-      <mat-error 18n *ngIf="url.invalid">
+      <mat-error>
         Must be a valid URL!
       </mat-error>
     </mat-form-field>
@@ -27,7 +28,7 @@
     <button i18n mat-button class="tools" (click)="advanced = !advanced" i18n-matTooltip matTooltip="Click to toggle advanced options.">
       Tools
     </button>
-  </ng-container>
+  </div>
   <div [@fadeInOut]="'in'" *ngIf="advanced || !crawlAllowed" style="
       position: relative;
       top: 30px;
@@ -98,9 +99,10 @@
     top: 50px;
     height: 120px;
   ">
-    <button mat-raised-button class="mat-primary check-url" [disabled]="url.errrors || url.invalid"
+
+    <button mat-raised-button class="mat-primary check-url" [disabled]="url.errors || url.invalid"
       (click)="sendUrl()" style="margin-top: 20px; transform:scale(1.2)" i18n-matTooltip matTooltip="Click to start checking the URL."
-      *ngIf="crawlAllowed" i18n>
+      [ngClass]="{'hidden': !crawlAllowed}" i18n>
       Check
     </button>
     <span class="is-sniffing" style="margin-top: 15px;" [@fadeInOut]="'in'" *ngIf="isSniffing">
