@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file datatype="plaintext" original="ng2.template" source-language="en" target-language="nl-NL">
+  <file datatype="plaintext" original="ng2.template" source-language="en" target-language="nl">
     <body>
       <trans-unit id="316a46dfd8cf122cd57924525b802d7205c52e9f" datatype="html">
         <source> Other official information and services: <x id="START_LINK"/>www.belgium.be<x id="CLOSE_LINK"/></source>
