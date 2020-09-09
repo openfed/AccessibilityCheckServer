@@ -26,6 +26,7 @@ export class PrintDialogComponent {
     },
     private sanitizer: DomSanitizer
   ) {
+    console.log(this.data);
     let html: string = `<h1>${$localize `Accessibility check results`}</h1>`;
     if (this.data.audience === AudienceType.Developers) {
       html += `<h2>${$localize `Results filtered for: Developers`}</h2>`;
@@ -33,8 +34,10 @@ export class PrintDialogComponent {
       html += `<h2>${$localize `Results filtered for: Content Managers`}</h2>`;
     }
 
-    if (this.data.aggressiveness === AggregationAggressiveness.Limited) {
-      html += `<h2>${$localize `Aggregation level: Limited`}</h2>`;
+    if (this.data.aggressiveness === AggregationAggressiveness.Limited || this.data.aggressiveness === AggregationAggressiveness.Minimal) {
+      if (this.data.aggressiveness === AggregationAggressiveness.Limited) {
+        html += `<h2>${$localize `Aggregation level: Limited`}</h2>`;
+      }
 
       Object.keys(this.data.sniffList)
         .sort()

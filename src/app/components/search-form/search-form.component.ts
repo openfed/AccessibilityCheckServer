@@ -181,7 +181,8 @@ export class SearchFormComponent implements OnInit {
         // we cannot use the values in the model either as the user may have manually changed
         // these values since the results were rendered.
         sniffList: this.sniffListService.getFilteredSniffList(this.model.audience, this.model.aggressiveness),
-        audience: this.model.audience
+        audience: this.model.audience,
+        aggressiveness: this.model.aggressiveness,
       }
     });
   }
