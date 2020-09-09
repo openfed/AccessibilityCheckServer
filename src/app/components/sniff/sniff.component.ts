@@ -97,7 +97,7 @@ export class SniffComponent implements OnInit, DoCheck {
     if (this.numWarnings === 1) {
       stats.push($localize `1 warning`);
     } else if (this.numWarnings > 1) {
-      stats.push($localize `${this.numNotices} warnings`);
+      stats.push($localize `${this.numWarnings} warnings`);
     }
 
     if (this.numErrors === 1) {
