@@ -21,6 +21,9 @@ function crawlUrl(data, ws) {
 
   // The standard to use.
   const { standard } = data;
+  
+  // The language to use.
+  const language = data.language || 'en';
 
   // How deep to crawl (-1 is unlimited).
   const depth = data.crawlDepth;
@@ -42,6 +45,7 @@ function crawlUrl(data, ws) {
 
       // Initialize the Pa11y accessibility test.
       const result = await pa11y(url, {
+        language,
         includeNotices: true,
         includeWarnings: true,
 

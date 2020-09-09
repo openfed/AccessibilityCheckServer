@@ -1,0 +1,12 @@
+diff --git a/node_modules/pa11y/lib/pa11y.js b/node_modules/pa11y/lib/pa11y.js
+index a724614..652d126 100644
+--- a/node_modules/pa11y/lib/pa11y.js
++++ b/node_modules/pa11y/lib/pa11y.js
+@@ -231,6 +231,7 @@ async function runPa11yTest(url, options, state) {
+ 		rules: options.rules,
+ 		runners: options.runners,
+ 		standard: options.standard,
++        language: options.language,
+ 		wait: options.wait
+ 	});
+ 	/* eslint-enable no-shadow, no-underscore-dangle */

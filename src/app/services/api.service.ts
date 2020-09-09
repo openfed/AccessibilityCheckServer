@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, Inject, LOCALE_ID } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -28,7 +28,7 @@ export class ApiService {
   private socket: WebSocket;
   private socketMessages: Subject<{ type: string; payload: any }> = new Subject<{ type: string; payload: any }>();
 
-  constructor(private http: HttpClient, private ngZone: NgZone) {
+  constructor(private http: HttpClient, private ngZone: NgZone, @Inject(LOCALE_ID) public locale: string) {
     if (environment.crawlAllowed) {
       this.connectSocket();
     }
@@ -44,7 +44,8 @@ export class ApiService {
     this.sendMessage('crawl-url', {
       url: url,
       standard: standard,
-      crawlDepth: crawlDepth
+      crawlDepth: crawlDepth,
+      language: this.locale,
     });
   }
 
