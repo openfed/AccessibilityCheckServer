@@ -5,6 +5,10 @@
     "baseUrl": "./",
     "types": []
   },
+  "angularCompilerOptions": {
+    "enableIvy": true,
+    "allowEmptyCodegenFiles": true
+  },
   "files": [
     "main.ts",
     "polyfills.ts"

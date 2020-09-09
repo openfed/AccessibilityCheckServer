@@ -98,7 +98,7 @@
     top: 50px;
     height: 120px;
   ">
-    <button mat-raised-button class="mat-primary check-url" [disabled]="!url || url.errrors || url.invalid"
+    <button mat-raised-button class="mat-primary check-url" [disabled]="url.errrors || url.invalid"
       (click)="sendUrl()" style="margin-top: 20px; transform:scale(1.2)" i18n-matTooltip matTooltip="Click to start checking the URL."
       *ngIf="crawlAllowed" i18n>
       Check
