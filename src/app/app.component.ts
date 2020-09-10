@@ -4,7 +4,7 @@ import { Toggle } from './interfaces/toggle';
 import { AudienceType } from './audience';
 import { AggregationAggressiveness } from './model/aggregation-aggressiveness';
 import { ImportExportService } from './services/import-export.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -19,12 +19,13 @@ export class AppComponent {
   audience: AudienceType = AudienceType.All;
   aggressiveness: AggregationAggressiveness = AggregationAggressiveness.Minimal;
   loadingImportFromUrl = false;
-  constructor(private reinitService: ReinitService, private importExportService: ImportExportService, private route: ActivatedRoute) {
+  constructor(private reinitService: ReinitService, private importExportService: ImportExportService, route: ActivatedRoute, private router: Router) {
     route.queryParams.subscribe(params => {
       if (params.importUrl) {
         this.loadingImportFromUrl = true;
         this.importExportService.importFromUrl(params.importUrl).subscribe(() => {
           this.loadingImportFromUrl = false;
+          this.router.navigate([]);
         });
       }
     });
