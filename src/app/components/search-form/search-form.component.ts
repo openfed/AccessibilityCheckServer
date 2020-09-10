@@ -163,13 +163,14 @@ export class SearchFormComponent implements OnInit {
   importData(event: any): void {
     let input = event.target;
     for (let index = 0; index < input.files.length; index++) {
+      const file = input.files[index];
       let reader = new FileReader();
       reader.onload = () => {
         // this 'data' is the content of the file
         let data = reader.result;
         this.importExportService.importData(data);
       };
-      reader.readAsText(input.files[index]);
+      file.type === 'application/x-gzip' ? reader.readAsArrayBuffer(file) : reader.readAsText(file);
     }
   }
 

@@ -66,7 +66,7 @@
     </mat-select>
 
     <span style="margin-left: 20px;">
-      <input style="display: none;" id="input-file-id" type="file" accept="text/plain" (change)="importData($event)" />
+      <input style="display: none;" id="input-file-id" type="file" accept="gz,json" (change)="importData($event)" />
       <label for="input-file-id" i18n-matTooltip matTooltip="Click to import previously exported results."
         class="mat-raised-button import-results" i18n>
         <i class="material-icons" style="position: relative; top: 6px; transform:scale(0.8)">file_upload</i>

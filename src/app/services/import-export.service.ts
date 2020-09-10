@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
+import pako from 'pako';
 
 /** This service help import/export data into the app or out of the app, so that users can save results for later viewing. */
 @Injectable({
@@ -28,7 +29,29 @@ export class ImportExportService {
 
   /** Send out a "do import" message with data. */
   public importData(data: any): void {
-    this.doImportSource.next(data);
+    function isJson(str: any) {
+      if (typeof str !== 'string') {
+        return false;
+      }
+      try {
+          JSON.parse(str);
+      } catch (e) {
+          return false;
+      }
+      return true;
+    }
+
+    function tryUngzip(x: any) {
+      try {
+        const result = pako.ungzip(x, { to: 'string' });
+        return result;
+      }
+      catch (e) {
+        return x;
+      }
+    }
+
+    this.doImportSource.next(isJson(data) ? data : tryUngzip(data));
   }
 
   public generateCsv(): void {

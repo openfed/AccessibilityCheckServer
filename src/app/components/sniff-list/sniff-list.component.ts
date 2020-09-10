@@ -8,7 +8,7 @@ import { SniffList } from '../../interfaces/sniff-list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImportedData } from '../../interfaces/imported-data';
 import { sniffListToCsv } from '../../functions/csv';
-
+import pako from 'pako';
 import 'rxjs/Rx';
 import { AudienceType } from '../../audience';
 import { AggregationAggressiveness } from '../../model/aggregation-aggressiveness';
@@ -114,13 +114,14 @@ export class SniffListComponent implements OnInit {
           sniffList: this.sniffList,
           version: '1.0'
         };
-        const blob = new Blob([JSON.stringify(data)], {
-          type: 'application/json'
+        const gzippedJson = pako.gzip(JSON.stringify(data));
+        const blob = new Blob([gzippedJson], {
+          type: 'application/json; charset=x-user-defined-binary'
         });
         const url = window.URL.createObjectURL(blob);
         let a = window.document.createElement('a');
         a.href = url;
-        a.download = 'export.json';
+        a.download = 'export.json.gz';
         a.click();
         this.openSnackBar($localize `Data exported.`);
       }
