@@ -37,6 +37,7 @@ import { FederalheaderComponent } from './components/federalheader/federalheader
 import { SniffAggregatedComponent } from './components/sniff-aggregated/sniff-aggregated.component';
 import { SniffAggregatedItemComponent } from './components/sniff-aggregated-item/sniff-aggregated-item.component';
 import { WebImportDialogComponent } from './components/search-form/web-import-dialog/web-import-dialog.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { WebImportDialogComponent } from './components/search-form/web-import-di
     MatProgressSpinnerModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    RouterModule.forRoot([])
   ],
   providers: [ApiService, ReinitService, ImportExportService, SniffListService],
   bootstrap: [AppComponent]

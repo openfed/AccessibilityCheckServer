@@ -3,6 +3,8 @@ import { ReinitService } from './services/reinit.service';
 import { Toggle } from './interfaces/toggle';
 import { AudienceType } from './audience';
 import { AggregationAggressiveness } from './model/aggregation-aggressiveness';
+import { ImportExportService } from './services/import-export.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +18,17 @@ export class AppComponent {
   audienceText: string = '';
   audience: AudienceType = AudienceType.All;
   aggressiveness: AggregationAggressiveness = AggregationAggressiveness.Minimal;
+  loadingImportFromUrl = false;
+  constructor(private reinitService: ReinitService, private importExportService: ImportExportService, private route: ActivatedRoute) {
+    route.queryParams.subscribe(params => {
+      if (params.importUrl) {
+        this.loadingImportFromUrl = true;
+        this.importExportService.importFromUrl(params.importUrl).subscribe(() => {
+          this.loadingImportFromUrl = false;
+        });
+      }
+    });
 
-  constructor(private reinitService: ReinitService) {
     // Whenever we reinitialize, show all notices/warnings/errors again.
     reinitService.reinitializer$.subscribe(item => {
       if (item === true) {

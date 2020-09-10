@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   crawlAllowed: true,
-  urlList: "https://check.accessibility.belgium.be:44301/import-urls.txt"
+  urlList: "https://check.accessibility.belgium.be:44301/import-urls.json"
 };

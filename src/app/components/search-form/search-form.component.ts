@@ -156,7 +156,7 @@ export class SearchFormComponent implements OnInit {
   }
 
   webImport(): void {
-    this.dialog.open(WebImportDialogComponent);
+    this.dialog.open(WebImportDialogComponent, { minWidth: 500, minHeight: 300 });
   }
 
   /** Import data. */
