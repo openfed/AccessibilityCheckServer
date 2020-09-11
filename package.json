@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --configuration=production --localize",
-    "build-readonlyprod": "ng build --configuration=readonlyProduction --localize",
+    "build-readonlyprod": "ng build --configuration=readOnlyProduction --localize",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
