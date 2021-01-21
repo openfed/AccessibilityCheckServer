@@ -26,7 +26,7 @@
     "pa11y-runner-htmlcs": "^1.2.0",
     "serve-favicon": "^2.5.0",
     "simplecrawler": "^1.1.9",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "valid-url": "^1.0.9",
     "ws": "^7.3.1"
   },
