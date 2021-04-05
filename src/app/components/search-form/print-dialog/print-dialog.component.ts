@@ -1,16 +1,16 @@
-import { Component, Inject } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SafeHtml } from '@angular/platform-browser';
-import { AudienceType } from '../../../audience';
-import { AggregationAggressiveness } from '../../../model/aggregation-aggressiveness';
-import { SniffList } from '../../../interfaces/sniff-list';
+import { Component, Inject } from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { SafeHtml } from "@angular/platform-browser";
+import { AudienceType } from "../../../audience";
+import { AggregationAggressiveness } from "../../../model/aggregation-aggressiveness";
+import { SniffList } from "../../../interfaces/sniff-list";
 
 /** Dialog invoked from the SniffUrlComponent. */
 @Component({
-  selector: 'print-dialog',
-  templateUrl: './print-dialog.component.html',
-  styleUrls: ['../search-form.component.scss']
+  selector: "print-dialog",
+  templateUrl: "./print-dialog.component.html",
+  styleUrls: ["../search-form.component.scss"]
 })
 export class PrintDialogComponent {
   /** srcdoc contents of the iframe */
@@ -26,109 +26,163 @@ export class PrintDialogComponent {
     },
     private sanitizer: DomSanitizer
   ) {
-    let html: string = `<h1>${$localize `Accessibility check results`}</h1>`;
+    let html: string = `<h1>${$localize`Accessibility check results`}</h1>`;
     if (this.data.audience === AudienceType.Developers) {
-      html += `<h2>${$localize `Results filtered for: Developers`}</h2>`;
+      html += `<h2>${$localize`Results filtered for: Developers`}</h2>`;
     } else if (this.data.audience === AudienceType.ContentManagers) {
-      html += `<h2>${$localize `Results filtered for: Content Managers`}</h2>`;
+      html += `<h2>${$localize`Results filtered for: Content Managers`}</h2>`;
     }
 
     if (this.data.aggressiveness === AggregationAggressiveness.Minimal) {
-
       Object.keys(this.data.sniffList)
         .sort()
         .forEach(result => {
-          if (Object.keys(this.data.sniffList[result].filteredItems).length === 0) {
+          if (
+            Object.keys(this.data.sniffList[result].filteredItems).length === 0
+          ) {
             return;
           }
           html += '<div style="padding: 10px; border: 1px solid #000">';
           html +=
             '<div style="margin-bottom: 10px;">' +
             this.stripHtml(this.data.sniffList[result].codeMessages[0][0]) +
-            ': ' +
+            ": " +
             this.stripHtml(this.data.sniffList[result].codeMessages[0][1]) +
-            '</div>';
+            "</div>";
           if (this.data.sniffList[result].codeMessages[1] !== undefined) {
             html +=
               '<div style="margin-bottom: 10px;">' +
               this.stripHtml(this.data.sniffList[result].codeMessages[1][0]) +
-              ': ' +
+              ": " +
               this.stripHtml(this.data.sniffList[result].codeMessages[1][1]) +
-              '</div>';
+              "</div>";
           }
-          Object.keys(this.data.sniffList[result].filteredItems).forEach(url => {
-            html += '<div style="padding: 10px; border: 1px solid #000">';
-            html += '<h3>' + this.escapeHtml(url) + '</h3>';
-            this.data.sniffList[result].filteredItems[url].forEach(item => {
+          Object.keys(this.data.sniffList[result].filteredItems).forEach(
+            url => {
               html += '<div style="padding: 10px; border: 1px solid #000">';
-              html +=
-                '<p>' + this.capitalizeFirstLetter(this.escapeHtml(item.type)) + ': ' + item.message + '</em></p>';
-              if (item.context) {
-                html += '<p>' + $localize `Code snippet` + ': <pre>' + this.escapeHtml(item.context) + '</pre></p>';
-              }
-              if (item.selector) {
-                html += '<p>' + $localize `Selector` + ': <pre>' + this.escapeHtml(item.selector) + '</pre></p>';
-              }
-              html += '</div>';
-            });
-            html += '</div>';
-          });
-          html += '</div>';
+              html += "<h3>" + this.escapeHtml(url) + "</h3>";
+              this.data.sniffList[result].filteredItems[url].forEach(item => {
+                html += '<div style="padding: 10px; border: 1px solid #000">';
+                html +=
+                  "<p>" +
+                  this.capitalizeFirstLetter(this.escapeHtml(item.type)) +
+                  ": " +
+                  item.message +
+                  "</em></p>";
+                if (item.context) {
+                  html +=
+                    "<p>" +
+                    $localize`Code snippet` +
+                    ": <pre>" +
+                    this.escapeHtml(item.context) +
+                    "</pre></p>";
+                }
+                if (item.selector) {
+                  html +=
+                    "<p>" +
+                    $localize`Selector` +
+                    ": <pre>" +
+                    this.escapeHtml(item.selector) +
+                    "</pre></p>";
+                }
+                html += "</div>";
+              });
+              html += "</div>";
+            }
+          );
+          html += "</div>";
         });
     } else {
       if (this.data.aggressiveness === AggregationAggressiveness.Limited) {
-        html += `<h2>${$localize `Aggregation level: Limited`}</h2>`;
-      }
-      else if (this.data.aggressiveness === AggregationAggressiveness.RepeatedError1) {
-        html += `<h2>${$localize `Aggregation level: Repeated Error 1`}</h2>`;
-      } else if (this.data.aggressiveness === AggregationAggressiveness.RepeatedError2) {
-        html += `<h2>${$localize `Aggregation level: Repeated Error 2`}</h2>`;
-      } else if (this.data.aggressiveness === AggregationAggressiveness.VariableContent) {
-        html += `<h2>${$localize `Aggregation level: Variable Content`}</h2>`;
+        html += `<h2>${$localize`Aggregation level: Limited`}</h2>`;
+      } else if (
+        this.data.aggressiveness === AggregationAggressiveness.RepeatedError1
+      ) {
+        html += `<h2>${$localize`Aggregation level: Repeated Error 1`}</h2>`;
+      } else if (
+        this.data.aggressiveness === AggregationAggressiveness.RepeatedError2
+      ) {
+        html += `<h2>${$localize`Aggregation level: Repeated Error 2`}</h2>`;
+      } else if (
+        this.data.aggressiveness === AggregationAggressiveness.VariableContent
+      ) {
+        html += `<h2>${$localize`Aggregation level: Variable Content`}</h2>`;
       }
 
       Object.keys(this.data.sniffList)
         .sort()
         .forEach(result => {
-          if (Object.keys(this.data.sniffList[result].aggregatedFilteredItems).length === 0) {
+          if (
+            Object.keys(this.data.sniffList[result].aggregatedFilteredItems)
+              .length === 0
+          ) {
             return;
           }
           html += '<div style="padding: 10px; border: 1px solid #000">';
           html +=
             '<div style="margin-bottom: 10px;">' +
             this.stripHtml(this.data.sniffList[result].codeMessages[0][0]) +
-            ': ' +
+            ": " +
             this.stripHtml(this.data.sniffList[result].codeMessages[0][1]) +
-            '</div>';
+            "</div>";
           if (this.data.sniffList[result].codeMessages[1] !== undefined) {
             html +=
               '<div style="margin-bottom: 10px;">' +
               this.stripHtml(this.data.sniffList[result].codeMessages[1][0]) +
-              ': ' +
+              ": " +
               this.stripHtml(this.data.sniffList[result].codeMessages[1][1]) +
-              '</div>';
+              "</div>";
           }
-          Object.keys(this.data.sniffList[result].aggregatedFilteredItems).forEach(hash => {
-            const res = this.data.sniffList[result].aggregatedFilteredItems[hash];
+          Object.keys(
+            this.data.sniffList[result].aggregatedFilteredItems
+          ).forEach(hash => {
+            const res = this.data.sniffList[result].aggregatedFilteredItems[
+              hash
+            ];
             html += '<div style="padding: 10px; border: 1px solid #000">';
-            html += '<h3>' + $localize `Detected on` + ' ' + this.escapeHtml(res.numResults.toString()) + ' ' + (res.numResults === 1 ? $localize `page` : $localize `pages`);
+            html +=
+              "<h3>" +
+              $localize`Detected on` +
+              " " +
+              this.escapeHtml(res.numResults.toString()) +
+              " " +
+              (res.numResults === 1 ? $localize`page` : $localize`pages`);
             if (res.averageOccurrencesPerPage) {
-              html += ' (' + $localize `Average per page` + ': ' + this.escapeHtml(res.averageOccurrencesPerPage.toString() + ')');
+              html +=
+                " (" +
+                $localize`Average per page` +
+                ": " +
+                this.escapeHtml(res.averageOccurrencesPerPage.toString() + ")");
             }
-            html += '</h3>';
+            html += "</h3>";
             const item = res.result;
             html += '<div style="padding: 10px; border: 1px solid #000">';
-            html += '<p>' + this.capitalizeFirstLetter(this.escapeHtml(item.type)) + ': ' + item.message + '</em></p>';
+            html +=
+              "<p>" +
+              this.capitalizeFirstLetter(this.escapeHtml(item.type)) +
+              ": " +
+              item.message +
+              "</em></p>";
             if (item.context) {
-              html += '<p>' + $localize `Code snippet` + ': <pre>' + this.escapeHtml(item.context) + '</pre></p>';
+              html +=
+                "<p>" +
+                $localize`Code snippet` +
+                ": <pre>" +
+                this.escapeHtml(item.context) +
+                "</pre></p>";
             }
             if (item.selector) {
-              html += '<p>' + $localize `Selector` + ': <pre>' + this.escapeHtml(item.selector) + '</pre></p>';
+              html +=
+                "<p>" +
+                $localize`Selector` +
+                ": <pre>" +
+                this.escapeHtml(item.selector) +
+                "</pre></p>";
             }
-            html += '</div>';
-            html += '</div>';
+            html += "</div>";
+            html += "</div>";
           });
-          html += '</div>';
+          html += "</div>";
         });
     }
 
@@ -138,9 +192,9 @@ export class PrintDialogComponent {
 
   /** Callback for the print button. */
   print(): void {
-    const target = window.frames['print-dialog'];
+    const target = window.frames["print-dialog"];
     try {
-      target.contentWindow.document.execCommand('print', false, null);
+      target.contentWindow.document.execCommand("print", false, null);
     } catch (e) {
       target.contentWindow.print();
     }
@@ -148,17 +202,17 @@ export class PrintDialogComponent {
 
   /** Strips HTML tags */
   private stripHtml(unsafe: string): string {
-    return unsafe.replace(/<(?:.|\n)*?>/gm, '');
+    return unsafe.replace(/<(?:.|\n)*?>/gm, "");
   }
 
   /** Escapes HTML */
   private escapeHtml(unsafe: string): string {
     return unsafe
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
   /** Capitalizes the first letter of a string. */

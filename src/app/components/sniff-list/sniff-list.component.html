@@ -1,4 +1,8 @@
-<div [@fadeInOut]="'in'" *ngIf="keysGetter(sniffList).length > 0" style="margin-bottom: 50px;">
+<div
+  [@fadeInOut]="'in'"
+  *ngIf="keysGetter(sniffList).length > 0"
+  style="margin-bottom: 50px;"
+>
   <div class="rTable">
     <div class="rTableRow">
       <div class="rTableHead" style="width: 282px;">Success Criterion</div>
@@ -8,7 +12,9 @@
       <div
         class="rTableHead"
         style="width: 60px;"
-        i18n-matTooltip i18n matTooltip="Whether all results apply to the top-level element only (instead of to a specific element)"
+        i18n-matTooltip
+        i18n
+        matTooltip="Whether all results apply to the top-level element only (instead of to a specific element)"
       >
         Top only
       </div>

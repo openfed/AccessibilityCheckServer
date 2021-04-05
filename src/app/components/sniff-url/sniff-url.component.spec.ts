@@ -1,10 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { AppModule } from '../../app.module';
+import { AppModule } from "../../app.module";
 
-import { SniffUrlComponent } from './sniff-url.component';
+import { SniffUrlComponent } from "./sniff-url.component";
 
-describe('SniffUrlComponent', () => {
+describe("SniffUrlComponent", () => {
   let component: SniffUrlComponent;
   let fixture: ComponentFixture<SniffUrlComponent>;
 
@@ -17,12 +17,12 @@ describe('SniffUrlComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SniffUrlComponent);
     component = fixture.componentInstance;
-    component.url = 'http://www.example.com';
+    component.url = "http://www.example.com";
     component.urlResults = [];
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(component).toBeTruthy();
   });
 });

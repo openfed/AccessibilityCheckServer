@@ -6,12 +6,13 @@ The pa11y HTMLCS test runner has been patched (using patch-package) to use the H
 
 ## Directory structure
 
-- See `server/` for the Node.js-based server files.
+- See `drupal-server/` for the Node.js-based Drupal server files.
+- See `server/` for the Node.js-based Accessibility Check server files.
 - See `src/` for the Angular-based front-end.
 
 ## Technologies
 
-- Express.js for the back-end server.
+- Express.js for the back-end servers.
 - WebSockets for real-time communication.
 - Angular as a front-end framework.
 - [Angular Material](https://material.angular.io/) for Material Design components.

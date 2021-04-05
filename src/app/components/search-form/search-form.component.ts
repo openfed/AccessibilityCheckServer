@@ -1,35 +1,41 @@
-import { Component, Output, EventEmitter, OnInit, NgZone } from '@angular/core';
-import { trigger, state, transition, animate, style } from '@angular/animations';
+import { Component, Output, EventEmitter, OnInit, NgZone } from "@angular/core";
+import {
+  trigger,
+  state,
+  transition,
+  animate,
+  style
+} from "@angular/animations";
 
-import { PrintDialogComponent } from './print-dialog/print-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { ImportedData } from '../../interfaces/imported-data';
-import { ApiService } from '../../services/api.service';
-import { SniffListService } from '../../services/sniff-list.service';
-import { ImportExportService } from '../../services/import-export.service';
-import { Observable } from 'rxjs';
-import { AudienceType } from '../../audience';
-import { AggregationAggressiveness } from '../../model/aggregation-aggressiveness';
-import { environment } from 'environments/environment';
-import { WebImportDialogComponent } from './web-import-dialog/web-import-dialog.component';
+import { PrintDialogComponent } from "./print-dialog/print-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
+import { ImportedData } from "../../interfaces/imported-data";
+import { ApiService } from "../../services/api.service";
+import { SniffListService } from "../../services/sniff-list.service";
+import { ImportExportService } from "../../services/import-export.service";
+import { Observable } from "rxjs";
+import { AudienceType } from "../../audience";
+import { AggregationAggressiveness } from "../../model/aggregation-aggressiveness";
+import { environment } from "environments/environment";
+import { WebImportDialogComponent } from "./web-import-dialog/web-import-dialog.component";
 
 /** Component for the form with search widgets */
 @Component({
-  selector: 'app-search-form',
-  templateUrl: './search-form.component.html',
-  styleUrls: ['./search-form.component.scss'],
+  selector: "app-search-form",
+  templateUrl: "./search-form.component.html",
+  styleUrls: ["./search-form.component.scss"],
   animations: [
-    trigger('fadeInOut', [
-      state('in', style({ opacity: 1 })),
-      transition('void => *', [
+    trigger("fadeInOut", [
+      state("in", style({ opacity: 1 })),
+      transition("void => *", [
         style({
           opacity: 0
         }),
-        animate('.1s ease-in')
+        animate(".1s ease-in")
       ]),
-      transition('* => void', [
+      transition("* => void", [
         animate(
-          '.1s ease-out',
+          ".1s ease-out",
           style({
             opacity: 0
           })
@@ -53,19 +59,21 @@ export class SearchFormComponent implements OnInit {
   /** The model for this component. */
   model = {
     // Defaults:
-    url: '',
-    standard: 'WCAG2AA',
-    crawlDepth: '-1',
+    url: "",
+    standard: "WCAG2AA",
+    crawlDepth: "-1",
     audience: AudienceType.All,
     aggressiveness: AggregationAggressiveness.Minimal
   };
 
   AggregationAggressiveness = AggregationAggressiveness;
 
-  @Output() audienceChanged: EventEmitter<AudienceType> = new EventEmitter<AudienceType>();
-  @Output() aggressivenessChanged: EventEmitter<AggregationAggressiveness> = new EventEmitter<
-    AggregationAggressiveness
+  @Output() audienceChanged: EventEmitter<AudienceType> = new EventEmitter<
+    AudienceType
   >();
+  @Output() aggressivenessChanged: EventEmitter<
+    AggregationAggressiveness
+  > = new EventEmitter<AggregationAggressiveness>();
 
   // Event emitter for the reinitialize event.
   @Output() onReinitialize: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -86,10 +94,10 @@ export class SearchFormComponent implements OnInit {
     this.ngZone.runOutsideAngular(() => {
       this.apiService.crawlStatus().subscribe(data => {
         this.ngZone.run(() => {
-          if (data.status === 'started') {
+          if (data.status === "started") {
             this.isSniffing = true;
             this.exportable = false;
-          } else if (data.status === 'complete' || data.status === 'aborted') {
+          } else if (data.status === "complete" || data.status === "aborted") {
             this.isSniffing = false;
             this.exportable = true;
           }
@@ -105,7 +113,10 @@ export class SearchFormComponent implements OnInit {
         return;
       }
 
-      if (importedData.version === undefined || importedData.sniffList === undefined) {
+      if (
+        importedData.version === undefined ||
+        importedData.sniffList === undefined
+      ) {
         return;
       }
       this.exportable = true;
@@ -123,7 +134,11 @@ export class SearchFormComponent implements OnInit {
   /** Start the crawl with the provided URL */
   sendUrl(): void {
     this.reinitialize();
-    this.apiService.sendUrl(this.model.url, this.model.standard, this.model.crawlDepth);
+    this.apiService.sendUrl(
+      this.model.url,
+      this.model.standard,
+      this.model.crawlDepth
+    );
   }
 
   /** Tell the backend to abort the current crawl. */
@@ -142,21 +157,24 @@ export class SearchFormComponent implements OnInit {
   }
 
   generateCsv(): void {
-    this.importExportService.generateCsv(); 
+    this.importExportService.generateCsv();
   }
 
   getDescription(x: string): string {
     const descriptions = {
-      Section508: 'Section 508',
-      WCAG2A: 'WCAG 2.1 A',
-      WCAG2AA: 'WCAG 2.1 AA',
-      WCAG2AAA: 'WCAG 2.1 AAA'
+      Section508: "Section 508",
+      WCAG2A: "WCAG 2.1 A",
+      WCAG2AA: "WCAG 2.1 AA",
+      WCAG2AAA: "WCAG 2.1 AAA"
     };
     return descriptions[x] || x;
   }
 
   webImport(): void {
-    this.dialog.open(WebImportDialogComponent, { minWidth: 500, minHeight: 300 });
+    this.dialog.open(WebImportDialogComponent, {
+      minWidth: 500,
+      minHeight: 300
+    });
   }
 
   /** Import data. */
@@ -170,7 +188,9 @@ export class SearchFormComponent implements OnInit {
         let data = reader.result;
         this.importExportService.importData(data);
       };
-      file.type === 'application/x-gzip' ? reader.readAsArrayBuffer(file) : reader.readAsText(file);
+      file.type === "application/x-gzip"
+        ? reader.readAsArrayBuffer(file)
+        : reader.readAsText(file);
     }
   }
 
@@ -181,9 +201,12 @@ export class SearchFormComponent implements OnInit {
         // Currently not passing on the url and standard as these are not in the exports, and
         // we cannot use the values in the model either as the user may have manually changed
         // these values since the results were rendered.
-        sniffList: this.sniffListService.getFilteredSniffList(this.model.audience, this.model.aggressiveness),
+        sniffList: this.sniffListService.getFilteredSniffList(
+          this.model.audience,
+          this.model.aggressiveness
+        ),
         audience: this.model.audience,
-        aggressiveness: this.model.aggressiveness,
+        aggressiveness: this.model.aggressiveness
       }
     });
   }

@@ -1,0 +1,280 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"RunScanResponse": {
+				"properties": {
+					"scanToken": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"scanToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ErrorResponse": {
+				"properties": {
+					"error": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"error"
+				],
+				"type": "object",
+				"additionalProperties": false,
+				"example": {
+					"error": "something bad happened"
+				}
+			},
+			"RunScanRequest": {
+				"properties": {
+					"urls": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"settings": {
+						"properties": {
+							"standard": {
+								"type": "string"
+							},
+							"depth": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"standard",
+							"depth"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"urls",
+					"settings"
+				],
+				"type": "object",
+				"additionalProperties": false,
+				"example": {
+					"urls": [
+						"https://politie.be",
+						"https://police.be"
+					],
+					"settings": {
+						"depth": 0,
+						"standard": "WCAG2AA"
+					}
+				}
+			},
+			"ScanStatus": {
+				"type": "string",
+				"enum": [
+					"Received",
+					"Running",
+					"Completed",
+					"Failed"
+				]
+			},
+			"ScanStatusInfo": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/ScanStatus"
+					},
+					"numPagesScanned": {
+						"type": "number",
+						"format": "double"
+					},
+					"numErrorsFound": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"status",
+					"numPagesScanned",
+					"numErrorsFound"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "drupal-server",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/scan": {
+			"post": {
+				"operationId": "RunScan",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RunScanResponse"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"scanToken": "[UUID]"
+										}
+									}
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RunScanRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/scan/{token}/status": {
+			"get": {
+				"operationId": "GetScanStatus",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ScanStatusInfo"
+										},
+										{}
+									]
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "token",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/scan/{token}/report": {
+			"get": {
+				"operationId": "GetJsonResult",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"example": "json"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "token",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/scan/{token}/angular-app-export": {
+			"get": {
+				"operationId": "GetAngularAppJsonResult",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"example": "json"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "token",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

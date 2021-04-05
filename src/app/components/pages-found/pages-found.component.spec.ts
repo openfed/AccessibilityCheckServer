@@ -1,10 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { AppModule } from '../../app.module';
+import { AppModule } from "../../app.module";
 
-import { PagesFoundComponent } from './pages-found.component';
+import { PagesFoundComponent } from "./pages-found.component";
 
-describe('PagesFoundComponent', () => {
+describe("PagesFoundComponent", () => {
   let component: PagesFoundComponent;
   let fixture: ComponentFixture<PagesFoundComponent>;
 
@@ -20,7 +20,7 @@ describe('PagesFoundComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(component).toBeTruthy();
   });
 });

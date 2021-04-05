@@ -1,5 +1,13 @@
-<div class="pages-found-table table-container mat-elevation-z2" [ngClass]="{hidden: !urlDatabase.data.length }">
-  <mat-table [@fadeInOut]="'in'" #table layout-align="center center" [dataSource]="dataSource">
+<div
+  class="pages-found-table table-container mat-elevation-z2"
+  [ngClass]="{ hidden: !urlDatabase.data.length }"
+>
+  <mat-table
+    [@fadeInOut]="'in'"
+    #table
+    layout-align="center center"
+    [dataSource]="dataSource"
+  >
     <ng-container cdkColumnDef="url">
       <mat-header-cell i18n *cdkHeaderCellDef> URL </mat-header-cell>
       <mat-cell class="url" *cdkCellDef="let row"> {{ row.url }} </mat-cell>
@@ -16,12 +24,19 @@
         ></mat-spinner>
 
         <i *ngIf="row.status == 'Loaded'" class="material-icons">done</i>
-        <i *ngIf="row.status == 'Queued' && !isAborted" class="material-icons">hourglass_full</i>
+        <i *ngIf="row.status == 'Queued' && !isAborted" class="material-icons"
+          >hourglass_full</i
+        >
         <i *ngIf="row.status == 'Error'" class="material-icons">error</i>
 
         {{ row.status }}
 
-        <span *ngIf="isAborted && (row.status == 'Queued' || row.status == 'Loading')">(Aborted)</span>
+        <span
+          *ngIf="
+            isAborted && (row.status == 'Queued' || row.status == 'Loading')
+          "
+          >(Aborted)</span
+        >
       </mat-cell>
     </ng-container>
 

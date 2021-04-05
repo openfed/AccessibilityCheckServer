@@ -1,25 +1,37 @@
-import { Component, OnInit, DoCheck, KeyValueDiffers, Input } from '@angular/core';
-import { trigger, state, transition, animate, style } from '@angular/animations';
+import {
+  Component,
+  OnInit,
+  DoCheck,
+  KeyValueDiffers,
+  Input
+} from "@angular/core";
+import {
+  trigger,
+  state,
+  transition,
+  animate,
+  style
+} from "@angular/animations";
 
-import { AggregatedResults } from '../../interfaces/item-code-result-list';
+import { AggregatedResults } from "../../interfaces/item-code-result-list";
 
 /** Component for the individual sniffs. */
 @Component({
-  selector: 'app-sniff-aggregated',
-  templateUrl: './sniff-aggregated.component.html',
-  styleUrls: ['./sniff-aggregated.component.scss'],
+  selector: "app-sniff-aggregated",
+  templateUrl: "./sniff-aggregated.component.html",
+  styleUrls: ["./sniff-aggregated.component.scss"],
   animations: [
-    trigger('fadeInOut', [
-      state('in', style({ opacity: 1 })),
-      transition('void => *', [
+    trigger("fadeInOut", [
+      state("in", style({ opacity: 1 })),
+      transition("void => *", [
         style({
           opacity: 0
         }),
-        animate('.2s ease-in')
+        animate(".2s ease-in")
       ]),
-      transition('* => void', [
+      transition("* => void", [
         animate(
-          '.2s ease-out',
+          ".2s ease-out",
           style({
             opacity: 0
           })
@@ -64,7 +76,7 @@ export class SniffAggregatedComponent implements OnInit, DoCheck {
     return (
       Object.keys(this.results)
         .map(key => this.results[key])
-        .map(item => (item.result.selector !== '' ? 1 : 0))
+        .map(item => (item.result.selector !== "" ? 1 : 0))
         .reduce((cur, x) => cur + x, 0) === 0
     );
   }
@@ -75,9 +87,9 @@ export class SniffAggregatedComponent implements OnInit, DoCheck {
     let numErrors = 0;
 
     Object.keys(this.results).forEach(key => {
-      numNotices += this.results[key].result.type === 'notice' ? 1 : 0;
-      numWarnings += this.results[key].result.type === 'warning' ? 1 : 0;
-      numErrors += this.results[key].result.type === 'error' ? 1 : 0;
+      numNotices += this.results[key].result.type === "notice" ? 1 : 0;
+      numWarnings += this.results[key].result.type === "warning" ? 1 : 0;
+      numErrors += this.results[key].result.type === "error" ? 1 : 0;
     });
 
     this.numNotices = numNotices;
@@ -89,26 +101,26 @@ export class SniffAggregatedComponent implements OnInit, DoCheck {
   getStats(): string {
     let stats = [];
     if (this.numNotices > 0) {
-      stats.push($localize `Notice`);
+      stats.push($localize`Notice`);
     }
 
     if (this.numWarnings > 0) {
-      stats.push($localize `Warning`);
+      stats.push($localize`Warning`);
     }
 
     if (this.numErrors > 0) {
-      stats.push($localize `Error`);
+      stats.push($localize`Error`);
     }
 
-    return stats.join(', ');
+    return stats.join(", ");
   }
 
   /** Returns a human-readable string with the number of pages. */
   getNumPages(): string {
-    return $localize `N/A`;
+    return $localize`N/A`;
   }
-  
+
   isTopOnly(): string {
-    return this.topOnly ? $localize `Yes` : $localize `No`;
+    return this.topOnly ? $localize`Yes` : $localize`No`;
   }
 }

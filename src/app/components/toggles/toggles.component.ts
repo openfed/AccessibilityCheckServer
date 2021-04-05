@@ -1,18 +1,25 @@
-import { Component, Output, OnInit, EventEmitter, NgZone, Input } from '@angular/core';
-import { ApiService } from '../../services/api.service';
-import { ReinitService } from '../../services/reinit.service';
-import { ImportExportService } from '../../services/import-export.service';
-import { Toggle } from '../../interfaces/toggle';
-import { ItemCodeUrlResult } from '../../interfaces/item-code-url-result';
-import { ImportedData } from '../../interfaces/imported-data';
-import { AudienceType } from '../../audience';
-import { isDevOnlySniff, isCmOnlySniff } from '../../audience.functions';
+import {
+  Component,
+  Output,
+  OnInit,
+  EventEmitter,
+  NgZone,
+  Input
+} from "@angular/core";
+import { ApiService } from "../../services/api.service";
+import { ReinitService } from "../../services/reinit.service";
+import { ImportExportService } from "../../services/import-export.service";
+import { Toggle } from "../../interfaces/toggle";
+import { ItemCodeUrlResult } from "../../interfaces/item-code-url-result";
+import { ImportedData } from "../../interfaces/imported-data";
+import { AudienceType } from "../../audience";
+import { isDevOnlySniff, isCmOnlySniff } from "../../audience.functions";
 
 /** Component for the view error/warning/notice toggles */
 @Component({
-  selector: 'app-toggles',
-  templateUrl: './toggles.component.html',
-  styleUrls: ['./toggles.component.scss']
+  selector: "app-toggles",
+  templateUrl: "./toggles.component.html",
+  styleUrls: ["./toggles.component.scss"]
 })
 export class TogglesComponent implements OnInit {
   /** Whether to show the current component. */
@@ -34,7 +41,7 @@ export class TogglesComponent implements OnInit {
   @Input()
   private audience: AudienceType = AudienceType.All;
 
-  @Output('update')
+  @Output("update")
   private change: EventEmitter<Toggle> = new EventEmitter<Toggle>();
 
   public get numErrors(): number {
@@ -102,7 +109,10 @@ export class TogglesComponent implements OnInit {
         return;
       }
 
-      if (importedData.version === undefined || importedData.sniffList === undefined) {
+      if (
+        importedData.version === undefined ||
+        importedData.sniffList === undefined
+      ) {
         return;
       }
 
@@ -157,7 +167,7 @@ export class TogglesComponent implements OnInit {
     const isDevOnlyResult = isDevOnlySniff(item.code);
     const isCmOnlyResult = isCmOnlySniff(item.code);
 
-    if (item.type === 'error') {
+    if (item.type === "error") {
       this.numAllErrors++;
       if (!isDevOnlyResult) {
         this.numCmErrors++;
@@ -165,7 +175,7 @@ export class TogglesComponent implements OnInit {
       if (!isCmOnlyResult) {
         this.numDevErrors++;
       }
-    } else if (item.type === 'warning') {
+    } else if (item.type === "warning") {
       this.numAllWarnings++;
       if (!isDevOnlyResult) {
         this.numCmWarnings++;
@@ -173,7 +183,7 @@ export class TogglesComponent implements OnInit {
       if (!isCmOnlyResult) {
         this.numDevWarnings++;
       }
-    } else if (item.type === 'notice') {
+    } else if (item.type === "notice") {
       this.numAllNotices++;
       if (!isDevOnlyResult) {
         this.numCmNotices++;

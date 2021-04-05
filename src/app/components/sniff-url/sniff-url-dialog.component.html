@@ -5,14 +5,24 @@
       <i *ngIf="result.type == 'error'" class="material-icons">error</i>
       <i *ngIf="result.type == 'warning'" class="material-icons">warning</i>
       <i *ngIf="result.type == 'notice'" class="material-icons">info</i>
-      <span [innerHTML]="sanitizer.bypassSecurityTrustHtml(result.message)"></span>
+      <span
+        [innerHTML]="sanitizer.bypassSecurityTrustHtml(result.message)"
+      ></span>
     </div>
 
-    <div *ngIf="result.context" style="padding: 15px; background-color: #f0f0f0;" i18n>
+    <div
+      *ngIf="result.context"
+      style="padding: 15px; background-color: #f0f0f0;"
+      i18n
+    >
       Code snippet:
       <pre>{{ result.context }}</pre>
     </div>
-    <div *ngIf="result.selector" style="padding: 15px; background-color: #f0f0f0;" i18n>
+    <div
+      *ngIf="result.selector"
+      style="padding: 15px; background-color: #f0f0f0;"
+      i18n
+    >
       Selector:
       <pre>{{ result.selector }}</pre>
     </div>

@@ -1,5 +1,5 @@
-import { ItemCodeUrlResultList } from './item-code-url-result-list';
-import { ItemCodeUrlResult } from './item-code-url-result';
+import { ItemCodeUrlResultList } from "./item-code-url-result-list";
+import { ItemCodeUrlResult } from "./item-code-url-result";
 
 /** A list of results for a specific item code. */
 export interface ItemCodeResultList {

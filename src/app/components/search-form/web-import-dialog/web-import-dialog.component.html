@@ -1,13 +1,25 @@
 <h2 matDialogTitle>Web Import</h2>
 <div class="content">
-    <div i18n>Please click a file to import: <span *ngIf="loading">(Loading...)</span>
-    </div>
-    <mat-form-field style="margin-top: 20px;">
-      <input type="text" i18n-placeholder placeholder="Search" (input)="onSearchChange($event.target.value)" matInput />
-    </mat-form-field>
-    <div class="url-list">
-        <ul>
-            <li *ngFor="let url of urls$ | async"><span (click)="importFromUrl(url.exportUrl)" class="url">{{ url.exportName }}</span> ({{url.crawledDomain}}, {{url.exportDate}})</li>
-        </ul>
-    </div>
+  <div i18n>
+    Please click a file to import: <span *ngIf="loading">(Loading...)</span>
+  </div>
+  <mat-form-field style="margin-top: 20px;">
+    <input
+      type="text"
+      i18n-placeholder
+      placeholder="Search"
+      (input)="onSearchChange($event.target.value)"
+      matInput
+    />
+  </mat-form-field>
+  <div class="url-list">
+    <ul>
+      <li *ngFor="let url of urls$ | async">
+        <span (click)="importFromUrl(url.exportUrl)" class="url">{{
+          url.exportName
+        }}</span>
+        ({{ url.crawledDomain }}, {{ url.exportDate }})
+      </li>
+    </ul>
+  </div>
 </div>

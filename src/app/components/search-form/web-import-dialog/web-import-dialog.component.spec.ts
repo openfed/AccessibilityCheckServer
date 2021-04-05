@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { WebImportDialogComponent } from './web-import-dialog.component';
+import { WebImportDialogComponent } from "./web-import-dialog.component";
 
-describe('WebImportDialogComponent', () => {
+describe("WebImportDialogComponent", () => {
   let component: WebImportDialogComponent;
   let fixture: ComponentFixture<WebImportDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WebImportDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [WebImportDialogComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('WebImportDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

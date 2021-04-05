@@ -51,7 +51,7 @@ export class WebImportDialogComponent implements OnInit {
 
   public importFromUrl(url: string) {
     this.loading = true;
-    
+
     this.service.importFromUrl(url).subscribe(() => {
       this.loading = false;
       this.dialogRef.close();
