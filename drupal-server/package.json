@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "express-basic-auth": "^1.2.0",
     "morgan": "^1.10.0",
     "pako": "^2.0.3",
     "swagger-ui-express": "^4.1.6",

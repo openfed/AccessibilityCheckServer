@@ -9,6 +9,7 @@ import express, {
 
 import Router from "./routes";
 import { TooManyRequestsError as MaxNumberOfScansError } from "./model/too-many-requests-error";
+import  basicAuth from 'express-basic-auth';
 
 const PORT = process.env.PORT || 8000;
 
@@ -23,6 +24,11 @@ app.get("/ping", async (_req, res) => {
     message: "pong"
   });
 });
+
+app.use(basicAuth({
+  users: { admin: 'admin' },
+  challenge: true,
+}));
 
 app.use(
   "/docs",
