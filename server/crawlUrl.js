@@ -45,6 +45,11 @@ function crawlUrl(data, ws) {
 
       // Initialize the Pa11y accessibility test.
       const result = await pa11y(url, {
+        chromeLaunchConfig: {
+          args: [
+              '--no-sandbox',
+          ]
+        },
         language,
         includeNotices: true,
         includeWarnings: true,
