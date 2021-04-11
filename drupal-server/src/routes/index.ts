@@ -9,7 +9,7 @@ router.post("/scan", async (req, res, next) => {
   try {
     const response = await scanController.runScan(req.body);
     return res.send(response);
-  } catch(err) {
+  } catch (err) {
     next(err);
   }
 });
@@ -25,8 +25,10 @@ router.get("/scan/:token/report", async (req, res) => {
 });
 
 router.get("/scan/:token/angular-app-export", async (req, res) => {
-  const buf = await scanController.getAngularAppJsonResult(req.params.token);
-  return res.send(Buffer.from(buf));
+  const response = await scanController.getAngularAppJsonResult(
+    req.params.token
+  );
+  return res.send(response);
 });
 
 export default router;
