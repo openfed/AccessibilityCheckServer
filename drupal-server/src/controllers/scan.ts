@@ -15,133 +15,22 @@ import ws from "ws";
 
 // Needed for HTMLCS
 import jsdom from "jsdom";
+import {
+  AngularAppExport,
+  WebSocketApiResponse,
+  SniffResultPayload,
+  SniffList,
+  ItemCodeUrlResult,
+  RunScanResponse,
+  ErrorResponse,
+  ScanStatusInfo,
+  ReportInfo,
+  RunScanRequest
+} from "../model";
 const { JSDOM } = jsdom;
 global.document = new JSDOM("<html></html>").window.document;
 // tslint:disable-next-line:no-require-imports
 const HTMLCS = require("../../../src/assets/HTMLCS.js");
-
-interface AngularAppExport {
-  sniffList: SniffList;
-  version: string;
-}
-
-interface WebSocketApiResponse {
-  type:
-    | "sniff-loading"
-    | "crawled-url"
-    | "crawl-url-status"
-    | "sniff-result"
-    | "sniff-error"
-    | "ping";
-  payload: any;
-}
-interface SniffResultPayload {
-  url: string;
-  result: ItemCodeUrlResult[];
-}
-
-/** List of sniffs */
-export interface SniffList {
-  // The key is the item code (combination of suggested technique / success criteriion)
-  [key: string]: ItemCodeResultList;
-}
-
-/** A list of results for a specific item code. */
-export interface ItemCodeResultList {
-  // The results for this item code and a specific URL
-  items: ItemCodeUrlResultList;
-  // The results, with any notices/warnings/errors filtered out
-  filteredItems: ItemCodeUrlResultList;
-  aggregatedFilteredItems: AggregatedResults;
-  // The messages to show for this item code (suggested technique / success criterion)
-  codeMessages: string[][];
-}
-
-export interface AggregatedResults {
-  // The key is the aggregation hash
-  [key: string]: AggregatedResult;
-}
-
-export interface AggregatedResult {
-  numResults: number;
-  result: ItemCodeUrlResult;
-  averageOccurrencesPerPage?: number;
-}
-
-/** A list of results for a specific item code and a specific URL. */
-export interface ItemCodeUrlResultList {
-  // the key is the URL
-  [key: string]: ItemCodeUrlResult[];
-}
-
-/** A result for a specific item code and URL. */
-export interface ItemCodeUrlResult {
-  code: string;
-  context: string | null;
-  message: string;
-  selector: string;
-  type: string;
-  runner: string;
-  typeCode: number;
-}
-
-/**
- * @example {
- *    "urls": ["https://politie.be", "https://police.be"],
- *    "settings": {
- *      "depth": 0,
- *      "standard": "WCAG2AA"
- *    }
- *  }
- */
-interface RunScanRequest {
-  urls: string[];
-  settings: {
-    depth: number;
-    standard: string;
-  };
-}
-
-interface RunScanResponse {
-  scanTokens: {
-    [url: string]: string;
-  };
-}
-
-/**
- * @example {
- *    "error": "something bad happened"
- *  }
- */
-interface ErrorResponse {
-  error: string;
-}
-
-type ScanStatus = "Received" | "Running" | "Completed" | "Failed";
-
-interface ScanStatusInfo {
-  url: string;
-  finished?: Date;
-  started: Date;
-  status: ScanStatus;
-  numPagesScanned: number;
-  numPagesCrawled: number;
-  numErrorsFound: number;
-  urlScanErrors: {
-    [url: string]: string;
-  };
-  webSocketError?: string;
-};
-
-interface ReportInfo {
-  status: ScanStatusInfo;
-  numTotalErrors: {
-    [code: string]: number;
-  };
-  numUrlsWithErrors: {
-    [code: string]: number;
-  };
-};
 
 @Route("")
 export default class ScanController extends Controller {
@@ -151,7 +40,7 @@ export default class ScanController extends Controller {
   private sniffLists: { [token: string]: SniffList } = {};
 
   @Example<RunScanResponse>({
-    "scanTokens": {
+    scanTokens: {
       "https://exemple.be": "a8934c08-fbd6-418a-8bcd-0728dd9326ed",
       "https://voorbeeld.be": "e77c947a-7bd6-48e2-860f-f7bc870499b9"
     }
@@ -164,14 +53,23 @@ export default class ScanController extends Controller {
     @Body() request: RunScanRequest
   ): Promise<RunScanResponse> {
     const numRequested = request.urls.length;
-    if ((this.numberOfScansRunning + numRequested) > config.maxSimultaneousScans) {
-      throw new TooManyRequestsError(`${this.numberOfScansRunning} scans running + ${numRequested} additionals scans requested exceeds the configured maximum of ${config.maxSimultaneousScans} simultaneous scans.`);
+    if (
+      this.numberOfScansRunning + numRequested >
+      config.maxSimultaneousScans
+    ) {
+      throw new TooManyRequestsError(
+        `${
+          this.numberOfScansRunning
+        } scans running + ${numRequested} additionals scans requested exceeds the configured maximum of ${
+          config.maxSimultaneousScans
+        } simultaneous scans.`
+      );
     }
 
     const result: RunScanResponse = { scanTokens: {} };
     request.urls.forEach(url => {
       const scanToken = uuidv4();
-      console.log(`[${scanToken}] Created token for URL: ${url}`)
+      console.log(`[${scanToken}] Created token for URL: ${url}`);
       result.scanTokens[url] = scanToken;
       this.scanStatus[scanToken] = {
         url,
@@ -180,7 +78,7 @@ export default class ScanController extends Controller {
         numPagesCrawled: 0,
         numPagesScanned: 0,
         numErrorsFound: 0,
-        urlScanErrors: {},
+        urlScanErrors: {}
       };
       this.startScan(
         scanToken,
@@ -194,13 +92,13 @@ export default class ScanController extends Controller {
   }
 
   @Example<ScanStatusInfo>({
-    "url": "https://www.example.com/page.html",
-    "started": new Date("2021-04-11T22:18:33.833Z"),
-    "status": "Completed",
-    "numPagesCrawled": 1,
-    "numPagesScanned": 1,
-    "numErrorsFound": 13,
-    "urlScanErrors": {
+    url: "https://www.example.com/page.html",
+    started: new Date("2021-04-11T22:18:33.833Z"),
+    status: "Completed",
+    numPagesCrawled: 1,
+    numPagesScanned: 1,
+    numErrorsFound: 13,
+    urlScanErrors: {
       "https://www.example.com/error-page.html": "Could not start Chrome"
     }
   })
@@ -216,21 +114,21 @@ export default class ScanController extends Controller {
   }
 
   @Example<ReportInfo>({
-    "status": {
-      "url": "https://www.example.com/page.html",
-      "started": new Date("2021-04-11T22:18:33.833Z"),
-      "status": "Completed",
-      "numPagesCrawled": 1,
-      "numPagesScanned": 1,
-      "numErrorsFound": 13,
-      "urlScanErrors": {}
+    status: {
+      url: "https://www.example.com/page.html",
+      started: new Date("2021-04-11T22:18:33.833Z"),
+      status: "Completed",
+      numPagesCrawled: 1,
+      numPagesScanned: 1,
+      numErrorsFound: 13,
+      urlScanErrors: {}
     },
-    "numTotalErrors": {
+    numTotalErrors: {
       "WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1": 7,
       "WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.NoContent": 1,
       "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail": 5
     },
-    "numUrlsWithErrors": {
+    numUrlsWithErrors: {
       "WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1": 1,
       "WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.NoContent": 1,
       "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail": 1
@@ -247,12 +145,12 @@ export default class ScanController extends Controller {
       return;
     }
     const sniffList = this.sniffLists[token];
-    const numTotalErrors: {[principle: string]: number} = {};
-    const numUrlsWithErrors: {[principle: string]: number} = {};
+    const numTotalErrors: { [principle: string]: number } = {};
+    const numUrlsWithErrors: { [principle: string]: number } = {};
     Object.keys(sniffList).forEach(principle => {
       Object.values(sniffList[principle].items).forEach(itemList => {
         // itemList will contain all sniff results for a given url/principle combination.
-        const errorItems = itemList.filter(item => item.type === 'error');
+        const errorItems = itemList.filter(item => item.type === "error");
         if (errorItems.length > 0) {
           if (!numTotalErrors[principle]) {
             numTotalErrors[principle] = 0;
@@ -264,44 +162,45 @@ export default class ScanController extends Controller {
           numUrlsWithErrors[principle]++;
         }
       });
-    })
+    });
     return {
       status: this.scanStatus[token],
       numTotalErrors,
-      numUrlsWithErrors,
-    }
+      numUrlsWithErrors
+    };
   }
 
   @Response<void>(404, "Not found")
   @Example<AngularAppExport>({
     sniffList: {
       "WCAG2AA.Principle2.Guideline2_4.2_4_3.H4.2": {
-        "items": {
+        items: {
           "https://www.example.com/page.html": [
             {
-              "code": "WCAG2AA.Principle2.Guideline2_4.2_4_3.H4.2",
-              "type": "notice",
-              "typeCode": 3,
-              "message": "If tabindex is used, check that the tab order specified by the tabindex attributes follows relationships in the content.",
-              "context": null,
-              "selector": "",
-              "runner": "htmlcs"
+              code: "WCAG2AA.Principle2.Guideline2_4.2_4_3.H4.2",
+              type: "notice",
+              typeCode: 3,
+              message:
+                "If tabindex is used, check that the tab order specified by the tabindex attributes follows relationships in the content.",
+              context: null,
+              selector: "",
+              runner: "htmlcs"
             }
           ]
         },
-        "filteredItems": {},
-        "aggregatedFilteredItems": {},
-        "codeMessages": [
+        filteredItems: {},
+        aggregatedFilteredItems: {},
+        codeMessages: [
           [
             "Success Criterion",
-            "<a href=\"http://www.w3.org/TR/WCAG21/#focus-order\" target=\"_blank\">2.4.3: Focus Order</a>"
+            '<a href="http://www.w3.org/TR/WCAG21/#focus-order" target="_blank">2.4.3: Focus Order</a>'
           ],
           [
             "Suggested Techniques",
-            "<a href=\"https://www.w3.org/WAI/WCAG21/Techniques/html/H4\" target=\"_blank\">H4</a>"
+            '<a href="https://www.w3.org/WAI/WCAG21/Techniques/html/H4" target="_blank">H4</a>'
           ]
         ]
-      },
+      }
     },
     version: "1.0"
   })
@@ -360,10 +259,12 @@ export default class ScanController extends Controller {
       if (this.scanStatus[scanToken].status !== "Completed") {
         this.scanStatus[scanToken].status = "Failed";
       }
-      console.log(`[${scanToken}] Status: ${JSON.stringify(this.scanStatus[scanToken])}`);
+      console.log(
+        `[${scanToken}] Status: ${JSON.stringify(this.scanStatus[scanToken])}`
+      );
     });
 
-    client.on('error', (ev: Event) => {
+    client.on("error", (ev: Event) => {
       console.error(`[${scanToken}] WebSocket error: `, ev);
       this.scanStatus[scanToken].webSocketError = ev.toString();
       client.close();
@@ -405,7 +306,8 @@ export default class ScanController extends Controller {
         case "sniff-result": {
           this.scanStatus[scanToken].numPagesScanned++;
           const payload = event.payload as SniffResultPayload;
-          const numErrors = payload.result.filter(x => x.type === "error").length;
+          const numErrors = payload.result.filter(x => x.type === "error")
+            .length;
           this.scanStatus[scanToken].numErrorsFound += numErrors;
           payload.result.forEach(result => {
             this.addItem(scanToken, result, payload.url);
@@ -414,10 +316,12 @@ export default class ScanController extends Controller {
         }
         case "sniff-error": {
           const payload = event.payload as {
-            url: string,
-            error: string,
+            url: string;
+            error: string;
           };
-          console.error(`[${scanToken}] sniff error for ${payload.url}: ${payload.error}`);
+          console.error(
+            `[${scanToken}] sniff error for ${payload.url}: ${payload.error}`
+          );
           this.scanStatus[scanToken].urlScanErrors[payload.url] = payload.error;
           break;
         }
@@ -452,8 +356,6 @@ export default class ScanController extends Controller {
 
     // Add the is item to the sniff list, keyed by code and URL.
     this.sniffLists[token][item.code].items[url].push(item);
-
-    this.sniffLists[token] = { ...this.sniffLists[token] };
   }
 
   /**
