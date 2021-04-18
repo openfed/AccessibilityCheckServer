@@ -167,7 +167,7 @@ export default class ScanController extends Controller {
     if ((this.numberOfScansRunning + numRequested) > config.maxSimultaneousScans) {
       throw new TooManyRequestsError(`${this.numberOfScansRunning} scans running + ${numRequested} additionals scans requested exceeds the configured maximum of ${config.maxSimultaneousScans} simultaneous scans.`);
     }
-    
+
     const result: RunScanResponse = { scanTokens: {} };
     request.urls.forEach(url => {
       const scanToken = uuidv4();
@@ -351,11 +351,11 @@ export default class ScanController extends Controller {
     client.on("close", () => {
       this.numberOfScansRunning--;
       this.scanStatus[scanToken].finished = new Date();
-      // Clean up after 4 hours
+      // Clean up after configured lifetime (default: 4 hours)
       setTimeout(() => {
         delete this.scanStatus[scanToken];
         delete this.sniffLists[scanToken];
-      }, 1000 * 60 * 60 * 4);
+      }, config.sniffResultLifetimeMs);
       console.log(`[${scanToken}] Closed scan`);
       if (this.scanStatus[scanToken].status !== "Completed") {
         this.scanStatus[scanToken].status = "Failed";
@@ -376,7 +376,6 @@ export default class ScanController extends Controller {
       } catch (e) {
         event = ev;
       }
-      console.log(event, event.type);
       if (event.type === "ping") {
         client.send(
           JSON.stringify({

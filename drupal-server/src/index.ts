@@ -12,6 +12,8 @@ import { TooManyRequestsError as MaxNumberOfScansError } from "./model/too-many-
 import  basicAuth from 'express-basic-auth';
 // tslint:disable-next-line:no-require-imports
 require('log-timestamp');
+// tslint:disable-next-line:no-require-imports
+const compression = require('compression');
 
 const PORT = process.env.PORT || 8000;
 
@@ -20,6 +22,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(express.static("public"));
+app.use(compression());
 
 app.get("/ping", async (_req, res) => {
   res.send({
