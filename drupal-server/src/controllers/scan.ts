@@ -17,6 +17,7 @@ import ws from "ws";
 import jsdom from "jsdom";
 const { JSDOM } = jsdom;
 global.document = new JSDOM("<html></html>").window.document;
+// tslint:disable-next-line:no-require-imports
 const HTMLCS = require("../../../src/assets/HTMLCS.js");
 
 interface AngularAppExport {
@@ -120,6 +121,7 @@ type ScanStatus = "Received" | "Running" | "Completed" | "Failed";
 
 interface ScanStatusInfo {
   url: string;
+  finished?: Date;
   started: Date;
   status: ScanStatus;
   numPagesScanned: number;
@@ -128,6 +130,7 @@ interface ScanStatusInfo {
   urlScanErrors: {
     [url: string]: string;
   };
+  webSocketError?: string;
 };
 
 interface ReportInfo {
@@ -149,8 +152,8 @@ export default class ScanController extends Controller {
 
   @Example<RunScanResponse>({
     "scanTokens": {
-      "https://politie.be": "a8934c08-fbd6-418a-8bcd-0728dd9326ed",
-      "https://police.be": "e77c947a-7bd6-48e2-860f-f7bc870499b9"
+      "https://exemple.be": "a8934c08-fbd6-418a-8bcd-0728dd9326ed",
+      "https://voorbeeld.be": "e77c947a-7bd6-48e2-860f-f7bc870499b9"
     }
   })
   @Response<ErrorResponse>(422, "Validation Failed")
@@ -159,13 +162,14 @@ export default class ScanController extends Controller {
   public async runScan(
     @Body() request: RunScanRequest
   ): Promise<RunScanResponse> {
-    if (this.numberOfScansRunning >= config.maxSimultaneousScans) {
+    const numRequested = request.urls.length;
+    if (this.numberOfScansRunning + numRequested > config.maxSimultaneousScans) {
       throw new TooManyRequestsError();
     }
     const result: RunScanResponse = { scanTokens: {} };
     request.urls.forEach(url => {
       const scanToken = uuidv4();
-      console.log(`[${scanToken}] created token for ${url}`)
+      console.log(`[${scanToken}] Created token for URL: ${url}`)
       result.scanTokens[url] = scanToken;
       this.scanStatus[scanToken] = {
         url,
@@ -344,6 +348,7 @@ export default class ScanController extends Controller {
 
     client.on("close", () => {
       this.numberOfScansRunning--;
+      this.scanStatus[scanToken].finished = new Date();
       // Clean up after 4 hours
       setTimeout(() => {
         delete this.scanStatus[scanToken];
@@ -353,10 +358,12 @@ export default class ScanController extends Controller {
       if (this.scanStatus[scanToken].status !== "Completed") {
         this.scanStatus[scanToken].status = "Failed";
       }
+      console.log(`[${scanToken}] Status: ${JSON.stringify(this.scanStatus[scanToken])}`);
     });
 
     client.on('error', (ev: Event) => {
       console.error(`[${scanToken}] WebSocket error: `, ev);
+      this.scanStatus[scanToken].webSocketError = ev.toString();
       client.close();
     });
 
@@ -376,34 +383,45 @@ export default class ScanController extends Controller {
           })
         );
       }
-      if (event.type === "crawled-url") {
-        this.scanStatus[scanToken].numPagesCrawled++;
-      } else if (event.type === "crawl-url-status") {
-        const payload = event.payload as {
-          status: "complete" | "started" | "aborted";
-        };
-        if (payload.status === "complete") {
-          this.scanStatus[scanToken].status = "Completed";
-          client.close();
+      switch (event.type) {
+        case "crawled-url": {
+          this.scanStatus[scanToken].numPagesCrawled++;
+          break;
         }
-        if (payload.status === "started") {
-          this.scanStatus[scanToken].status = "Running";
+        case "crawl-url-status": {
+          const payload = event.payload as {
+            status: "complete" | "started" | "aborted";
+          };
+          if (payload.status === "complete") {
+            this.scanStatus[scanToken].status = "Completed";
+            client.close();
+          }
+          if (payload.status === "started") {
+            this.scanStatus[scanToken].status = "Running";
+          }
+          break;
         }
-      } else if (event.type === "sniff-result") {
-        this.scanStatus[scanToken].numPagesScanned++;
-        const payload = event.payload as SniffResultPayload;
-        const numErrors = payload.result.filter(x => x.type === "error").length;
-        this.scanStatus[scanToken].numErrorsFound += numErrors;
-        payload.result.forEach(result => {
-          this.addItem(scanToken, result, payload.url);
-        });
-      } else if (event.type === 'sniff-error') {
-        const payload = event.payload as {
-          url: string,
-          error: string,
-        };
-        console.error(`[${scanToken}] sniff error for ${payload.url}: ${payload.error}`);
-        this.scanStatus[scanToken].urlScanErrors[payload.url] = payload.error;
+        case "sniff-result": {
+          this.scanStatus[scanToken].numPagesScanned++;
+          const payload = event.payload as SniffResultPayload;
+          const numErrors = payload.result.filter(x => x.type === "error").length;
+          this.scanStatus[scanToken].numErrorsFound += numErrors;
+          payload.result.forEach(result => {
+            this.addItem(scanToken, result, payload.url);
+          });
+          break;
+        }
+        case "sniff-error": {
+          const payload = event.payload as {
+            url: string,
+            error: string,
+          };
+          console.error(`[${scanToken}] sniff error for ${payload.url}: ${payload.error}`);
+          this.scanStatus[scanToken].urlScanErrors[payload.url] = payload.error;
+          break;
+        }
+        default:
+          break;
       }
     });
   }

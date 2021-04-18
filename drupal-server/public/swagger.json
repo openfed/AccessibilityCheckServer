@@ -93,6 +93,10 @@
 					"url": {
 						"type": "string"
 					},
+					"finished": {
+						"type": "string",
+						"format": "date-time"
+					},
 					"started": {
 						"type": "string",
 						"format": "date-time"
@@ -118,6 +122,9 @@
 							"type": "string"
 						},
 						"type": "object"
+					},
+					"webSocketError": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -323,8 +330,8 @@
 									"Example 1": {
 										"value": {
 											"scanTokens": {
-												"https://politie.be": "a8934c08-fbd6-418a-8bcd-0728dd9326ed",
-												"https://police.be": "e77c947a-7bd6-48e2-860f-f7bc870499b9"
+												"https://exemple.be": "a8934c08-fbd6-418a-8bcd-0728dd9326ed",
+												"https://voorbeeld.be": "e77c947a-7bd6-48e2-860f-f7bc870499b9"
 											}
 										}
 									}

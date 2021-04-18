@@ -4,7 +4,7 @@ const validUrl = require('valid-url');
 const crawl = require('./crawl');
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
-function crawlUrl(data, ws) {
+function crawlUrl(data, ws, id) {
   function sendMessage(type, payload) {
     ws.send(
       JSON.stringify({
@@ -35,7 +35,7 @@ function crawlUrl(data, ws) {
     sendMessage('sniff-loading', {
       url
     });
-    console.log(`Running tests for: ${url}`);
+    console.log(`[${id}] Running tests for: ${url}`);
 
     try {
       // If the aborted flag is set, exit early.
@@ -60,9 +60,15 @@ function crawlUrl(data, ws) {
 
         // Log what's happening to the console
         log: {
-          debug: console.log.bind(console),
-          error: console.error.bind(console),
-          info: console.log.bind(console)
+          debug: function() {
+            console.log.apply(console, [`[${id}]  `, ...arguments]);
+          },
+          error: function() {
+            console.error.apply(console, [`[${id}]  `, ...arguments]);
+          },
+          info: function() {
+            console.log.apply(console, [`[${id}]  `, ...arguments]);
+          },
         }
       });
 
@@ -77,7 +83,7 @@ function crawlUrl(data, ws) {
         result: result.issues
       });
     } catch (error) {
-      console.error({ error: error.message });
+      console.error(`[${id}] Error: ${error.message}`);
       sendMessage('sniff-error', {
         url,
         error: error.message
@@ -86,12 +92,12 @@ function crawlUrl(data, ws) {
   });
 
   if (!validUrl.isHttpUri(url) && !validUrl.isHttpsUri(url)) {
-    console.log(`Invalid url:${url}`);
+    console.log(`[${id}] Invalid url:${url}`);
     return;
   }
 
   // Start crawling.
-  const crawler = crawl(url, depth);
+  const crawler = crawl(url, depth, id);
 
   // Emit the "started" action.
   sendMessage('crawl-url-status', {
@@ -103,7 +109,7 @@ function crawlUrl(data, ws) {
       return;
     }
 
-    console.log('Aborting.');
+    console.log(`[${id}] Aborting.`);
 
     // Set aborted flag, so that any currently running jobs will be discarded.
     aborted = true;
@@ -116,7 +122,7 @@ function crawlUrl(data, ws) {
     sendMessage('crawl-url-status', {
       status: 'aborted'
     });
-    console.log('Aborted by user.');
+    console.log(`[${id}] Aborted by user.`);
   };
 
   ws.on('message', message => {
@@ -126,7 +132,7 @@ function crawlUrl(data, ws) {
   });
 
   const disconnectListener = function() {
-    console.log('Disconnecting.');
+    console.log(`[${id}] Disconnecting.`);
     crawler.stop();
 
     // Empty the queue.
@@ -134,7 +140,7 @@ function crawlUrl(data, ws) {
 
     // Set aborted flag, so that any currently running jobs will be discarded.
     aborted = true;
-    console.log('Aborted by disconnection.');
+    console.log(`[${id}] Aborted by disconnection.`);
   };
 
   ws.on('close', disconnectListener);
@@ -145,7 +151,7 @@ function crawlUrl(data, ws) {
       sendMessage('crawl-url-status', {
         status: 'complete'
       });
-      console.log('All items processed.');
+      console.log(`[${id}] All items processed.`);
     };
 
     // If there are no running queue items, finish up. Otherwise, set the finish
@@ -158,7 +164,7 @@ function crawlUrl(data, ws) {
   });
 
   crawler.on('fetchcomplete', queueItem => {
-    console.log(`Fetch complete for: ${queueItem.url}`);
+    console.log(`[${id}] Fetch complete for: ${queueItem.url}`);
 
     // Exit early if the aborted flag is set.
     if (aborted) {

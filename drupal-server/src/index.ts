@@ -10,6 +10,8 @@ import express, {
 import Router from "./routes";
 import { TooManyRequestsError as MaxNumberOfScansError } from "./model/too-many-requests-error";
 import  basicAuth from 'express-basic-auth';
+// tslint:disable-next-line:no-require-imports
+require('log-timestamp');
 
 const PORT = process.env.PORT || 8000;
 
