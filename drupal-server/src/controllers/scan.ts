@@ -157,15 +157,17 @@ export default class ScanController extends Controller {
     }
   })
   @Response<ErrorResponse>(422, "Validation Failed")
+  @Response<ErrorResponse>(429, "Too many requests")
   @SuccessResponse("201", "Created") // Custom success response
   @Post("/scan")
   public async runScan(
     @Body() request: RunScanRequest
   ): Promise<RunScanResponse> {
     const numRequested = request.urls.length;
-    if (this.numberOfScansRunning + numRequested > config.maxSimultaneousScans) {
-      throw new TooManyRequestsError();
+    if ((this.numberOfScansRunning + numRequested) > config.maxSimultaneousScans) {
+      throw new TooManyRequestsError(`${this.numberOfScansRunning} scans running + ${numRequested} additionals scans requested exceeds the configured maximum of ${config.maxSimultaneousScans} simultaneous scans.`);
     }
+    
     const result: RunScanResponse = { scanTokens: {} };
     request.urls.forEach(url => {
       const scanToken = uuidv4();

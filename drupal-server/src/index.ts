@@ -51,14 +51,14 @@ app.use(function errorHandler(
     next: NextFunction
   ): ExResponse | void {
     if (err instanceof MaxNumberOfScansError) {
-      console.warn(`Too many requests for ${req.path}`);
+      console.warn(`Too many requests for ${req.path}: ${err.message}`);
       return res.status(429).json({
-        message: "Max number of scans reached, please try again later.",
+        error: `Max number of scans reached, please try again later: ${err.message}`,
       });
     }
     if (err instanceof Error) {
       return res.status(500).json({
-        message: "Internal Server Error",
+        error: "Internal Server Error",
       });
     }
   
