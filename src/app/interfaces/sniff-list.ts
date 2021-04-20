@@ -1,4 +1,4 @@
-import { ItemCodeResultList } from "./item-code-result-list";
+import { ItemCodeResultList } from './item-code-result-list';
 
 /** List of sniffs */
 export interface SniffList {

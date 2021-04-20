@@ -1,39 +1,33 @@
-import { Component, OnInit, OnDestroy, NgZone, ViewChild } from "@angular/core";
-import {
-  trigger,
-  state,
-  transition,
-  animate,
-  style
-} from "@angular/animations";
+import { Component, OnInit, OnDestroy, NgZone, ViewChild } from '@angular/core';
+import { trigger, state, transition, animate, style } from '@angular/animations';
 
-import { ApiService } from "../../services/api.service";
-import { ReinitService } from "../../services/reinit.service";
-import { MatPaginator } from "@angular/material/paginator";
+import { ApiService } from '../../services/api.service';
+import { ReinitService } from '../../services/reinit.service';
+import { MatPaginator } from '@angular/material/paginator';
 
-import { UrlDatabase } from "./url-database";
-import { UrlDataSource } from "./url-data-source";
+import { UrlDatabase } from './url-database';
+import { UrlDataSource } from './url-data-source';
 
-import "rxjs/add/observable/merge";
-import "rxjs/add/operator/map";
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/map';
 
 /** This component lists all the pages found by the crawler inside a Angular Material Design Table. */
 @Component({
-  selector: "app-pages-found",
-  templateUrl: "./pages-found.component.html",
-  styleUrls: ["./pages-found.component.scss"],
+  selector: 'app-pages-found',
+  templateUrl: './pages-found.component.html',
+  styleUrls: ['./pages-found.component.scss'],
   animations: [
-    trigger("fadeInOut", [
-      state("in", style({ opacity: 1 })),
-      transition("void => *", [
+    trigger('fadeInOut', [
+      state('in', style({ opacity: 1 })),
+      transition('void => *', [
         style({
           opacity: 0
         }),
-        animate(".2s ease-in")
+        animate('.2s ease-in')
       ]),
-      transition("* => void", [
+      transition('* => void', [
         animate(
-          ".2s ease-out",
+          '.2s ease-out',
           style({
             opacity: 0
           })
@@ -50,14 +44,10 @@ export class PagesFoundComponent implements OnInit, OnDestroy {
   // Table info.
   dataSource: UrlDataSource | null;
   urlDatabase: UrlDatabase;
-  displayedColumns: string[] = ["url", "status"];
+  displayedColumns: string[] = ['url', 'status'];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(
-    private apiService: ApiService,
-    private reinitService: ReinitService,
-    private ngZone: NgZone
-  ) {}
+  constructor(private apiService: ApiService, private reinitService: ReinitService, private ngZone: NgZone) {}
 
   init(): void {
     this.urlDatabase = new UrlDatabase(this.apiService, this.ngZone);
@@ -79,7 +69,7 @@ export class PagesFoundComponent implements OnInit, OnDestroy {
     this.ngZone.runOutsideAngular(() => {
       this.apiService.crawlStatus().subscribe(data => {
         this.ngZone.run(() => {
-          if (data.status === "aborted") {
+          if (data.status === 'aborted') {
             this.isAborted = true;
           }
         });

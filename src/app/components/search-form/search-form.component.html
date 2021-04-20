@@ -1,27 +1,13 @@
 <div>
-  <div [ngClass]="{ hidden: !crawlAllowed }">
+  <div [ngClass]="{'hidden': !crawlAllowed}">
     <div>
       <label for="url">Enter your URL</label>
     </div>
 
     <mat-form-field class="example-full-width">
-      <input
-        i18n-matTooltip
-        i18n-title
-        i18n-placeholder
-        matTooltip="Enter your URL here."
-        size="50"
-        matInput
-        title="Enter your URL"
-        placeholder="E.g.: http://www.example.com"
-        type="text"
-        id="url"
-        required
-        pattern="https?://.+"
-        [(ngModel)]="model.url"
-        name="url"
-        #url="ngModel"
-      />
+      <input i18n-matTooltip i18n-title i18n-placeholder matTooltip="Enter your URL here." size="50" matInput title="Enter your URL"
+        placeholder="E.g.: http://www.example.com" type="text" id="url" required pattern="https?://.+"
+        [(ngModel)]="model.url" name="url" #url="ngModel" />
 
       <mat-error i18n>
         URL is required!
@@ -31,37 +17,19 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-select
-      [disabled]="isSniffing"
-      placeholder="Standard"
-      class="select"
-      *ngIf="standards$ | async"
-      [(ngModel)]="model.standard"
-      i18n-matTooltip
-      matTooltip="Choose the accessibility standard to use for this check."
-    >
-      <mat-option
-        *ngFor="let standard of standards$ | async"
-        [value]="standard"
-        >{{ getDescription(standard) }}</mat-option
-      >
+    <mat-select [disabled]="isSniffing" placeholder="Standard" class="select" *ngIf="standards$ | async"
+      [(ngModel)]="model.standard" i18n-matTooltip matTooltip="Choose the accessibility standard to use for this check.">
+      <mat-option *ngFor="let standard of standards$ | async" [value]="standard">{{
+        getDescription(standard)
+      }}</mat-option>
     </mat-select>
 
-    <button
-      i18n
-      mat-button
-      class="tools"
-      (click)="advanced = !advanced"
-      i18n-matTooltip
-      matTooltip="Click to toggle advanced options."
-    >
+
+    <button i18n mat-button class="tools" (click)="advanced = !advanced" i18n-matTooltip matTooltip="Click to toggle advanced options.">
       Tools
     </button>
   </div>
-  <div
-    [@fadeInOut]="'in'"
-    *ngIf="advanced || !crawlAllowed"
-    style="
+  <div [@fadeInOut]="'in'" *ngIf="advanced || !crawlAllowed" style="
       position: relative;
       top: 30px;
       margin-bottom: 25px;
@@ -70,18 +38,9 @@
       margin: 0 auto;
       padding: 30px;
       background: #f9f9f9;
-    "
-  >
-    <mat-select
-      [disabled]="isSniffing"
-      i18n-placeholder
-      placeholder="Crawl depth"
-      i18n-matTooltip
-      matTooltip="Choose how deep the crawler should go."
-      class="select crawl-depth"
-      [(ngModel)]="model.crawlDepth"
-      *ngIf="crawlAllowed"
-    >
+    ">
+    <mat-select [disabled]="isSniffing" i18n-placeholder placeholder="Crawl depth" i18n-matTooltip matTooltip="Choose how deep the crawler should go."
+      class="select crawl-depth" [(ngModel)]="model.crawlDepth" *ngIf="crawlAllowed">
       <mat-option value="1" i18n>0 (page on the URL only)</mat-option>
       <mat-option value="2" i18n>1 (page on the URL & links)</mat-option>
       <mat-option value="3" i18n>2</mat-option>
@@ -89,162 +48,68 @@
       <mat-option value="-1" i18n>Unlimited</mat-option>
     </mat-select>
 
-    <mat-select
-      class="select"
-      i18n-placeholder
-      placeholder="Show results for"
-      i18n-matTooltip
-      matTooltip="Show results applicable to developers only, to content managers only, or all results?"
-      [(ngModel)]="model.audience"
-      (ngModelChange)="onAudienceChange($event)"
-    >
+    <mat-select class="select" i18n-placeholder placeholder="Show results for"
+      i18n-matTooltip matTooltip="Show results applicable to developers only, to content managers only, or all results?"
+      [(ngModel)]="model.audience" (ngModelChange)="onAudienceChange($event)">
       <mat-option value="all" i18n>All</mat-option>
       <mat-option value="dev" i18n>Developers</mat-option>
       <mat-option value="cm" i18n>Content managers</mat-option>
     </mat-select>
 
-    <mat-select
-      class="select"
-      i18n-placeholder
-      placeholder="Aggressiveness"
-      i18n-matTooltip
-      matTooltip="Choose the level of aggregation aggressiveness"
-      [(ngModel)]="model.aggressiveness"
-      (ngModelChange)="onAggressivenessChange($event)"
-    >
-      <mat-option [value]="AggregationAggressiveness.Minimal" i18n
-        >Minimal aggregation</mat-option
-      >
-      <mat-option [value]="AggregationAggressiveness.Limited" i18n
-        >Limited aggregation</mat-option
-      >
-      <mat-option [value]="AggregationAggressiveness.VariableContent" i18n
-        >Variable content aggregation</mat-option
-      >
-      <mat-option [value]="AggregationAggressiveness.RepeatedError1" i18n
-        >Repeated error aggregation 1</mat-option
-      >
-      <mat-option [value]="AggregationAggressiveness.RepeatedError2" i18n
-        >Repeated error aggregation 2</mat-option
-      >
+    <mat-select class="select" i18n-placeholder placeholder="Aggressiveness" i18n-matTooltip matTooltip="Choose the level of aggregation aggressiveness"
+      [(ngModel)]="model.aggressiveness" (ngModelChange)="onAggressivenessChange($event)">
+      <mat-option [value]="AggregationAggressiveness.Minimal" i18n>Minimal aggregation</mat-option>
+      <mat-option [value]="AggregationAggressiveness.Limited" i18n>Limited aggregation</mat-option>
+      <mat-option [value]="AggregationAggressiveness.VariableContent" i18n>Variable content aggregation</mat-option>
+      <mat-option [value]="AggregationAggressiveness.RepeatedError1" i18n>Repeated error aggregation 1</mat-option>
+      <mat-option [value]="AggregationAggressiveness.RepeatedError2" i18n>Repeated error aggregation 2</mat-option>
     </mat-select>
 
     <span style="margin-left: 20px;">
-      <input
-        style="display: none;"
-        id="input-file-id"
-        type="file"
-        accept="gz,json"
-        (change)="importData($event)"
-      />
-      <label
-        for="input-file-id"
-        i18n-matTooltip
-        matTooltip="Click to import previously exported results."
-        class="mat-raised-button import-results"
-        i18n
-      >
-        <i
-          class="material-icons"
-          style="position: relative; top: 6px; transform:scale(0.8)"
-          >file_upload</i
-        >
-        Import</label
-      >
+      <input style="display: none;" id="input-file-id" type="file" accept="gz,json" (change)="importData($event)" />
+      <label for="input-file-id" i18n-matTooltip matTooltip="Click to import previously exported results."
+        class="mat-raised-button import-results" i18n>
+        <i class="material-icons" style="position: relative; top: 6px; transform:scale(0.8)">file_upload</i>
+        Import</label>
     </span>
-    <button
-      class="web-import"
-      style="margin-left: 20px;"
-      mat-raised-button
-      (click)="webImport()"
-      i18n-matTooltip
-      matTooltip="Click to browse and import one of the BOSA-hosted exports."
-      i18j
-    >
+    <button class="web-import" style="margin-left: 20px;" mat-raised-button (click)="webImport()"
+    i18n-matTooltip matTooltip="Click to browse and import one of the BOSA-hosted exports." i18j>
       <i style="transform:scale(0.8)" class="material-icons">cloud</i>
       Browse
     </button>
-    <button
-      class="export-results"
-      style="margin-left: 20px;"
-      [disabled]="!exportable"
-      mat-raised-button
+    <button class="export-results" style="margin-left: 20px;" [disabled]="!exportable" mat-raised-button
       (click)="exportData()"
-      i18n-matTooltip
-      matTooltip="Click to export the current results. Clicking this button will make your browser download a file that you can later import."
-      i18n
-    >
+      i18n-matTooltip  matTooltip="Click to export the current results. Clicking this button will make your browser download a file that you can later import." i18n>
       <i style="transform:scale(0.8)" class="material-icons">file_download</i>
       Export
     </button>
-    <button
-      class="print-version"
-      style="margin-left: 20px;"
-      [disabled]="!exportable"
-      mat-raised-button
-      (click)="printVersion()"
-      i18n-matTooltip
-      matTooltip="Click to get a print version of the currently displayed sniff results."
-      i18n
-    >
+    <button class="print-version" style="margin-left: 20px;" [disabled]="!exportable" mat-raised-button
+      (click)="printVersion()" i18n-matTooltip  matTooltip="Click to get a print version of the currently displayed sniff results." i18n>
       <i style="transform:scale(0.8)" class="material-icons">print</i> Print
     </button>
 
-    <button
-      class="csv"
-      style="margin-left: 20px;"
-      [disabled]="!exportable"
-      mat-raised-button
-      (click)="generateCsv()"
-      i18n-matTooltip
-      matTooltip="Click to download the current results as a CSV file."
-      i18n
-    >
+    <button class="csv" style="margin-left: 20px;" [disabled]="!exportable" mat-raised-button (click)="generateCsv()"
+      i18n-matTooltip matTooltip="Click to download the current results as a CSV file." i18n>
       <i style="transform:scale(0.8)" class="material-icons">file_download</i>
       CSV
     </button>
   </div>
-  <div
-    style="
+  <div style="
     position: relative;
     top: 50px;
     height: 120px;
-  "
-  >
-    <button
-      mat-raised-button
-      class="mat-primary check-url"
-      [disabled]="url.errors || url.invalid"
-      (click)="sendUrl()"
-      style="margin-top: 20px; transform:scale(1.2)"
-      i18n-matTooltip
-      matTooltip="Click to start checking the URL."
-      [ngClass]="{ hidden: !crawlAllowed }"
-      i18n
-    >
+  ">
+
+    <button mat-raised-button class="mat-primary check-url" [disabled]="url.errors || url.invalid"
+      (click)="sendUrl()" style="margin-top: 20px; transform:scale(1.2)" i18n-matTooltip matTooltip="Click to start checking the URL."
+      [ngClass]="{'hidden': !crawlAllowed}" i18n>
       Check
     </button>
-    <span
-      class="is-sniffing"
-      style="margin-top: 15px;"
-      [@fadeInOut]="'in'"
-      *ngIf="isSniffing"
-    >
+    <span class="is-sniffing" style="margin-top: 15px;" [@fadeInOut]="'in'" *ngIf="isSniffing">
       <mat-spinner diameter="20" class="spinner"></mat-spinner>
-      <span
-        style="font-size: 14px; padding-left: 5px; padding-right: 5px;"
-        i18n
-      >
-        Sniffing</span
-      >
-      <button
-        mat-raised-button
-        class="mat-warn abort"
-        (click)="abortAll()"
-        i18n-matTooltip
-        matTooltip="Click to abort the current check."
-        i18n
-      >
+      <span style="font-size: 14px; padding-left: 5px; padding-right: 5px;" i18n> Sniffing</span>
+      <button mat-raised-button class="mat-warn abort" (click)="abortAll()"
+        i18n-matTooltip matTooltip="Click to abort the current check." i18n>
         Abort
       </button>
     </span>

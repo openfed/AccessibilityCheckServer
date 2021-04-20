@@ -1,16 +1,16 @@
-import { Injectable } from "@angular/core";
-import { SniffList } from "../interfaces/sniff-list";
-import { ItemCodeUrlResult } from "../interfaces/item-code-url-result";
-import { ApiService } from "./api.service";
-import { AudienceType } from "../audience";
-import { cloneDeep } from "lodash";
-import { isCmOnlySniff, isDevOnlySniff } from "../audience.functions";
-import { AggregationAggressiveness } from "../model/aggregation-aggressiveness";
-import * as md5 from "md5";
+import { Injectable } from '@angular/core';
+import { SniffList } from '../interfaces/sniff-list';
+import { ItemCodeUrlResult } from '../interfaces/item-code-url-result';
+import { ApiService } from './api.service';
+import { AudienceType } from '../audience';
+import { cloneDeep } from 'lodash';
+import { isCmOnlySniff, isDevOnlySniff } from '../audience.functions';
+import { AggregationAggressiveness } from '../model/aggregation-aggressiveness';
+import * as md5 from 'md5';
 
 /** Provides an observable to subscribe to which sends out a message whenever we want to reinitialize. */
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class SniffListService {
   /** This object may also be mutated in other components using it (such as the SniffListComponent). */
@@ -32,14 +32,8 @@ export class SniffListService {
     return this.sniffList;
   }
 
-  public getFilteredSniffList(
-    audienceType: AudienceType,
-    aggressiveness: AggregationAggressiveness
-  ): SniffList {
-    const sniffList = this.createAudienceFilteredSniffList(
-      audienceType,
-      this.sniffList
-    );
+  public getFilteredSniffList(audienceType: AudienceType, aggressiveness: AggregationAggressiveness): SniffList {
+    const sniffList = this.createAudienceFilteredSniffList(audienceType, this.sniffList);
     return this.createAggregatedSniffList(aggressiveness, sniffList);
   }
 
@@ -80,25 +74,18 @@ export class SniffListService {
    * @param showWarnings {boolean}
    * @param showErrors {boolean}
    */
-  public filterResults(
-    code: string,
-    showNotices: boolean,
-    showWarnings: boolean,
-    showErrors: boolean
-  ): void {
+  public filterResults(code: string, showNotices: boolean, showWarnings: boolean, showErrors: boolean): void {
     let urls = Object.keys(this.sniffList[code].items);
 
     urls.forEach(url => {
       if (this.sniffList[code].filteredItems[url] === undefined) {
         this.sniffList[code].filteredItems[url] = <ItemCodeUrlResult[]>[];
       }
-      this.sniffList[code].filteredItems[url] = this.sniffList[code].items[
-        url
-      ].filter(item => {
+      this.sniffList[code].filteredItems[url] = this.sniffList[code].items[url].filter(item => {
         return (
-          (item.type === "notice" && showNotices) ||
-          (item.type === "warning" && showWarnings) ||
-          (item.type === "error" && showErrors)
+          (item.type === 'notice' && showNotices) ||
+          (item.type === 'warning' && showWarnings) ||
+          (item.type === 'error' && showErrors)
         );
       });
       // Clean up the URL if there are no results for it.
@@ -108,10 +95,7 @@ export class SniffListService {
     });
   }
 
-  private createAudienceFilteredSniffList(
-    audienceType: AudienceType,
-    sniffList: SniffList
-  ) {
+  private createAudienceFilteredSniffList(audienceType: AudienceType, sniffList: SniffList) {
     const cloned = cloneDeep(sniffList);
     if (audienceType === AudienceType.All) {
       return cloned;
@@ -134,10 +118,7 @@ export class SniffListService {
     }
   }
 
-  private createAggregatedSniffList(
-    aggressiveness: AggregationAggressiveness,
-    sniffList: SniffList
-  ) {
+  private createAggregatedSniffList(aggressiveness: AggregationAggressiveness, sniffList: SniffList) {
     // Mutates the sniff list and sets the aggregated values based on a hash function. Modifies the selector within the aggregation according to a given setter.
     function setAggregated(
       hashFn: (ItemCodeUrlResult) => string,
@@ -182,11 +163,8 @@ export class SniffListService {
 
         if (setAverage) {
           Object.keys(totalOccurrenceCount).forEach(hash => {
-            sniffList[key].aggregatedFilteredItems[
-              hash
-            ].averageOccurrencesPerPage =
-              totalOccurrenceCount[hash].reduce((prev, curr) => prev + curr) /
-              totalOccurrenceCount[hash].length;
+            sniffList[key].aggregatedFilteredItems[hash].averageOccurrencesPerPage =
+              totalOccurrenceCount[hash].reduce((prev, curr) => prev + curr) / totalOccurrenceCount[hash].length;
           });
         }
       });
@@ -214,13 +192,13 @@ export class SniffListService {
       setAggregated(
         x => md5(`${x.selector}`),
         x => {
-          const parts = x.split(" > ");
+          const parts = x.split(' > ');
           if (parts.length < 2) {
             return x;
           }
           parts.pop();
-          parts.push("*");
-          return parts.join(" > ");
+          parts.push('*');
+          return parts.join(' > ');
         },
         true
       );
@@ -228,15 +206,15 @@ export class SniffListService {
       setAggregated(
         x => md5(`${x.selector}`),
         x => {
-          const parts = x.split(" > ");
+          const parts = x.split(' > ');
           if (parts.length < 3) {
             return x;
           }
           parts.pop();
           parts.pop();
-          parts.push("*");
-          parts.push("*");
-          return parts.join(" > ");
+          parts.push('*');
+          parts.push('*');
+          return parts.join(' > ');
         },
         true
       );

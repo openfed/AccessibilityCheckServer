@@ -6,8 +6,7 @@
   </div>
 
   <h1 i18n>Accessibility Check</h1>
-  <app-search-form
-    *ngIf="!loadingImportFromUrl"
+  <app-search-form *ngIf="!loadingImportFromUrl"
     (audienceChanged)="onAudienceChanged($event)"
     (aggressivenessChanged)="onAggressivenessChanged($event)"
     (onReinitialize)="reinitialize($event)"
@@ -15,15 +14,10 @@
   <h2 *ngIf="loadingImportFromUrl">Loading...</h2>
   <app-pages-found></app-pages-found>
 
-  <app-toggles
-    (update)="togglesChange($event)"
-    [audience]="audience"
-  ></app-toggles>
+  <app-toggles (update)="togglesChange($event)" [audience]="audience"></app-toggles>
   <h1 *ngIf="audienceText !== ''">{{ audienceText }}</h1>
   <h3 *ngIf="aggressivenessText !== ''">{{ aggressivenessText }}</h3>
-  <p style="font-size: 12px" *ngIf="aggressivenessDescription !== ''">
-    {{ aggressivenessDescription }}
-  </p>
+  <p style="font-size: 12px" *ngIf="aggressivenessDescription !== ''">{{ aggressivenessDescription }}</p>
   <app-sniff-list
     [audience]="audience"
     [showNotices]="showNotices"

@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { Subject, Observable } from "rxjs";
-import pako from "pako";
-import { HttpClient } from "@angular/common/http";
-import { tap, map } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { Subject, Observable } from 'rxjs';
+import pako from 'pako';
+import { HttpClient } from '@angular/common/http';
+import { tap, map } from 'rxjs/operators';
 
 /** This service help import/export data into the app or out of the app, so that users can save results for later viewing. */
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 @Injectable()
 export class ImportExportService {
@@ -36,33 +36,31 @@ export class ImportExportService {
         ? this.httpClient.get(url, { responseType: "arraybuffer" })
         : this.httpClient.get(url, { responseType: "text" });
 
-    return get$.pipe(
-      tap((sniffList: string | ArrayBuffer) => {
-        this.importData(sniffList);
-      }),
-      map(x => undefined)
-    );
+    return get$.pipe(tap((sniffList: string | ArrayBuffer) => {
+      this.importData(sniffList);
+    }), map(x => undefined))
   }
 
   /** Send out a "do import" message with data. */
   public importData(data: any): void {
     function isJson(str: any) {
-      if (typeof str !== "string") {
+      if (typeof str !== 'string') {
         return false;
       }
       try {
-        JSON.parse(str);
+          JSON.parse(str);
       } catch (e) {
-        return false;
+          return false;
       }
       return true;
     }
 
     function tryUngzip(x: any) {
       try {
-        const result = pako.ungzip(x, { to: "string" });
+        const result = pako.ungzip(x, { to: 'string' });
         return result;
-      } catch (e) {
+      }
+      catch (e) {
         return x;
       }
     }

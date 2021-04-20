@@ -1,37 +1,25 @@
-import {
-  Component,
-  OnInit,
-  DoCheck,
-  KeyValueDiffers,
-  Input
-} from "@angular/core";
-import {
-  trigger,
-  state,
-  transition,
-  animate,
-  style
-} from "@angular/animations";
+import { Component, OnInit, DoCheck, KeyValueDiffers, Input } from '@angular/core';
+import { trigger, state, transition, animate, style } from '@angular/animations';
 
-import { ItemCodeUrlResultList } from "../../interfaces/item-code-url-result-list";
+import { ItemCodeUrlResultList } from '../../interfaces/item-code-url-result-list';
 
 /** Component for the individual sniffs. */
 @Component({
-  selector: "app-sniff",
-  templateUrl: "./sniff.component.html",
-  styleUrls: ["./sniff.component.scss"],
+  selector: 'app-sniff',
+  templateUrl: './sniff.component.html',
+  styleUrls: ['./sniff.component.scss'],
   animations: [
-    trigger("fadeInOut", [
-      state("in", style({ opacity: 1 })),
-      transition("void => *", [
+    trigger('fadeInOut', [
+      state('in', style({ opacity: 1 })),
+      transition('void => *', [
         style({
           opacity: 0
         }),
-        animate(".2s ease-in")
+        animate('.2s ease-in')
       ]),
-      transition("* => void", [
+      transition('* => void', [
         animate(
-          ".2s ease-out",
+          '.2s ease-out',
           style({
             opacity: 0
           })
@@ -76,7 +64,7 @@ export class SniffComponent implements OnInit, DoCheck {
     return (
       Object.keys(this.results)
         .map(key => this.results[key])
-        .map(page => page.filter(result => result.selector !== "").length)
+        .map(page => page.filter(result => result.selector !== '').length)
         .reduce((cur, x) => cur + x, 0) === 0
     );
   }
@@ -87,12 +75,9 @@ export class SniffComponent implements OnInit, DoCheck {
     let numErrors = 0;
 
     Object.keys(this.results).forEach(key => {
-      numNotices += this.results[key].filter(item => item.type === "notice")
-        .length;
-      numWarnings += this.results[key].filter(item => item.type === "warning")
-        .length;
-      numErrors += this.results[key].filter(item => item.type === "error")
-        .length;
+      numNotices += this.results[key].filter(item => item.type === 'notice').length;
+      numWarnings += this.results[key].filter(item => item.type === 'warning').length;
+      numErrors += this.results[key].filter(item => item.type === 'error').length;
     });
 
     this.numNotices = numNotices;
@@ -104,33 +89,33 @@ export class SniffComponent implements OnInit, DoCheck {
   getStats(): string {
     let stats = [];
     if (this.numNotices === 1) {
-      stats.push($localize`1 notice`);
+      stats.push($localize `1 notice`);
     } else if (this.numNotices > 1) {
-      stats.push($localize`${this.numNotices} notices`);
+      stats.push($localize `${this.numNotices} notices`);
     }
 
     if (this.numWarnings === 1) {
-      stats.push($localize`1 warning`);
+      stats.push($localize `1 warning`);
     } else if (this.numWarnings > 1) {
-      stats.push($localize`${this.numWarnings} warnings`);
+      stats.push($localize `${this.numWarnings} warnings`);
     }
 
     if (this.numErrors === 1) {
-      stats.push($localize`1 error`);
+      stats.push($localize `1 error`);
     } else if (this.numErrors > 1) {
-      stats.push($localize`${this.numErrors} errors`);
+      stats.push($localize `${this.numErrors} errors`);
     }
 
-    return stats.join(", ");
+    return stats.join(', ');
   }
 
   /** Returns a human-readable string with the number of pages. */
   getNumPages(): string {
     const len = this.keysGetter(this.results).length;
-    return len + " " + (len === 1 ? $localize`page` : $localize`pages`);
+    return len + ' ' + (len === 1 ? $localize `page` : $localize `pages`);
   }
 
   isTopOnly(): string {
-    return this.topOnly ? $localize`Yes` : $localize`No`;
+    return this.topOnly ? $localize `Yes` : $localize `No`;
   }
 }
