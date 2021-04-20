@@ -339,16 +339,6 @@
 							}
 						}
 					},
-					"422": {
-						"description": "Validation Failed",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
-								}
-							}
-						}
-					},
 					"429": {
 						"description": "Too many requests",
 						"content": {
@@ -394,6 +384,7 @@
 									"Example 1": {
 										"value": {
 											"url": "https://www.example.com/page.html",
+											"finished": "2021-04-11T22:19:31.133Z",
 											"started": "2021-04-11T22:18:33.833Z",
 											"status": "Completed",
 											"numPagesCrawled": 1,

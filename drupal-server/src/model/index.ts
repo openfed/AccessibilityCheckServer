@@ -13,3 +13,4 @@ export * from "./ScanStatusInfo";
 export * from "./SniffList";
 export * from "./SniffResultPayload";
 export * from "./WebSocketApiResponse";
+export * from "./TooManyRequestsError";

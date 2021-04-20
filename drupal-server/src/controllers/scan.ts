@@ -9,7 +9,6 @@ import {
   SuccessResponse
 } from "tsoa";
 import { config } from "../config";
-import { TooManyRequestsError } from "../model/too-many-requests-error";
 import { v4 as uuidv4 } from "uuid";
 import ws from "ws";
 
@@ -25,7 +24,8 @@ import {
   ErrorResponse,
   ScanStatusInfo,
   ReportInfo,
-  RunScanRequest
+  RunScanRequest,
+  TooManyRequestsError
 } from "../model";
 const { JSDOM } = jsdom;
 global.document = new JSDOM("<html></html>").window.document;
@@ -45,9 +45,8 @@ export default class ScanController extends Controller {
       "https://voorbeeld.be": "e77c947a-7bd6-48e2-860f-f7bc870499b9"
     }
   })
-  @Response<ErrorResponse>(422, "Validation Failed")
   @Response<ErrorResponse>(429, "Too many requests")
-  @SuccessResponse("201", "Created") // Custom success response
+  @SuccessResponse("201", "Created")
   @Post("/scan")
   public async runScan(
     @Body() request: RunScanRequest
@@ -60,10 +59,14 @@ export default class ScanController extends Controller {
       throw new TooManyRequestsError(
         `${
           this.numberOfScansRunning
-        } scans running + ${numRequested} additionals scans requested exceeds the configured maximum of ${
+        } scans running + ${numRequested} additional scans requested exceeds the configured maximum of ${
           config.maxSimultaneousScans
         } simultaneous scans.`
       );
+    }
+
+    if (request.settings.standard === 'Section508') {
+      throw new Error('Section508 standard not supported');
     }
 
     const result: RunScanResponse = { scanTokens: {} };
@@ -93,6 +96,7 @@ export default class ScanController extends Controller {
 
   @Example<ScanStatusInfo>({
     url: "https://www.example.com/page.html",
+    finished: new Date("2021-04-11T22:19:31.133Z"),
     started: new Date("2021-04-11T22:18:33.833Z"),
     status: "Completed",
     numPagesCrawled: 1,
@@ -366,8 +370,6 @@ export default class ScanController extends Controller {
     const standard = code.split(".")[0];
     // Used for translating message codes to actual messages.
     // Connects to an external HTMLCS.js javascript file.
-    return standard === "Section508"
-      ? HTMLCS.HTMLCS_Section508.getMsgInfo(code)
-      : HTMLCS.HTMLCS_WCAG2AAA.getMsgInfo(code);
+    return HTMLCS.HTMLCS_WCAG2AAA.getMsgInfo(code);
   }
 }

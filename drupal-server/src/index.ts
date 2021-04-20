@@ -8,7 +8,7 @@ import express, {
   } from "express";
 
 import Router from "./routes";
-import { TooManyRequestsError as MaxNumberOfScansError } from "./model/too-many-requests-error";
+import { TooManyRequestsError } from "./model/TooManyRequestsError";
 import  basicAuth from 'express-basic-auth';
 // tslint:disable-next-line:no-require-imports
 require('log-timestamp');
@@ -53,7 +53,7 @@ app.use(function errorHandler(
     res: ExResponse,
     next: NextFunction
   ): ExResponse | void {
-    if (err instanceof MaxNumberOfScansError) {
+    if (err instanceof TooManyRequestsError) {
       console.warn(`Too many requests for ${req.path}: ${err.message}`);
       return res.status(429).json({
         error: `Max number of scans reached, please try again later: ${err.message}`,
