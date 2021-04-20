@@ -65,8 +65,8 @@ export default class ScanController extends Controller {
       );
     }
 
-    if (request.settings.standard === 'Section508') {
-      throw new Error('Section508 standard not supported');
+    if (request.settings.standard === "Section508") {
+      throw new Error("Section508 standard not supported");
     }
 
     const result: RunScanResponse = { scanTokens: {} };
