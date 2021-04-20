@@ -1,0 +1,554 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"RunScanResponse": {
+				"properties": {
+					"scanTokens": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "string"
+						},
+						"type": "object"
+					}
+				},
+				"required": [
+					"scanTokens"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ErrorResponse": {
+				"properties": {
+					"error": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"error"
+				],
+				"type": "object",
+				"additionalProperties": false,
+				"example": {
+					"error": "something bad happened"
+				}
+			},
+			"RunScanRequest": {
+				"properties": {
+					"urls": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"settings": {
+						"properties": {
+							"standard": {
+								"type": "string"
+							},
+							"depth": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"standard",
+							"depth"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"urls",
+					"settings"
+				],
+				"type": "object",
+				"additionalProperties": false,
+				"example": {
+					"urls": [
+						"https://politie.be",
+						"https://police.be"
+					],
+					"settings": {
+						"depth": 0,
+						"standard": "WCAG2AA"
+					}
+				}
+			},
+			"ScanStatus": {
+				"type": "string",
+				"enum": [
+					"Received",
+					"Running",
+					"Completed",
+					"Failed"
+				]
+			},
+			"ScanStatusInfo": {
+				"properties": {
+					"url": {
+						"type": "string"
+					},
+					"finished": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"started": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"status": {
+						"$ref": "#/components/schemas/ScanStatus"
+					},
+					"numPagesScanned": {
+						"type": "number",
+						"format": "double"
+					},
+					"numPagesCrawled": {
+						"type": "number",
+						"format": "double"
+					},
+					"numErrorsFound": {
+						"type": "number",
+						"format": "double"
+					},
+					"urlScanErrors": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "string"
+						},
+						"type": "object"
+					},
+					"webSocketError": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"url",
+					"started",
+					"status",
+					"numPagesScanned",
+					"numPagesCrawled",
+					"numErrorsFound",
+					"urlScanErrors"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ReportInfo": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/ScanStatusInfo"
+					},
+					"numTotalErrors": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "object"
+					},
+					"numUrlsWithErrors": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "object"
+					}
+				},
+				"required": [
+					"status",
+					"numTotalErrors",
+					"numUrlsWithErrors"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ItemCodeUrlResult": {
+				"description": "A result for a specific item code and URL.",
+				"properties": {
+					"code": {
+						"type": "string"
+					},
+					"context": {
+						"type": "string",
+						"nullable": true
+					},
+					"message": {
+						"type": "string"
+					},
+					"selector": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					},
+					"runner": {
+						"type": "string"
+					},
+					"typeCode": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"code",
+					"context",
+					"message",
+					"selector",
+					"type",
+					"runner",
+					"typeCode"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ItemCodeUrlResultList": {
+				"description": "A list of results for a specific item code and a specific URL.",
+				"properties": {},
+				"type": "object",
+				"additionalProperties": {
+					"items": {
+						"$ref": "#/components/schemas/ItemCodeUrlResult"
+					},
+					"type": "array"
+				}
+			},
+			"AggregatedResult": {
+				"properties": {
+					"numResults": {
+						"type": "number",
+						"format": "double"
+					},
+					"result": {
+						"$ref": "#/components/schemas/ItemCodeUrlResult"
+					},
+					"averageOccurrencesPerPage": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"numResults",
+					"result"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AggregatedResults": {
+				"properties": {},
+				"type": "object",
+				"additionalProperties": {
+					"$ref": "#/components/schemas/AggregatedResult"
+				}
+			},
+			"ItemCodeResultList": {
+				"description": "A list of results for a specific item code.",
+				"properties": {
+					"items": {
+						"$ref": "#/components/schemas/ItemCodeUrlResultList"
+					},
+					"filteredItems": {
+						"$ref": "#/components/schemas/ItemCodeUrlResultList"
+					},
+					"aggregatedFilteredItems": {
+						"$ref": "#/components/schemas/AggregatedResults"
+					},
+					"codeMessages": {
+						"items": {
+							"items": {
+								"type": "string"
+							},
+							"type": "array"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"items",
+					"filteredItems",
+					"aggregatedFilteredItems",
+					"codeMessages"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SniffList": {
+				"description": "List of sniffs",
+				"properties": {},
+				"type": "object",
+				"additionalProperties": {
+					"$ref": "#/components/schemas/ItemCodeResultList"
+				}
+			},
+			"AngularAppExport": {
+				"properties": {
+					"sniffList": {
+						"$ref": "#/components/schemas/SniffList"
+					},
+					"version": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"sniffList",
+					"version"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "drupal-server",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/scan": {
+			"post": {
+				"operationId": "RunScan",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RunScanResponse"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"scanTokens": {
+												"https://exemple.be": "a8934c08-fbd6-418a-8bcd-0728dd9326ed",
+												"https://voorbeeld.be": "e77c947a-7bd6-48e2-860f-f7bc870499b9"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"429": {
+						"description": "Too many requests",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RunScanRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/scan/{token}/status": {
+			"get": {
+				"operationId": "GetScanStatus",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ScanStatusInfo"
+										},
+										{}
+									]
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"url": "https://www.example.com/page.html",
+											"finished": "2021-04-11T22:19:31.133Z",
+											"started": "2021-04-11T22:18:33.833Z",
+											"status": "Completed",
+											"numPagesCrawled": 1,
+											"numPagesScanned": 1,
+											"numErrorsFound": 13,
+											"urlScanErrors": {
+												"https://www.example.com/error-page.html": "Could not start Chrome"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "token",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/scan/{token}/report": {
+			"get": {
+				"operationId": "GetJsonResult",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ReportInfo"
+										},
+										{}
+									]
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"status": {
+												"url": "https://www.example.com/page.html",
+												"started": "2021-04-11T22:18:33.833Z",
+												"status": "Completed",
+												"numPagesCrawled": 1,
+												"numPagesScanned": 1,
+												"numErrorsFound": 13,
+												"urlScanErrors": {}
+											},
+											"numTotalErrors": {
+												"WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1": 7,
+												"WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.NoContent": 1,
+												"WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail": 5
+											},
+											"numUrlsWithErrors": {
+												"WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1": 1,
+												"WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.NoContent": 1,
+												"WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail": 1
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "token",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/scan/{token}/angular-app-export": {
+			"get": {
+				"operationId": "GetAngularAppJsonResult",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/AngularAppExport"
+										},
+										{}
+									]
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"sniffList": {
+												"WCAG2AA.Principle2.Guideline2_4.2_4_3.H4.2": {
+													"items": {
+														"https://www.example.com/page.html": [
+															{
+																"code": "WCAG2AA.Principle2.Guideline2_4.2_4_3.H4.2",
+																"type": "notice",
+																"typeCode": 3,
+																"message": "If tabindex is used, check that the tab order specified by the tabindex attributes follows relationships in the content.",
+																"selector": "",
+																"runner": "htmlcs"
+															}
+														]
+													},
+													"filteredItems": {},
+													"aggregatedFilteredItems": {},
+													"codeMessages": [
+														[
+															"Success Criterion",
+															"<a href=\"http://www.w3.org/TR/WCAG21/#focus-order\" target=\"_blank\">2.4.3: Focus Order</a>"
+														],
+														[
+															"Suggested Techniques",
+															"<a href=\"https://www.w3.org/WAI/WCAG21/Techniques/html/H4\" target=\"_blank\">H4</a>"
+														]
+													]
+												}
+											},
+											"version": "1.0"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "token",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
