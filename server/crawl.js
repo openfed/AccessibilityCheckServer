@@ -48,6 +48,7 @@ function crawl(url, depth) {
 
   // Set up configuration.
   if (depth > -1) {
+    console.log(`[${id}] Setting max depth to:`, depth);
     crawler.maxDepth = depth;
   }
 
