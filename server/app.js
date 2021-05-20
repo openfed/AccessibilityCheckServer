@@ -10,6 +10,7 @@ const app = express();
 const server = require('http').Server(app);
 const WebSocket = require('ws');
 const standards = require('./routes/standards');
+const uuid = require('uuid');
 
 function heartbeat(ws) {
   ws.isAlive = true;
@@ -72,7 +73,8 @@ app.use((err, req, res, next) => {
 });
 
 wss.on('connection', ws => {
-  console.log('User connected.');
+  const id = uuid.v4();
+  console.log(`[${id}] User connected.`);
   ws.isAlive = true;
 
   ws.on('message', async message => {
@@ -80,16 +82,16 @@ wss.on('connection', ws => {
     if (decoded.type === 'pong') {
       heartbeat(ws);
     } else if (decoded.type === 'crawl-url') {
-      await crawlUrl(decoded.payload, ws);
+      await crawlUrl(decoded.payload, ws, id);
     }
   });
 
   ws.on('close', ev => {
-    console.log('User disconnected.', ev);
+    console.log(`[${id}] User disconnected.`, ev);
   });
 
   ws.on('error', ev => {
-    console.log('WebSocket Errored', ev);
+    console.log(`[${id}] WebSocket Errored`, ev);
   });
 });
 
