@@ -27,7 +27,7 @@
     "serve-favicon": "^2.5.0",
     "simplecrawler": "^1.1.9",
     "valid-url": "^1.0.9",
-    "ws": "^7.4.5"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
