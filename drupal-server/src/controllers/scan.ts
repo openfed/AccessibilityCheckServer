@@ -114,6 +114,7 @@ export default class ScanController extends Controller {
       this.setStatus(404);
       return;
     }
+    this.setStatus(200);
     return status;
   }
 
@@ -167,6 +168,7 @@ export default class ScanController extends Controller {
         }
       });
     });
+    this.setStatus(200);
     return {
       status: this.scanStatus[token],
       numTotalErrors,
@@ -221,6 +223,7 @@ export default class ScanController extends Controller {
       return;
     }
 
+    this.setStatus(200);
     return {
       version: "1.0",
       sniffList: this.sniffLists[token]
