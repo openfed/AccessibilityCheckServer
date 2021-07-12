@@ -302,7 +302,8 @@ export default class ScanController extends Controller {
             status: "complete" | "started" | "aborted";
           };
           if (payload.status === "complete") {
-            this.scanStatus[scanToken].status = "Completed";
+            // Mark as failed if we crawled 0 pages (i.e. because of robots.txt)
+            this.scanStatus[scanToken].status = this.scanStatus[scanToken].numPagesCrawled === 0 ? "Failed" : "Completed";
             client.close();
           }
           if (payload.status === "started") {
