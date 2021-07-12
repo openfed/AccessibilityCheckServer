@@ -1,4 +1,5 @@
 const Crawler = require('simplecrawler');
+const uri = require('urijs');
 
 /**
  * Performs a crawl
@@ -11,6 +12,8 @@ function crawl(url, depth, id) {
   const crawler = Crawler(url).on('fetchcomplete', (queueItem, responseBuffer, response) => {
     console.log(`[${id}] Crawled: `, queueItem.url);
   });
+  const initialSubPath = uri(url).path();
+
   var originalEmit = crawler.emit;
   crawler.emit = function(evtName, queueItem) {
       crawler.queue.countItems({ fetched: true }, function(err, completeCount) {
@@ -62,8 +65,16 @@ function crawl(url, depth, id) {
     return true;
   });
 
-  // Log all crawler errors..
-  
+
+  // Skip items that do not start with initial path
+  crawler.addFetchCondition(parsedURL => {
+    if (!parsedURL.uriPath.startsWith(initialSubPath)) {
+      console.log(`[${id}] Skipped URL (no sub-path match for ${initialSubPath}): `, parsedURL.uriPath, );
+      return false;
+    }
+
+    return true;
+  });
 
   // Start crawling.
   console.log(`[${id}] Crawling URL: ${url}`);
