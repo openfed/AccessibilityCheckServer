@@ -43,7 +43,7 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-develop": "^0.4.0",
     "load-grunt-tasks": "^5.1.0",
-    "mocha": "^6.2.3",
+    "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "patch-package": "^6.4.7",
     "request": "^2.88.2",
